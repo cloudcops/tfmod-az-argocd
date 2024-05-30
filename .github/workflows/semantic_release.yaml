@@ -1,0 +1,31 @@
+name: Release TF Module
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Semantic Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate Token
+        uses: actions/create-github-app-token@v1
+        id: generate-token
+        with:
+          app-id: ${{ secrets.GH_AUTOMATION_APP_ID }}
+          private-key: ${{ secrets.GH_AUTOMATION_PRIVATE_KEY }}
+          owner: myperfectstay
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 'latest'
+
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v3
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
