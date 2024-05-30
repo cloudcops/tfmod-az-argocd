@@ -1,4 +1,0 @@
-quiet: true
-compact: true
-skip-check: CKV_TF_1
-#soft-fail: true
