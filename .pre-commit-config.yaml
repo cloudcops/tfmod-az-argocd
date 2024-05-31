@@ -11,9 +11,7 @@ repos:
         require_serial: true
       - id: terraform_validate
         name: terraform validate
-        args:
-          - --tf-init-args=-upgrade
-          - --hook-config=--retry-once-with-cleanup=true # Boolean. true or false
+        entry: /bin/bash -c 'terraform init && terraform validate'
       - id: terraform_checkov
         name: checkov static code analysis
         args:
@@ -37,7 +35,7 @@ repos:
   #        language: system
   #        verbose: true
   #        require_serial: true
-  #        entry: bash -c 'terraform test'
+  #        entry: /bin/bash -c 'terraform test'
   - repo: local
     hooks:
       - id: terraform_docs
@@ -45,7 +43,7 @@ repos:
         language: system
         verbose: true
         require_serial: true
-        entry: bash -c 'terraform-docs markdown document -c .terraform-docs.yml .'
+        entry: /bin/bash -c 'terraform-docs markdown document -c .terraform-docs.yml .'
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: v3.1.0
     hooks:
