@@ -1,7 +1,7 @@
 ## Contribute
 
 ### Development
-See [Terrafom Module Development Wiki](https://git.immonow.at/groups/now/dev-ops/terraform/modules/-/wikis/Module-Development).
+TBD
 
 ### Features
 This terraform module features:
@@ -23,4 +23,4 @@ The `tests` directory is meant run unit and integrations tests for the terraform
 Tests can be run with `terraform init && terraform test`.
 
 ## Note
-This module is meant to be used internally by Immonow Services GmbH. When selling products that rely on Terraform, be careful with HashiCorps BSL license. In such a case, get an enterprise license or try to use [OpenTofu](https://opentofu.org/).
+This module is meant to be used internally by `myperfectstay.ai`. When selling products that rely on Terraform, be careful with HashiCorps BSL license. In such a case, get an enterprise license or try to use [OpenTofu](https://opentofu.org/).
