@@ -5,6 +5,8 @@ on:
     branches:
       - main
 
+permissions: read-all
+
 jobs:
   release:
     name: Semantic Release
@@ -17,8 +19,8 @@ jobs:
         uses: actions/create-github-app-token@v1
         id: generate-token
         with:
-          app-id: ${{ secrets.GH_AUTOMATION_APP_ID }}
-          private-key: ${{ secrets.GH_AUTOMATION_PRIVATE_KEY }}
+          app-id: ${{ secrets.GH_SEMREL_APP_ID }}
+          private-key: ${{ secrets.GH_SEMREL_PRIVATE_KEY }}
           owner: myperfectstay
 
       - uses: actions/setup-node@v3
@@ -26,6 +28,6 @@ jobs:
           node-version: 'latest'
 
       - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v3
+        uses: cycjimmy/semantic-release-action@v4
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
