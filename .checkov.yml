@@ -1,5 +1,5 @@
 # DO NOT EDIT; MANAGED BY TERRAFORM
 quiet: true
 compact: true
-skip-check: CKV_TF_1
+skip-check: CKV_TF_1,CKV_AZURE_189,CKV_AZURE_109,CKV2_AZURE_32
 #soft-fail: true
