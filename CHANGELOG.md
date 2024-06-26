@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/myperfectstay/tfmod-az-argocd/compare/1.0.1...1.1.0) (2024-06-26)
+
+
+### Features
+
+* **access_tokens:** Switch to github access configuration using github app auth ([#4](https://github.com/myperfectstay/tfmod-az-argocd/issues/4)) ([703239f](https://github.com/myperfectstay/tfmod-az-argocd/commit/703239fa835e32a573775e6646829d736d132c35))
+
 ## [1.0.1](https://github.com/myperfectstay/tfmod-az-argocd/compare/1.0.0...1.0.1) (2024-06-26)
 
 
