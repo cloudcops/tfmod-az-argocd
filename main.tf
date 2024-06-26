@@ -100,24 +100,68 @@ resource "kubectl_manifest" "argocd_ingress" {
   depends_on         = [kubernetes_limit_range.default_resources]
 }
 
-resource "kubernetes_secret" "argocd_access_token" {
-  for_each = var.access_token_secret_configuration
-  metadata {
-    name      = "argocd-access-token-${each.key}"
-    namespace = "argocd"
-    labels = {
-      "argocd.argoproj.io/secret-type" = "repository"
+# argocd git access tokens
+resource "kubectl_manifest" "argocd_access_token" {
+  for_each = var.github_access
+  yaml_body = yamlencode(
+    {
+      apiVersion : "v1",
+      kind : "Secret",
+      metadata : {
+        labels : {
+          "argocd.argoproj.io/secret-type" : "repository"
+        },
+        name : each.value.name
+        namespace : "argocd"
+      },
+      type : "Opaque",
+      stringData : {
+        type : "git",
+        url : each.value.url,
+        githubAppID : each.value.app_id,
+        githubAppInstallationID : each.value.installation_id,
+        githubAppPrivateKey : each.value.private_key
+      }
     }
-  }
-  data = {
-    "url"      = each.value.url
-    "password" = each.value.password
-    "username" = each.value.username
-    "name"     = each.value.name
-    "type"     = each.value.type
-  }
+  )
+  sensitive_fields = [
+    "stringData.githubAppPrivateKey",
+    "stringData.githubAppID",
+    "stringData.githubAppInstallationID"
+  ]
   depends_on = [kubectl_manifest.argocd_ingress]
 }
+
+### argocd helm repo access tokens
+#resource "kubectl_manifest" "access_tokens_helm" {
+#  count = length(var.helm_repos)
+#  yaml_body = yamlencode(
+#    {
+#      apiVersion : "v1",
+#      kind : "Secret",
+#      metadata : {
+#        labels : {
+#          "argocd.argoproj.io/secret-type" : "repository"
+#        },
+#        name : var.helm_repos[count.index].name,
+#        namespace : "argocd"
+#      },
+#      type : "Opaque",
+#      stringData : {
+#        enableOCI : var.helm_repos[count.index].enableOCI,
+#        url : var.helm_repos[count.index].url,
+#        name : var.helm_repos[count.index].name,
+#        type : "helm",
+#        username : data.azurerm_key_vault_secret.oci-username.value,
+#        password : data.azurerm_key_vault_secret.oci-password.value
+#      }
+#    }
+#  )
+#  sensitive_fields = [
+#    "stringData.username",
+#    "stringData.password"
+#  ]
+#}
 
 data "kubectl_file_documents" "apps" {
   content = templatefile("${path.module}/manifests/apps.tmpl",
@@ -132,5 +176,5 @@ resource "kubectl_manifest" "apps" {
   yaml_body          = data.kubectl_file_documents.apps.documents[0]
   override_namespace = "argocd"
   ignore_fields      = ["yaml_incluster"]
-  depends_on         = [kubernetes_secret.argocd_access_token]
+  depends_on         = [kubectl_manifest.argocd_access_token]
 }

@@ -83,15 +83,16 @@ variable "p_role" {
   default     = "no-access"
 }
 
-variable "access_token_secret_configuration" {
-  description = "Map of ArgoCD access token secret configurations."
+variable "github_access" {
+  description = "Map of ArgoCD Github access token secret configuration."
   type = map(object({
-    url      = string
-    password = string
-    username = string
-    name     = string
-    type     = string
+    name            = string
+    url             = string
+    app_id          = string
+    installation_id = string
+    private_key     = string
   }))
+  default = {}
 }
 
 variable "log_level" {

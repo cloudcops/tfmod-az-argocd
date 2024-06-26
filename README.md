@@ -86,6 +86,7 @@ The following providers are used by this module:
 The following resources are used by this module:
 
 - [kubectl_manifest.apps](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
+- [kubectl_manifest.argocd_access_token](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
 - [kubectl_manifest.argocd_cm](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
 - [kubectl_manifest.argocd_cmd_params_cm](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
 - [kubectl_manifest.argocd_ingress](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
@@ -94,7 +95,6 @@ The following resources are used by this module:
 - [kubectl_manifest.argocd_rbac](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
 - [kubectl_manifest.argocd_secrets](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
 - [kubernetes_limit_range.default_resources](https://registry.terraform.io/providers/hashicorp/kubernetes/2.29.0/docs/resources/limit_range) (resource)
-- [kubernetes_secret.argocd_access_token](https://registry.terraform.io/providers/hashicorp/kubernetes/2.29.0/docs/resources/secret) (resource)
 - [azuread_group.rbac4groups](https://registry.terraform.io/providers/hashicorp/azuread/2.47.0/docs/data-sources/group) (data source)
 - [external_external.argocd_yaml_split](https://registry.terraform.io/providers/hashicorp/external/2.3.3/docs/data-sources/external) (data source)
 - [kubectl_file_documents.apps](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/data-sources/file_documents) (data source)
@@ -107,22 +107,6 @@ The following resources are used by this module:
 ## Required Inputs
 
 The following input variables are required:
-
-### <a name="input_access_token_secret_configuration"></a> [access\_token\_secret\_configuration](#input\_access\_token\_secret\_configuration)
-
-Description: Map of ArgoCD access token secret configurations.
-
-Type:
-
-```hcl
-map(object({
-    url      = string
-    password = string
-    username = string
-    name     = string
-    type     = string
-  }))
-```
 
 ### <a name="input_app_path"></a> [app\_path](#input\_app\_path)
 
@@ -179,6 +163,24 @@ Description: Default access role assigned in ArgoCD via OIDC authentication.
 Type: `string`
 
 Default: `"readonly"`
+
+### <a name="input_github_access"></a> [github\_access](#input\_github\_access)
+
+Description: Map of ArgoCD Github access token secret configuration.
+
+Type:
+
+```hcl
+map(object({
+    name            = string
+    url             = string
+    app_id          = string
+    installation_id = string
+    private_key     = string
+  }))
+```
+
+Default: `{}`
 
 ### <a name="input_idp_argocd_allowed_oauth_scopes"></a> [idp\_argocd\_allowed\_oauth\_scopes](#input\_idp\_argocd\_allowed\_oauth\_scopes)
 
