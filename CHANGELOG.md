@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/myperfectstay/tfmod-az-argocd/compare/1.0.0...1.0.1) (2024-06-26)
+
+
+### Bug Fixes
+
+* **resources:** Remove high CPU limits for argocd components ([#3](https://github.com/myperfectstay/tfmod-az-argocd/issues/3)) ([07f459a](https://github.com/myperfectstay/tfmod-az-argocd/commit/07f459aa39690919a1250e8c21668f29de568a2c))
+
 # 1.0.0 (2024-06-25)
 
 
