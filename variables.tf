@@ -100,3 +100,7 @@ variable "log_level" {
   type        = string
   default     = "info"
 }
+
+variable "argocd_notification_url_for_github" {
+  type = string
+}

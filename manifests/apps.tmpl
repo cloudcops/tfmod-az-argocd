@@ -4,6 +4,8 @@ kind: Application
 metadata:
   name: app-of-apps
   namespace: argocd
+  annotations:
+    notifications.argoproj.io/subscribe.on-deployed.github: ""
 spec:
   destination:
     namespace: argocd
