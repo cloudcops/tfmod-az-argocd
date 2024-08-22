@@ -55,8 +55,8 @@ jobs:
         with:
           app-id: ${{ secrets.GH_PR_COMMENTS_APP_ID }}
           private-key: ${{ secrets.GH_PR_COMMENTS_PRIVATE_KEY }}
-          owner: myperfectstay        
- 
+          owner: myperfectstay
+
       - uses: amannn/action-semantic-pull-request@v5
         id: lint_pr_title
         env:
