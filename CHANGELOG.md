@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/myperfectstay/tfmod-az-argocd/compare/1.1.0...1.2.0) (2024-08-22)
+
+
+### Bug Fixes
+
+* **DEV-173:** set trivy parallelism to 1 ([20db4fb](https://github.com/myperfectstay/tfmod-az-argocd/commit/20db4fb7d4e4e5fa6722c84ca4cb4a7574c49010))
+
+
+### Features
+
+* **DEV-173:** Add argocd notifications ([bbd96e2](https://github.com/myperfectstay/tfmod-az-argocd/commit/bbd96e286e02b5863fcd09321bdab4d0f3dd1a44))
+
 # [1.1.0](https://github.com/myperfectstay/tfmod-az-argocd/compare/1.0.1...1.1.0) (2024-06-26)
 
 
