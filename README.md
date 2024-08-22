@@ -92,8 +92,10 @@ The following resources are used by this module:
 - [kubectl_manifest.argocd_ingress](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
 - [kubectl_manifest.argocd_install](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
 - [kubectl_manifest.argocd_namespace](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
+- [kubectl_manifest.argocd_notifications_cm](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
 - [kubectl_manifest.argocd_rbac](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
 - [kubectl_manifest.argocd_secrets](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
+- [kubectl_manifest.notification-secrets](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
 - [kubernetes_limit_range.default_resources](https://registry.terraform.io/providers/hashicorp/kubernetes/2.29.0/docs/resources/limit_range) (resource)
 - [azuread_group.rbac4groups](https://registry.terraform.io/providers/hashicorp/azuread/2.47.0/docs/data-sources/group) (data source)
 - [external_external.argocd_yaml_split](https://registry.terraform.io/providers/hashicorp/external/2.3.3/docs/data-sources/external) (data source)
@@ -111,6 +113,12 @@ The following input variables are required:
 ### <a name="input_app_path"></a> [app\_path](#input\_app\_path)
 
 Description: Repo path to the application tools overlay.
+
+Type: `string`
+
+### <a name="input_argocd_notification_url_for_github"></a> [argocd\_notification\_url\_for\_github](#input\_argocd\_notification\_url\_for\_github)
+
+Description: n/a
 
 Type: `string`
 

@@ -51,3 +51,69 @@ data:
   applicationsetcontroller.log.level: ${ log_level }
   notificationscontroller.log.level: ${ log_level }
   reposerver.log.level: ${ log_level }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/component: notifications-controller
+    app.kubernetes.io/name: argocd-notifications-controller
+    app.kubernetes.io/part-of: argocd
+  name: argocd-notifications-cm
+  namespace: argocd
+data:
+  service.github: |
+    appID: ${ github_app_id }
+    installationID: ${ github_installation_id }
+    privateKey: $github-privateKey
+  trigger.on-deployed: |
+    - description: Application is synced and healthy. Triggered once per commit.
+      oncePer: app.status.operationState?.syncResult?.revision
+      send:
+      - app-deployed
+      when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded']
+        and app.status.health.status == 'Healthy'
+  template.app-deployed: |
+    message: |
+      All Applications of {{.app.metadata.name}} are synced and healthy.
+    github:
+      repoURLPath: "{{.app.spec.source.repoURL}}"
+      revisionPath: "{{.app.status.operationState.syncResult.revision}}"
+      status:
+        state: success
+        label: "${ argocd_path }"
+        targetURL: "https://${ url }/applications/{{.app.metadata.name}}?operation=true"
+      deployment:
+        state: success
+        environment: "${ argocd_environment }"
+        environmentURL: "${ argocd_notification_url_for_github }"
+        logURL: "https://${ url }/applications/{{.app.metadata.name}}?operation=true"
+        requiredContexts: []
+        autoMerge: true
+        transientEnvironment: false
+      pullRequestComment:
+        content: |
+          :wave: @myperfectstay/developers @myperfectstay/devops
+
+          :tada: **Deployment Status:**
+          Your deployment for `Application` `{{.app.metadata.name}}` was successful! :rocket:
+
+          All related applications are **synced** and **healthy**. :white_check_mark:
+
+          ### :package: MPS Backend Applications Overview
+          | Application         | Status                        | Link                                                                            |
+          |---------------------|-------------------------------|---------------------------------------------------------------------------------|
+          | `app-of-apps`       | ✔ {{.app.status.sync.status}} | [Go to Operations](https://${ url }/applications/{{.app.metadata.name}}?operation=true) |
+          | `mps-core`          | ✔ {{.app.status.sync.status}} | [Go to Application](https://${ url }/applications/mps-core)                             |
+          | `mps-celery-beat`   | ✔ {{.app.status.sync.status}} | [Go to Application](https://${ url }/applications/mps-celery-beat)                      |
+          | `mps-celery-worker` | ✔ {{.app.status.sync.status}} | [Go to Application](https://${ url }/applications/mps-celery-worker)                    |
+
+          ---
+
+          :link: **Quick Access:**
+          - [MPS backend API docs](${ argocd_notification_url_for_github })
+          - [ArgoCD Operations for `app-of-apps`](https://${ url }/applications/{{.app.metadata.name}}?operation=true)
+
+          ---
+
+          :robot: *Automated notification via ArgoCD*

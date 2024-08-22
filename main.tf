@@ -5,12 +5,17 @@ resource "kubectl_manifest" "argocd_namespace" {
 data "kubectl_file_documents" "argocd_cm" {
   content = templatefile("${path.module}/manifests/argocd-cm.tmpl",
     {
-      url              = var.url
-      name             = var.idp_argocd_name,
-      endpoint         = format("%s%s", "https://", var.idp_endpoint),
-      client_id        = var.sp_client_id
-      requested_scopes = var.idp_argocd_allowed_oauth_scopes,
-      log_level        = var.log_level
+      url                                = var.url
+      name                               = var.idp_argocd_name,
+      endpoint                           = format("%s%s", "https://", var.idp_endpoint),
+      client_id                          = var.sp_client_id
+      requested_scopes                   = var.idp_argocd_allowed_oauth_scopes,
+      log_level                          = var.log_level
+      github_app_id                      = var.github_access["0"].app_id
+      github_installation_id             = var.github_access["0"].installation_id
+      argocd_environment                 = split("/", var.app_path)[1]
+      argocd_path                        = var.app_path
+      argocd_notification_url_for_github = var.argocd_notification_url_for_github
   })
 }
 
@@ -22,6 +27,12 @@ resource "kubectl_manifest" "argocd_cm" {
 
 resource "kubectl_manifest" "argocd_cmd_params_cm" {
   yaml_body          = data.kubectl_file_documents.argocd_cm.documents[1]
+  override_namespace = "argocd"
+  depends_on         = [kubectl_manifest.argocd_namespace]
+}
+
+resource "kubectl_manifest" "argocd_notifications_cm" {
+  yaml_body          = data.kubectl_file_documents.argocd_cm.documents[2]
   override_namespace = "argocd"
   depends_on         = [kubectl_manifest.argocd_namespace]
 }
@@ -128,6 +139,35 @@ resource "kubectl_manifest" "argocd_access_token" {
     "stringData.githubAppPrivateKey",
     "stringData.githubAppID",
     "stringData.githubAppInstallationID"
+  ]
+  depends_on = [kubectl_manifest.argocd_ingress]
+}
+
+
+# argocd notification secret
+resource "kubectl_manifest" "notification-secrets" {
+  for_each = var.github_access
+  yaml_body = yamlencode(
+    {
+      apiVersion : "v1",
+      kind : "Secret",
+      metadata : {
+        labels : {
+          "app.kubernetes.io/component" : "notifications-controller"
+          "app.kubernetes.io/name" : "argocd-notifications-controller"
+          "app.kubernetes.io/part-of" : "argocd"
+        },
+        name : "argocd-notifications-secret"
+        namespace : "argocd"
+      },
+      type : "Opaque",
+      stringData : {
+        github-privateKey : each.value.private_key
+      }
+    }
+  )
+  sensitive_fields = [
+    "stringData.github-privateKey",
   ]
   depends_on = [kubectl_manifest.argocd_ingress]
 }
