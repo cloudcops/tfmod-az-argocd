@@ -5,7 +5,7 @@ TBD
 
 ### Features
 This terraform module features:
-- Pre-Commit Hooks defined in `.pre-commit-config.yaml` : 
+- Pre-Commit Hooks defined in `.pre-commit-config.yaml` :
   - `tfupdate`: Automatically update terraform version.
   - `terraform_fmt`: Run `terraform fmt` on all files.
   - `terraform_tflint`: Terraform linter that finds possible errors, warns about deprecated syntax and unused declerations, enforces best practices.
