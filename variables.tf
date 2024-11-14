@@ -104,3 +104,10 @@ variable "log_level" {
 variable "argocd_notification_url_for_github" {
   type = string
 }
+
+variable "namespace_memory_limit" {
+  description = "Kubernetes memory limit range."
+  type        = string
+  default     = "1Gi"
+}
+

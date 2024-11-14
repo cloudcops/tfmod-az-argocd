@@ -90,7 +90,7 @@ resource "kubernetes_limit_range" "default_resources" {
     limit {
       type = "Container"
       default = {
-        memory = "512Mi"
+        memory = var.namespace_memory_limit
       }
     }
   }

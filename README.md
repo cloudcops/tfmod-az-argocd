@@ -230,6 +230,14 @@ Type: `string`
 
 Default: `"info"`
 
+### <a name="input_namespace_memory_limit"></a> [namespace\_memory\_limit](#input\_namespace\_memory\_limit)
+
+Description: Kubernetes memory limit range.
+
+Type: `string`
+
+Default: `"1Gi"`
+
 ### <a name="input_p_role"></a> [p\_role](#input\_p\_role)
 
 Description: Placeholder role, typically assigning no access in ArgoCD via OIDC.
