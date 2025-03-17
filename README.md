@@ -63,6 +63,8 @@ The following requirements are needed by this module:
 
 - <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (3.105.0)
 
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (4.14.0)
+
 - <a name="requirement_external"></a> [external](#requirement\_external) (2.3.3)
 
 - <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) (1.14.0)
@@ -125,6 +127,30 @@ Type: `string`
 ### <a name="input_idp_endpoint"></a> [idp\_endpoint](#input\_idp\_endpoint)
 
 Description: Endpoint URL for the identity provider, including the tenant ID.
+
+Type: `string`
+
+### <a name="input_kubernetes_client_certificate"></a> [kubernetes\_client\_certificate](#input\_kubernetes\_client\_certificate)
+
+Description: n/a
+
+Type: `string`
+
+### <a name="input_kubernetes_client_key"></a> [kubernetes\_client\_key](#input\_kubernetes\_client\_key)
+
+Description: n/a
+
+Type: `string`
+
+### <a name="input_kubernetes_cluster_ca_certificate"></a> [kubernetes\_cluster\_ca\_certificate](#input\_kubernetes\_cluster\_ca\_certificate)
+
+Description: n/a
+
+Type: `string`
+
+### <a name="input_kubernetes_host"></a> [kubernetes\_host](#input\_kubernetes\_host)
+
+Description: n/a
 
 Type: `string`
 
