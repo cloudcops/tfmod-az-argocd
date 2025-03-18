@@ -133,9 +133,6 @@ jobs:
 
       - uses: actions/github-script@v7
         if: github.event_name == 'pull_request'
-        env:
-          UNIT: "terraform\n${{ steps.unit_tests.outputs.stdout }}"
-          INTEGRATION: "terraform\n${{ steps.integration_tests.outputs.stdout }}"
         with:
           github-token: ${{ steps.generate-token.outputs.token }}
           script: |
@@ -149,6 +146,25 @@ jobs:
               return comment.user.type === 'Bot' && comment.body.includes('Terraform Format and Style')
             })
 
+            // Get test outcomes
+            const unitOutcome = "${{ steps.unit_tests.outcome }}";
+            const integrationOutcome = "${{ steps.integration_tests.outcome }}";
+            
+            // Workflow URL for failures
+            const workflowUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}";
+
+            // Unit test section
+            let unitSection = `#### Terraform Unit Tests 🧪\`${unitOutcome}\``;
+            if (unitOutcome === 'failure') {
+              unitSection += `\n\n<details><summary>❌ View Failure Details</summary>\n\nTest Failed\n\n[View complete test logs in workflow run](${workflowUrl})\n\n</details>`;
+            }
+
+            // Integration test section
+            let integrationSection = `#### Terraform Integration Tests 🧪\`${integrationOutcome}\``;
+            if (integrationOutcome === 'failure') {
+              integrationSection += `\n\n<details><summary>❌ View Failure Details</summary>\n\nTest failed\n\n[View complete test logs in workflow run](${workflowUrl})\n\n</details>`;
+            }
+
             // 2. Prepare format of the comment
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
@@ -156,33 +172,14 @@ jobs:
             <details><summary>Validation Output</summary>
 
             \`\`\`terraform
-            \n
             ${{ steps.validate.outputs.stdout }}
             \`\`\`
 
             </details>
 
-            #### Terraform Unit Tests 🧪\`${{ steps.unit_tests.outcome }}\`
+            ${unitSection}
 
-            <details><summary>Show Test Result</summary>
-            
-            \`\`\`terraform
-            \n
-            ${process.env.UNIT}
-            \`\`\`
-
-            </details>
-
-            #### Terraform Integration Tests 🧪\`${{ steps.integration_tests.outcome }}\`
-
-            <details><summary>Show Test Result</summary>
-            
-            \`\`\`terraform
-            \n
-            ${process.env.INTEGRATION}
-            \`\`\`
-
-            </details>
+            ${integrationSection}
 
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
 
@@ -204,5 +201,5 @@ jobs:
             }
       
       - name: Fail if tests failed
-        if: steps.unit_tests.outcome == 'failure' || steps.integration_tests.outcome == 'failure'
+        if: steps.unit_tests.outcome == 'failure' || steps.integration_tests.outcome == 'failure' 
         run: exit 1
