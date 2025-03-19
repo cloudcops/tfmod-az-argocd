@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/myperfectstay/tfmod-az-argocd/compare/1.2.1...1.2.2) (2025-03-19)
+
+
+### Bug Fixes
+
+* remove mac system file and run test ([#9](https://github.com/myperfectstay/tfmod-az-argocd/issues/9)) ([077082d](https://github.com/myperfectstay/tfmod-az-argocd/commit/077082dd7a6e03fb50bdfe667c5f0381923ab34f))
+
 # [1.2.0](https://github.com/myperfectstay/tfmod-az-argocd/compare/1.1.0...1.2.0) (2024-08-22)
 
 
