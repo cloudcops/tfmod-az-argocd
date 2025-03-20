@@ -21,7 +21,6 @@
 *.tfstate
 *.tfstate.*
 
-
 ### MacOS System files ###
 .DS_Store
 ._.DS_Store
