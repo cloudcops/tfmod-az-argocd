@@ -59,11 +59,11 @@ The following requirements are needed by this module:
 
 - <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (>= 1.8.0)
 
-- <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) (2.47.0)
+- <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) (2.51.0)
 
 - <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (3.105.0)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (4.14.0)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (4.16.0)
 
 - <a name="requirement_external"></a> [external](#requirement\_external) (2.3.3)
 
@@ -75,7 +75,7 @@ The following requirements are needed by this module:
 
 The following providers are used by this module:
 
-- <a name="provider_azuread"></a> [azuread](#provider\_azuread) (2.47.0)
+- <a name="provider_azuread"></a> [azuread](#provider\_azuread) (2.51.0)
 
 - <a name="provider_external"></a> [external](#provider\_external) (2.3.3)
 
@@ -99,7 +99,7 @@ The following resources are used by this module:
 - [kubectl_manifest.argocd_secrets](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
 - [kubectl_manifest.notification-secrets](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
 - [kubernetes_limit_range.default_resources](https://registry.terraform.io/providers/hashicorp/kubernetes/2.29.0/docs/resources/limit_range) (resource)
-- [azuread_group.rbac4groups](https://registry.terraform.io/providers/hashicorp/azuread/2.47.0/docs/data-sources/group) (data source)
+- [azuread_group.rbac4groups](https://registry.terraform.io/providers/hashicorp/azuread/2.51.0/docs/data-sources/group) (data source)
 - [external_external.argocd_yaml_split](https://registry.terraform.io/providers/hashicorp/external/2.3.3/docs/data-sources/external) (data source)
 - [kubectl_file_documents.apps](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/data-sources/file_documents) (data source)
 - [kubectl_file_documents.argocd_cm](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/data-sources/file_documents) (data source)
