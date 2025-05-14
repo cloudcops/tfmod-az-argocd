@@ -63,7 +63,7 @@ The following requirements are needed by this module:
 
 - <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (3.105.0)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (4.16.0)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (4.28.0)
 
 - <a name="requirement_external"></a> [external](#requirement\_external) (2.3.3)
 
