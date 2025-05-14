@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/myperfectstay/tfmod-az-argocd/compare/1.3.0...1.4.0) (2025-05-14)
+
+
+### Features
+
+* upgrade azurerm version with latest ([#14](https://github.com/myperfectstay/tfmod-az-argocd/issues/14)) ([4395b72](https://github.com/myperfectstay/tfmod-az-argocd/commit/4395b7229e1a3b8147e523f4282b4b311c0a832a))
+
 # [1.3.0](https://github.com/myperfectstay/tfmod-az-argocd/compare/1.2.2...1.3.0) (2025-05-12)
 
 
