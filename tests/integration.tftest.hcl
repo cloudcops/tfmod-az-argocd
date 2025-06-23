@@ -12,7 +12,7 @@ run "setup" {
 }
 
 variables {
-  argocd_version                     = "v2.10.7"
+  argocd_version                     = "8.8.2"
   repo_revision                      = "main"
   repo_url                           = "https://github.com/example/test-argocd-repo"
   url                                = "argocd-test.example.com"

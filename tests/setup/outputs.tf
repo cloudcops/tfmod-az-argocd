@@ -8,17 +8,17 @@ output "password" {
 }
 
 output "github_app_id" {
-  value     = data.azurerm_key_vault_secret.github_app_id.value
+  value     = var.github_app_id
   sensitive = true
 }
 
 output "github_installation_id" {
-  value     = data.azurerm_key_vault_secret.github_installation_id.value
+  value     = var.github_installation_id
   sensitive = true
 }
 
 output "github_private_key" {
-  value     = data.azurerm_key_vault_secret.github_private_key.value
+  value     = var.github_private_key
   sensitive = true
 }
 

@@ -11,6 +11,10 @@ env:
   ARM_CLIENT_ID: ${{ secrets.CC_TFTEST_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.CC_TFTEST_CLIENT_SECRET }}
   ARM_TENANT_ID: ${{ vars.CC_TENANT_ID }}
+  # GitHub App credentials for ArgoCD tests
+  TF_VAR_github_app_id: ${{ secrets.GHA_ARGOCD_ACCESS_APPID }}
+  TF_VAR_github_installation_id: ${{ secrets.GHA_ARGOCD_ACCESS_INSTID }}
+  TF_VAR_github_private_key: ${{ secrets.GHA_ARGOCD_ACCESS_PRIVATEKEY }}
 
 permissions: read-all
 

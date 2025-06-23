@@ -18,30 +18,6 @@ resource "azuread_service_principal_password" "this" {
   service_principal_id = azuread_service_principal.this.object_id
 }
 
-data "azurerm_key_vault" "this" {
-  provider            = azurerm.dev
-  name                = "kv-dev-mps-uaenorth-001"
-  resource_group_name = "rg-dev-security-uaenorth-001"
-}
-
-data "azurerm_key_vault_secret" "github_app_id" {
-  provider     = azurerm.dev
-  name         = "argocd-gh-app-id"
-  key_vault_id = data.azurerm_key_vault.this.id
-}
-
-data "azurerm_key_vault_secret" "github_installation_id" {
-  provider     = azurerm.dev
-  name         = "argocd-gh-app-installation-id"
-  key_vault_id = data.azurerm_key_vault.this.id
-}
-
-data "azurerm_key_vault_secret" "github_private_key" {
-  provider     = azurerm.dev
-  name         = "argocd-gh-app-private-key"
-  key_vault_id = data.azurerm_key_vault.this.id
-}
-
 resource "azurerm_resource_group" "this" {
   name     = "tf_test_rg_${random_string.name.result}"
   location = "germanywestcentral"
