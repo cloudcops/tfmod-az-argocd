@@ -200,18 +200,52 @@ resource "kubectl_manifest" "notification_secrets" {
   depends_on = [kubectl_manifest.argocd_ingress]
 }
 
-# App of Apps using the existing template
-data "kubectl_file_documents" "apps" {
-  content = templatefile("${path.module}/manifests/apps.tmpl", {
-    repo_url      = var.repo_url
-    repo_revision = var.repo_revision
-    app_path      = var.app_path
-  })
-}
+# App of Apps using kubernetes_manifest provider
+resource "kubernetes_manifest" "app_of_apps" {
+  manifest = {
+    apiVersion = "argoproj.io/v1alpha1"
+    kind       = "Application"
+    metadata = {
+      name      = "app-of-apps"
+      namespace = "argocd"
+      annotations = {
+        "notifications.argoproj.io/subscribe.on-deployed.github" = ""
+      }
+    }
+    spec = {
+      destination = {
+        namespace = "argocd"
+        server    = "https://kubernetes.default.svc"
+      }
+      project = "default"
+      source = {
+        path           = var.app_path
+        repoURL        = var.repo_url
+        targetRevision = var.repo_revision
+      }
+      syncPolicy = {
+        automated = {
+          prune      = true
+          selfHeal   = true
+          allowEmpty = false
+        }
+        syncOptions = [
+          "CreateNamespace=true",
+          "PrunePropagationPolicy=foreground",
+          "PruneLast=true",
+          "FailOnSharedResource=false"
+        ]
+        retry = {
+          limit = 10
+          backoff = {
+            duration    = "5s"
+            factor      = 2
+            maxDuration = "30s"
+          }
+        }
+      }
+    }
+  }
 
-resource "kubectl_manifest" "app_of_apps" {
-  yaml_body          = data.kubectl_file_documents.apps.documents[0]
-  override_namespace = "argocd"
-  ignore_fields      = ["yaml_incluster"]
-  depends_on         = [kubectl_manifest.argocd_access_token]
+  depends_on = [kubectl_manifest.argocd_access_token]
 }
