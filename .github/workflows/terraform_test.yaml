@@ -8,9 +8,9 @@ on:
 
 
 env:
-  ARM_CLIENT_ID: ${{ secrets.AZ_TF_IT_SP_CLIENT_ID }}
-  ARM_CLIENT_SECRET: ${{ secrets.AZ_TF_IT_SP_CLIENT_SECRET }}
-  ARM_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+  ARM_CLIENT_ID: ${{ secrets.CC_TFTEST_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.CC_TFTEST_CLIENT_SECRET }}
+  ARM_TENANT_ID: ${{ vars.CC_TENANT_ID }}
 
 permissions: read-all
 
@@ -55,9 +55,9 @@ jobs:
         uses: actions/create-github-app-token@v1
         id: generate-token
         with:
-          app-id: ${{ secrets.GH_PR_COMMENTS_APP_ID }}
-          private-key: ${{ secrets.GH_PR_COMMENTS_PRIVATE_KEY }}
-          owner: myperfectstay
+          app-id: ${{ secrets.GHA_PR_COMMENTS_APPID }}
+          private-key: ${{ secrets.GHA_PR_COMMENTS_PRIVATEKEY }}
+          owner: cloudcops
 
       - uses: amannn/action-semantic-pull-request@v5
         id: lint_pr_title
@@ -101,9 +101,9 @@ jobs:
         uses: actions/create-github-app-token@v1
         id: generate-token
         with:
-          app-id: ${{ secrets.GH_PR_COMMENTS_APP_ID }}
-          private-key: ${{ secrets.GH_PR_COMMENTS_PRIVATE_KEY }}
-          owner: myperfectstay        
+          app-id: ${{ secrets.GHA_PR_COMMENTS_APPID }}
+          private-key: ${{ secrets.GHA_PR_COMMENTS_PRIVATEKEY }}
+          owner: cloudcops
 
       - uses: hashicorp/setup-terraform@v3
         name: Install terraform

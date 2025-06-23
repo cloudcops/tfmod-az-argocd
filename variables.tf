@@ -1,7 +1,7 @@
-variable "argocd_version" {
-  description = "Version of ArgoCD to install"
+variable "argocd_chart_version" {
+  description = "Version of ArgoCD Helm Chart to install"
   type        = string
-  default     = "v2.10.7"
+  default     = "8.8.2"
 }
 
 variable "repo_revision" {
