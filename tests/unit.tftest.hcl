@@ -51,27 +51,22 @@ run "plan" {
   }
 
   assert {
-    condition     = kubectl_manifest.argocd_namespace.yaml_body_parsed != null
-    error_message = "Argocd namespace yaml wasn't parsed."
+    condition     = helm_release.argocd.status == "deployed"
+    error_message = "ArgoCD helm release not deployed."
   }
+  
   assert {
-    condition     = kubectl_manifest.argocd_cm.yaml_body_parsed != null
-    error_message = "Argocd cm yaml wasn't parsed."
+    condition     = helm_release.argocd.namespace == "argocd"
+    error_message = "ArgoCD helm release not in correct namespace."
   }
+  
   assert {
-    condition     = kubectl_manifest.argocd_cmd_params_cm.yaml_body_parsed != null
-    error_message = "Argocd params yaml wasn't parsed."
+    condition     = kubernetes_manifest.app_of_apps.manifest != null
+    error_message = "App of Apps manifest not created."
   }
+  
   assert {
-    condition     = kubectl_manifest.argocd_rbac.yaml_body_parsed != null
-    error_message = "Argocd rbac yaml wasn't parsed."
-  }
-  assert {
-    condition     = kubectl_manifest.argocd_secrets.yaml_body_parsed != null
-    error_message = "Argocd secrets yaml wasn't parsed."
-  }
-  assert {
-    condition     = kubectl_manifest.apps.yaml_body_parsed != null
-    error_message = "Argocd apps yaml wasn't parsed."
+    condition     = kubernetes_limit_range.default_resources.metadata[0].name == "limit-range-ns-argocd"
+    error_message = "Limit range not created."
   }
 }
