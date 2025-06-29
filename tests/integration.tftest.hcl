@@ -54,17 +54,17 @@ run "apply" {
     condition     = helm_release.argocd.status == "deployed"
     error_message = "ArgoCD helm release not deployed."
   }
-  
+
   assert {
     condition     = helm_release.argocd.namespace == "argocd"
     error_message = "ArgoCD helm release not in correct namespace."
   }
-  
+
   assert {
-    condition     = kubernetes_manifest.app_of_apps.manifest != null
+    condition     = kubectl_manifest.app_of_apps.yaml_body_parsed != null
     error_message = "App of Apps manifest not created."
   }
-  
+
   assert {
     condition     = kubernetes_limit_range.default_resources.metadata[0].name == "limit-range-ns-argocd"
     error_message = "Limit range not created."

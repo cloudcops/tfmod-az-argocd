@@ -79,31 +79,20 @@ The following providers are used by this module:
 
 - <a name="provider_helm"></a> [helm](#provider\_helm) (2.17.0)
 
-- <a name="provider_kubectl"></a> [kubectl](#provider\_kubectl) (1.19.0)
-
 - <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) (2.29.0)
+
+- <a name="provider_time"></a> [time](#provider\_time) (0.13.1)
 
 ## Resources
 
 The following resources are used by this module:
 
 - [helm_release.argocd](https://registry.terraform.io/providers/hashicorp/helm/2.17.0/docs/resources/release) (resource)
-- [kubectl_manifest.argocd_access_token](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
-- [kubectl_manifest.argocd_cm](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
-- [kubectl_manifest.argocd_cmd_params_cm](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
-- [kubectl_manifest.argocd_ingress](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
-- [kubectl_manifest.argocd_notifications_cm](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
-- [kubectl_manifest.argocd_rbac](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
-- [kubectl_manifest.argocd_secrets](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
-- [kubectl_manifest.notification_secrets](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
 - [kubernetes_limit_range.default_resources](https://registry.terraform.io/providers/hashicorp/kubernetes/2.29.0/docs/resources/limit_range) (resource)
 - [kubernetes_manifest.app_of_apps](https://registry.terraform.io/providers/hashicorp/kubernetes/2.29.0/docs/resources/manifest) (resource)
 - [kubernetes_namespace.argocd](https://registry.terraform.io/providers/hashicorp/kubernetes/2.29.0/docs/resources/namespace) (resource)
+- [time_sleep.wait_for_crds](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) (resource)
 - [azuread_group.rbac4groups](https://registry.terraform.io/providers/hashicorp/azuread/2.51.0/docs/data-sources/group) (data source)
-- [kubectl_file_documents.argocd_cm](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/data-sources/file_documents) (data source)
-- [kubectl_file_documents.argocd_ingress](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/data-sources/file_documents) (data source)
-- [kubectl_file_documents.argocd_rbac](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/data-sources/file_documents) (data source)
-- [kubectl_file_documents.argocd_secrets](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/data-sources/file_documents) (data source)
 
 <!-- markdownlint-disable MD013 -->
 ## Required Inputs

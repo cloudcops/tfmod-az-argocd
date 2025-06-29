@@ -14,9 +14,9 @@ resource "helm_release" "argocd" {
   namespace  = kubernetes_namespace.argocd.metadata[0].name
 
   # Wait for CRDs to be ready
-  wait             = true
-  wait_for_jobs    = true
-  timeout          = 600
+  wait          = true
+  wait_for_jobs = true
+  timeout       = 600
 
   values = [
     yamlencode({
@@ -28,31 +28,31 @@ resource "helm_release" "argocd" {
         # ArgoCD ConfigMap settings
         cm = {
           "admin.enabled" = true
-          
+
           # Application instance label key
           "application.instanceLabelKey" = "argocd.argoproj.io/instance"
-          
+
           # Kustomize build options
           "kustomize.buildOptions" = "--enable-helm"
-          
+
           # Server URL
           url = "https://${var.url}"
-          
+
           # OIDC Configuration
           "oidc.config" = yamlencode({
-            name                                     = var.idp_argocd_name
-            issuer                                   = "https://${var.idp_endpoint}"
-            clientID                                 = var.sp_client_id
-            clientSecret                             = "$oidc.clientSecret"
+            name                                    = var.idp_argocd_name
+            issuer                                  = "https://${var.idp_endpoint}"
+            clientID                                = var.sp_client_id
+            clientSecret                            = "$oidc.clientSecret"
             skipAudienceCheckWhenTokenHasNoAudience = true
-            requestedScopes                          = var.idp_argocd_allowed_oauth_scopes
+            requestedScopes                         = var.idp_argocd_allowed_oauth_scopes
             requestedIDTokenClaims = {
               groups = {
                 essential = true
               }
             }
           })
-          
+
           # Resource customizations for ArgoCD Application health
           "resource.customizations" = yamlencode({
             "argoproj.io/Application" = {
@@ -98,45 +98,45 @@ resource "helm_release" "argocd" {
               EOF
             }
           })
-          
+
           # Timeout settings
           "timeout.hard.reconciliation" = "0s"
           "timeout.reconciliation"      = "180s"
-          
+
           # Application Configuration 
           "application.config" = yamlencode({
             environment = split("/", var.app_path)[1]
             path        = var.app_path
           })
-          
+
           # GitHub App Configuration for notifications
           "notificationUrl.github" = var.argocd_notification_url_for_github
         }
 
         # ArgoCD Command Parameters
         params = {
-          "server.insecure"                        = tostring(!var.tls_enabled)
-          "server.log.level"                       = var.log_level
-          "controller.log.level"                   = var.log_level
-          "applicationsetcontroller.log.level"     = var.log_level
-          "notificationscontroller.log.level"      = var.log_level
-          "reposerver.log.level"                   = var.log_level
+          "server.insecure"                    = tostring(!var.tls_enabled)
+          "server.log.level"                   = var.log_level
+          "controller.log.level"               = var.log_level
+          "applicationsetcontroller.log.level" = var.log_level
+          "notificationscontroller.log.level"  = var.log_level
+          "reposerver.log.level"               = var.log_level
         }
 
         # RBAC Configuration
         rbac = {
           "policy.default"   = var.default_role
-          "scopes"          = "[groups, email]"
+          "scopes"           = "[groups, email]"
           "policy.matchMode" = "glob"
           "policy.csv" = join("\n", concat(
             ["p, role:${var.p_role}, applications, *, */*, deny",
-             "p, role:${var.p_role}, clusters, get, *, deny",
-             "p, role:${var.p_role}, repositories, get, *, deny", 
-             "p, role:${var.p_role}, repositories, create, *, deny",
-             "p, role:${var.p_role}, repositories, update, *, deny",
-             "p, role:${var.p_role}, repositories, delete, *, deny",
-             "p, role:${var.p_role}, logs, get, *, deny",
-             "p, role:${var.p_role}, exec, create, */*, deny"],
+              "p, role:${var.p_role}, clusters, get, *, deny",
+              "p, role:${var.p_role}, repositories, get, *, deny",
+              "p, role:${var.p_role}, repositories, create, *, deny",
+              "p, role:${var.p_role}, repositories, update, *, deny",
+              "p, role:${var.p_role}, repositories, delete, *, deny",
+              "p, role:${var.p_role}, logs, get, *, deny",
+            "p, role:${var.p_role}, exec, create, */*, deny"],
             [for group in local.grantGroupIds : "g, ${group.name}, role:${group.role}"]
           ))
         }
@@ -145,7 +145,7 @@ resource "helm_release" "argocd" {
         secret = {
           # OIDC client secret
           "oidc.clientSecret" = var.sp_client_secret
-          
+
           # GitHub App credentials for notifications
           "github-privateKey" = var.github_access["0"].private_key
         }
@@ -169,16 +169,16 @@ resource "helm_release" "argocd" {
           ingressClassName = var.ingress_class_name
           hostname         = var.url
           tls              = var.tls_enabled
-          
+
           annotations = var.tls_enabled ? {
             "nginx.ingress.kubernetes.io/configuration-snippet" = <<-EOF
               if ($http_x_forwarded_proto = 'http') {
                 return 301 https://$host$request_uri;
               }
             EOF
-            "nginx.ingress.kubernetes.io/rewrite-target" = "/"
-            "nginx.ingress.kubernetes.io/use-regex"      = "true"
-            "cert-manager.io/cluster-issuer"             = "letsencrypt-prod"
+            "nginx.ingress.kubernetes.io/rewrite-target"        = "/"
+            "nginx.ingress.kubernetes.io/use-regex"             = "true"
+            "cert-manager.io/cluster-issuer"                    = "letsencrypt-prod"
           } : {}
         }
       }
@@ -186,7 +186,7 @@ resource "helm_release" "argocd" {
       # Notifications configuration
       notifications = {
         enabled = true
-        
+
         cm = {
           # Notification services configuration
           "service.github" = yamlencode({
@@ -194,7 +194,7 @@ resource "helm_release" "argocd" {
             installationID = var.github_access["0"].installation_id
             privateKey     = "$github-privateKey"
           })
-          
+
           # Trigger configuration
           "trigger.on-deployed" = yamlencode([{
             description = "Application is synced and healthy. Triggered once per commit."
@@ -202,7 +202,7 @@ resource "helm_release" "argocd" {
             send        = ["app-deployed"]
             when        = "app.status.operationState != nil and app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'"
           }])
-          
+
           # Template configuration
           "template.app-deployed" = yamlencode({
             message = "All Applications of {{.app.metadata.name}} are synced and healthy."
@@ -215,12 +215,12 @@ resource "helm_release" "argocd" {
                 targetURL = "https://${var.url}/applications/{{.app.metadata.name}}?operation=true"
               }
               deployment = {
-                state               = "success"
-                environment         = split("/", var.app_path)[1]
-                environmentURL      = var.argocd_notification_url_for_github
-                logURL             = "https://${var.url}/applications/{{.app.metadata.name}}?operation=true"
-                requiredContexts   = []
-                autoMerge          = true
+                state                = "success"
+                environment          = split("/", var.app_path)[1]
+                environmentURL       = var.argocd_notification_url_for_github
+                logURL               = "https://${var.url}/applications/{{.app.metadata.name}}?operation=true"
+                requiredContexts     = []
+                autoMerge            = true
                 transientEnvironment = false
               }
               pullRequestComment = {
@@ -285,9 +285,15 @@ resource "kubernetes_limit_range" "default_resources" {
   }
 }
 
-# App of Apps using kubernetes_manifest provider
-resource "kubernetes_manifest" "app_of_apps" {
-  manifest = {
+# Wait for ArgoCD CRDs to be available
+resource "time_sleep" "wait_for_crds" {
+  depends_on      = [helm_release.argocd]
+  create_duration = "60s"
+}
+
+# App of Apps using kubectl_manifest provider (more tolerant of missing CRDs)
+resource "kubectl_manifest" "app_of_apps" {
+  yaml_body = yamlencode({
     apiVersion = "argoproj.io/v1alpha1"
     kind       = "Application"
     metadata = {
@@ -330,10 +336,8 @@ resource "kubernetes_manifest" "app_of_apps" {
         }
       }
     }
-  }
+  })
 
-  # Prevent status drift from causing unnecessary updates
-  computed_fields = ["status"]
-
-  depends_on = [helm_release.argocd]
+  # Wait for ArgoCD helm chart to be fully deployed and CRDs to be available
+  depends_on = [time_sleep.wait_for_crds]
 }
