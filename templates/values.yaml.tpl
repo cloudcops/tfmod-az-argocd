@@ -119,7 +119,7 @@ ${indent(6, github_private_key)}
       githubAppID: ${repo.app_id}
       githubAppInstallationID: ${repo.installation_id}
       githubAppPrivateKey: |-
-${indent(8, repo.private_key)}
+${indent(12, repo.private_key)}
 %{ endfor ~}
 
 # Server configuration with ingress
@@ -177,8 +177,7 @@ notifications:
           autoMerge: true
           transientEnvironment: false
         pullRequestComment:
-          content: |-
-${indent(12, <<EOT
+          content: |-${indent(12, <<EOT
 :wave: @myperfectstay/developers @myperfectstay/devops
 :tada: **Deployment Status:**
 Your deployment for `Application` `{{.app.metadata.name}}` was successful! :rocket:
@@ -189,7 +188,7 @@ All related applications are **synced** and **healthy**. :white_check_mark:
 | `app-of-apps`       | ✔ {{.app.status.sync.status}} | [Go to Operations](https://${url}/applications/{{.app.metadata.name}}?operation=true) |
 | `mps-core`          | ✔ {{.app.status.sync.status}} | [Go to Application](https://${url}/applications/mps-core)                             |
 | `mps-celery-beat`   | ✔ {{.app.status.sync.status}} | [Go to Application](https://${url}/applications/mps-celery-beat)                      |
-| `mps-celery-worker` | ✔ {{.app.status.sync.status}} | [Go to Application](https://argocd-test.example.com/applications/mps-celery-worker)                    |
+| `mps-celery-worker` | ✔ {{.app.status.sync.status}} | [Go to Application](https://argocd-test.example.com/applications/mps-celery-worker)   |
 ---
 :link: **Quick Access:**
 - [MPS backend API docs](${argocd_notification_url_for_github})
