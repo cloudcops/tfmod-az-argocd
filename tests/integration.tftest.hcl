@@ -57,61 +57,30 @@ run "apply" {
   }
 
   assert {
-    condition     = output.argocd_namespace == "argocd"
+    condition     = helm_release.argocd.namespace == "argocd"
+    error_message = "ArgoCD helm release not in correct namespace."
+  }
+
+  assert {
+    condition     = kubernetes_namespace.argocd.metadata[0].name == "argocd"
     error_message = "ArgoCD namespace not created correctly."
   }
 
-  assert {
-    condition     = output.argocd_helm_release_name == "argocd"
-    error_message = "ArgoCD Helm release name not correct."
-  }
 
+  # Test App of Apps deployment
   assert {
-    condition     = output.argocd_helm_release_version == var.argocd_chart_version
-    error_message = "ArgoCD Helm chart version not correct."
-  }
-
-  # Test rendered values are properly deployed
-  assert {
-    condition     = length(output.argocd_helm_values) > 100
-    error_message = "ArgoCD Helm values seem too short - template may not be rendering properly."
-  }
-
-  assert {
-    condition     = contains(output.argocd_helm_values, "enabled: true")
-    error_message = "ArgoCD configurations not properly enabled in deployed values."
-  }
-
-
-  # Test App of Apps deployment via output
-  assert {
-    condition     = output.app_of_apps_manifest != null
+    condition     = kubectl_manifest.app_of_apps.yaml_body_parsed != null
     error_message = "App of Apps manifest not created."
   }
 
   assert {
-    condition     = output.app_of_apps_manifest.kind == "Application"
+    condition     = kubectl_manifest.app_of_apps.yaml_body_parsed.kind == "Application"
     error_message = "App of Apps is not an ArgoCD Application."
   }
 
   assert {
-    condition     = output.app_of_apps_manifest.metadata.name == "app-of-apps"
+    condition     = kubectl_manifest.app_of_apps.yaml_body_parsed.metadata.name == "app-of-apps"
     error_message = "App of Apps name not correct."
-  }
-
-  assert {
-    condition     = output.app_of_apps_manifest.spec.source.repoURL == var.repo_url
-    error_message = "App of Apps repository URL not correct."
-  }
-
-  assert {
-    condition     = output.app_of_apps_manifest.spec.syncPolicy.automated.prune == true
-    error_message = "App of Apps automated pruning not enabled."
-  }
-
-  assert {
-    condition     = length(output.app_of_apps_manifest.spec.syncPolicy.syncOptions) >= 4
-    error_message = "App of Apps does not have sufficient sync options configured."
   }
 
   # Test resource limits

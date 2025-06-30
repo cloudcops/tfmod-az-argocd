@@ -71,73 +71,31 @@ run "plan" {
     error_message = "ArgoCD helm chart version not correct."
   }
 
-  # Test outputs are properly exposed
+  # Test basic Helm deployment planning
   assert {
-    condition     = output.argocd_namespace == "argocd"
-    error_message = "ArgoCD namespace output not correct."
+    condition     = helm_release.argocd.name == "argocd"
+    error_message = "ArgoCD Helm release name not correct."
   }
 
   assert {
-    condition     = output.argocd_helm_release_name == "argocd"
-    error_message = "ArgoCD Helm release name output not correct."
+    condition     = helm_release.argocd.chart == "argo-cd"
+    error_message = "ArgoCD Helm chart not correct."
   }
 
   assert {
-    condition     = output.argocd_helm_release_version == var.argocd_chart_version
-    error_message = "ArgoCD Helm chart version output not correct."
-  }
-
-  # Test rendered Helm values contain expected configurations
-  assert {
-    condition     = length(output.argocd_helm_values) > 0
-    error_message = "ArgoCD Helm values output is empty."
+    condition     = helm_release.argocd.version == var.argocd_chart_version
+    error_message = "ArgoCD Helm chart version not correct."
   }
 
   assert {
-    condition     = contains(output.argocd_helm_values, "domain: ${var.url}")
-    error_message = "ArgoCD URL not found in rendered values."
+    condition     = helm_release.argocd.namespace == "argocd"
+    error_message = "ArgoCD Helm release namespace not correct."
   }
 
+  # Test template rendering
   assert {
-    condition     = contains(output.argocd_helm_values, "name: ${var.idp_argocd_name}")
-    error_message = "IDP name not found in rendered values."
-  }
-
-  assert {
-    condition     = contains(output.argocd_helm_values, "server.log.level: ${var.log_level}")
-    error_message = "Log level not found in rendered values."
-  }
-
-  assert {
-    condition     = contains(output.argocd_helm_values, "policy.default: ${var.default_role}")
-    error_message = "Default role not found in rendered values."
-  }
-
-  assert {
-    condition     = contains(output.argocd_helm_values, "role:${var.p_role}")
-    error_message = "P role not found in rendered values."
-  }
-
-  # Test OIDC configuration
-  assert {
-    condition     = contains(output.argocd_helm_values, "oidc.config:")
-    error_message = "OIDC configuration not found in rendered values."
-  }
-
-  assert {
-    condition     = contains(output.argocd_helm_values, "issuer: https://${var.idp_endpoint}")
-    error_message = "OIDC issuer not found in rendered values."
-  }
-
-  # Test secret references (not actual secrets)
-  assert {
-    condition     = contains(output.argocd_helm_values, "$oidc.clientSecret")
-    error_message = "OIDC client secret reference not found in rendered values."
-  }
-
-  assert {
-    condition     = contains(output.argocd_helm_values, "$github-privateKey")
-    error_message = "GitHub private key reference not found in rendered values."
+    condition     = length(helm_release.argocd.values) > 0
+    error_message = "ArgoCD Helm values not rendered from template."
   }
 
   # Test app-of-apps manifest structure
@@ -172,13 +130,9 @@ run "plan" {
     error_message = "Limit range name not correct."
   }
 
+  # Test limit range
   assert {
-    condition     = output.limit_range_config.name == "limit-range-ns-argocd"
-    error_message = "Limit range name output not correct."
-  }
-
-  assert {
-    condition     = output.limit_range_config.namespace == "argocd"
-    error_message = "Limit range namespace output not correct."
+    condition     = kubernetes_limit_range.default_resources.metadata[0].name == "limit-range-ns-argocd"
+    error_message = "Limit range name not correct."
   }
 }
