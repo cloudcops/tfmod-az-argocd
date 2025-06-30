@@ -1,5 +1,6 @@
 global:
   domain: ${url}
+  installCRDs: true
 
 configs:
   # ArgoCD ConfigMap settings
@@ -199,8 +200,3 @@ notifications:
             ---
 
             :robot: *Automated notification via ArgoCD*
-
-# Install CRDs and wait for them to be ready
-crds:
-  install: true
-  keep: false

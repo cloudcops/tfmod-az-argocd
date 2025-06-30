@@ -289,31 +289,7 @@ Default: `false`
 
 ## Outputs
 
-The following outputs are exported:
-
-### <a name="output_app_of_apps_manifest"></a> [app\_of\_apps\_manifest](#output\_app\_of\_apps\_manifest)
-
-Description: App of Apps manifest for validation
-
-### <a name="output_argocd_helm_release_name"></a> [argocd\_helm\_release\_name](#output\_argocd\_helm\_release\_name)
-
-Description: ArgoCD Helm release name
-
-### <a name="output_argocd_helm_release_version"></a> [argocd\_helm\_release\_version](#output\_argocd\_helm\_release\_version)
-
-Description: ArgoCD Helm chart version
-
-### <a name="output_argocd_helm_values"></a> [argocd\_helm\_values](#output\_argocd\_helm\_values)
-
-Description: Rendered ArgoCD Helm values for testing (sensitive values are referenced, not exposed)
-
-### <a name="output_argocd_namespace"></a> [argocd\_namespace](#output\_argocd\_namespace)
-
-Description: ArgoCD namespace name
-
-### <a name="output_limit_range_config"></a> [limit\_range\_config](#output\_limit\_range\_config)
-
-Description: Namespace limit range configuration
+No outputs.
 
 ## Modules
 
