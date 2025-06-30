@@ -175,7 +175,7 @@ notifications:
           autoMerge: true
           transientEnvironment: false
         pullRequestComment:
-          content: |
+          content: |-
             :wave: @myperfectstay/developers @myperfectstay/devops
 
             :tada: **Deployment Status:**
