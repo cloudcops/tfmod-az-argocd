@@ -179,7 +179,7 @@ Description: Version of ArgoCD Helm Chart to install
 
 Type: `string`
 
-Default: `"8.8.2"`
+Default: `"8.1.2"`
 
 ### <a name="input_default_role"></a> [default\_role](#input\_default\_role)
 
