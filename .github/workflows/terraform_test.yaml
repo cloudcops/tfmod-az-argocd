@@ -134,6 +134,12 @@ jobs:
         id: integration_tests
         run: terraform test -verbose -no-color -filter=tests/integration.tftest.hcl
         continue-on-error: true
+      - name: Show debug file on failure
+        if: steps.integration_tests.outcome == 'failure'
+        run: |
+          echo "--- START of debug_values.yaml ---"
+          cat debug_values.yaml || echo "debug_values.yaml not found."
+          echo "--- END of debug_values.yaml ---"
 
       # - uses: actions/github-script@v7
       #   if: github.event_name == 'pull_request'

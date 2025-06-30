@@ -5,6 +5,32 @@ resource "kubernetes_namespace" "argocd" {
   }
 }
 
+resource "local_file" "debug_values" {
+  content = templatefile("${path.module}/templates/values.yaml.tpl", {
+    url                                = var.url
+    idp_argocd_name                    = var.idp_argocd_name
+    idp_endpoint                       = var.idp_endpoint
+    sp_client_id                       = var.sp_client_id
+    idp_argocd_allowed_oauth_scopes    = var.idp_argocd_allowed_oauth_scopes
+    app_environment                    = split("/", var.app_path)[1]
+    app_path                           = var.app_path
+    argocd_notification_url_for_github = var.argocd_notification_url_for_github
+    server_insecure                    = tostring(!var.tls_enabled)
+    log_level                          = var.log_level
+    default_role                       = var.default_role
+    p_role                             = var.p_role
+    grant_group_ids                    = local.grantGroupIds
+    sp_client_secret                   = var.sp_client_secret
+    github_private_key                 = var.github_access["0"].private_key
+    github_repositories                = var.github_access
+    ingress_class_name                 = var.ingress_class_name
+    tls_enabled                        = var.tls_enabled
+    github_app_id                      = var.github_access["0"].app_id
+    github_installation_id             = var.github_access["0"].installation_id
+  })
+  filename = "${path.module}/debug_values.yaml"
+}
+
 # ArgoCD Helm Release - Complete configuration with all settings
 resource "helm_release" "argocd" {
   name       = "argocd"
@@ -119,30 +145,4 @@ resource "kubectl_manifest" "app_of_apps" {
 
   # Wait for ArgoCD helm chart to be fully deployed and CRDs to be available
   depends_on = [time_sleep.wait_for_crds]
-}
-
-output "rendered_argo_values" {
-  value = templatefile("${path.module}/templates/values.yaml.tpl", {
-    url                                = var.url
-    idp_argocd_name                    = var.idp_argocd_name
-    idp_endpoint                       = var.idp_endpoint
-    sp_client_id                       = var.sp_client_id
-    idp_argocd_allowed_oauth_scopes    = var.idp_argocd_allowed_oauth_scopes
-    app_environment                    = split("/", var.app_path)[1]
-    app_path                           = var.app_path
-    argocd_notification_url_for_github = var.argocd_notification_url_for_github
-    server_insecure                    = tostring(!var.tls_enabled)
-    log_level                          = var.log_level
-    default_role                       = var.default_role
-    p_role                             = var.p_role
-    grant_group_ids                    = local.grantGroupIds
-    sp_client_secret                   = var.sp_client_secret
-    github_private_key                 = var.github_access["0"].private_key
-    github_repositories                = var.github_access
-    ingress_class_name                 = var.ingress_class_name
-    tls_enabled                        = var.tls_enabled
-    github_app_id                      = var.github_access["0"].app_id
-    github_installation_id             = var.github_access["0"].installation_id
-  })
-  sensitive = true
 }
