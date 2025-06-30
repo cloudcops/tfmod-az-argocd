@@ -107,8 +107,8 @@ configs:
     # OIDC client secret
     oidc.clientSecret: ${sp_client_secret}
     # GitHub App credentials for notifications
-    github-privateKey: |-
-${indent(6, github_private_key)}
+    github-privateKey: |
+      ${trimspace(github_private_key)}
 
   # Repository credentials
   repositories:
@@ -118,8 +118,8 @@ ${indent(6, github_private_key)}
       type: git
       githubAppID: ${repo.app_id}
       githubAppInstallationID: ${repo.installation_id}
-      githubAppPrivateKey: |-
-${indent(12, repo.private_key)}
+      githubAppPrivateKey: |
+        ${trimspace(repo.private_key)}
 %{ endfor ~}
 
 # Server configuration with ingress
@@ -177,23 +177,28 @@ notifications:
           autoMerge: true
           transientEnvironment: false
         pullRequestComment:
-          content: |-${indent(12, <<EOT
-:wave: @myperfectstay/developers @myperfectstay/devops
-:tada: **Deployment Status:**
-Your deployment for `Application` `{{.app.metadata.name}}` was successful! :rocket:
-All related applications are **synced** and **healthy**. :white_check_mark:
-### :package: MPS Backend Applications Overview
-| Application         | Status                        | Link                                                                            |
-|---------------------|-------------------------------|---------------------------------------------------------------------------------|
-| `app-of-apps`       | ✔ {{.app.status.sync.status}} | [Go to Operations](https://${url}/applications/{{.app.metadata.name}}?operation=true) |
-| `mps-core`          | ✔ {{.app.status.sync.status}} | [Go to Application](https://${url}/applications/mps-core)                             |
-| `mps-celery-beat`   | ✔ {{.app.status.sync.status}} | [Go to Application](https://${url}/applications/mps-celery-beat)                      |
-| `mps-celery-worker` | ✔ {{.app.status.sync.status}} | [Go to Application](https://argocd-test.example.com/applications/mps-celery-worker)   |
----
-:link: **Quick Access:**
-- [MPS backend API docs](${argocd_notification_url_for_github})
-- [ArgoCD Operations for `app-of-apps`](https://${url}/applications/{{.app.metadata.name}}?operation=true)
----
-:robot: *Automated notification via ArgoCD*
-EOT
-)}
+          content: |
+            :wave: @myperfectstay/developers @myperfectstay/devops
+
+            :tada: **Deployment Status:**
+            Your deployment for `Application` `{{.app.metadata.name}}` was successful! :rocket:
+
+            All related applications are **synced** and **healthy**. :white_check_mark:
+
+            ### :package: MPS Backend Applications Overview
+            | Application         | Status                        | Link                                                                            |
+            |---------------------|-------------------------------|---------------------------------------------------------------------------------|
+            | `app-of-apps`       | ✔ {{.app.status.sync.status}} | [Go to Operations](https://${url}/applications/{{.app.metadata.name}}?operation=true) |
+            | `mps-core`          | ✔ {{.app.status.sync.status}} | [Go to Application](https://${url}/applications/mps-core)                             |
+            | `mps-celery-beat`   | ✔ {{.app.status.sync.status}} | [Go to Application](https://${url}/applications/mps-celery-beat)                      |
+            | `mps-celery-worker` | ✔ {{.app.status.sync.status}} | [Go to Application](https://${url}/applications/mps-celery-worker)                    |
+
+            ---
+
+            :link: **Quick Access:**
+            - [MPS backend API docs](${argocd_notification_url_for_github})
+            - [ArgoCD Operations for `app-of-apps`](https://${url}/applications/{{.app.metadata.name}}?operation=true)
+
+            ---
+
+            :robot: *Automated notification via ArgoCD*
