@@ -85,8 +85,6 @@ The following providers are used by this module:
 
 - <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) (2.29.0)
 
-- <a name="provider_time"></a> [time](#provider\_time) (0.13.1)
-
 ## Resources
 
 The following resources are used by this module:
@@ -95,7 +93,6 @@ The following resources are used by this module:
 - [kubectl_manifest.app_of_apps](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
 - [kubernetes_limit_range.default_resources](https://registry.terraform.io/providers/hashicorp/kubernetes/2.29.0/docs/resources/limit_range) (resource)
 - [kubernetes_namespace.argocd](https://registry.terraform.io/providers/hashicorp/kubernetes/2.29.0/docs/resources/namespace) (resource)
-- [time_sleep.wait_for_crds](https://registry.terraform.io/providers/hashicorp/time/0.13.1/docs/resources/sleep) (resource)
 - [azuread_group.rbac4groups](https://registry.terraform.io/providers/hashicorp/azuread/2.51.0/docs/data-sources/group) (data source)
 
 <!-- markdownlint-disable MD013 -->

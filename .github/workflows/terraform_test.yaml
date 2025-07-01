@@ -126,85 +126,85 @@ jobs:
         id: validate
         run: terraform validate -no-color
 
-      # - name: Terraform Unit Tests
-      #   id: unit_tests
-      #   run: terraform test -verbose -no-color -filter=tests/unit.tftest.hcl
-      #   continue-on-error: true
+      - name: Terraform Unit Tests
+        id: unit_tests
+        run: terraform test -verbose -no-color -filter=tests/unit.tftest.hcl
+        continue-on-error: true
 
       - name: Terraform Integration Tests
         id: integration_tests
         run: terraform test -verbose -no-color -filter=tests/integration.tftest.hcl
         continue-on-error: true
 
-      # - uses: actions/github-script@v7
+      - uses: actions/github-script@v7
       #   if: github.event_name == 'pull_request'
-      #   with:
-      #     github-token: ${{ steps.generate-token.outputs.token }}
-      #     script: |
-      #       // 1. Retrieve existing bot comments for the PR
-      #       const { data: comments } = await github.rest.issues.listComments({
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         issue_number: context.issue.number,
-      #       })
-      #       const botComment = comments.find(comment => {
-      #         return comment.user.type === 'Bot' && comment.body.includes('Terraform Format and Style')
-      #       })
+        with:
+          github-token: ${{ steps.generate-token.outputs.token }}
+          script: |
+            // 1. Retrieve existing bot comments for the PR
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            })
+            const botComment = comments.find(comment => {
+              return comment.user.type === 'Bot' && comment.body.includes('Terraform Format and Style')
+            })
 
-      #       // Get test outcomes
-      #       const unitOutcome = "${{ steps.unit_tests.outcome }}";
-      #       const integrationOutcome = "${{ steps.integration_tests.outcome }}";
+            // Get test outcomes
+            const unitOutcome = "${{ steps.unit_tests.outcome }}";
+            const integrationOutcome = "${{ steps.integration_tests.outcome }}";
             
-      #       // Workflow URL for failures
-      #       const workflowUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}";
+            // Workflow URL for failures
+            const workflowUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}";
 
-      #       // Unit test section
-      #       let unitSection = `#### Terraform Unit Tests 🧪\`${unitOutcome}\``;
-      #       if (unitOutcome === 'failure') {
-      #         unitSection += `\n\n<details><summary>❌ View Failure Details</summary>\n\nTest Failed\n\n[View complete test logs in workflow run](${workflowUrl})\n\n</details>`;
-      #       }
+            // Unit test section
+            let unitSection = `#### Terraform Unit Tests 🧪\`${unitOutcome}\``;
+            if (unitOutcome === 'failure') {
+              unitSection += `\n\n<details><summary>❌ View Failure Details</summary>\n\nTest Failed\n\n[View complete test logs in workflow run](${workflowUrl})\n\n</details>`;
+            }
 
-      #       // Integration test section
-      #       let integrationSection = `#### Terraform Integration Tests 🧪\`${integrationOutcome}\``;
-      #       if (integrationOutcome === 'failure') {
-      #         integrationSection += `\n\n<details><summary>❌ View Failure Details</summary>\n\nTest failed\n\n[View complete test logs in workflow run](${workflowUrl})\n\n</details>`;
-      #       }
+            // Integration test section
+            let integrationSection = `#### Terraform Integration Tests 🧪\`${integrationOutcome}\``;
+            if (integrationOutcome === 'failure') {
+              integrationSection += `\n\n<details><summary>❌ View Failure Details</summary>\n\nTest failed\n\n[View complete test logs in workflow run](${workflowUrl})\n\n</details>`;
+            }
 
-      #       // 2. Prepare format of the comment
-      #       const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-      #       #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-      #       #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-      #       <details><summary>Validation Output</summary>
+            // 2. Prepare format of the comment
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            <details><summary>Validation Output</summary>
 
-      #       \`\`\`terraform
-      #       ${{ steps.validate.outputs.stdout }}
-      #       \`\`\`
+            \`\`\`terraform
+            ${{ steps.validate.outputs.stdout }}
+            \`\`\`
 
-      #       </details>
+            </details>
 
-      #       ${unitSection}
+            ${unitSection}
 
-      #       ${integrationSection}
+            ${integrationSection}
 
-      #       *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
 
-      #       // 3. If we have a comment, update it, otherwise create a new one
-      #       if (botComment) {
-      #         github.rest.issues.updateComment({
-      #           owner: context.repo.owner,
-      #           repo: context.repo.repo,
-      #           comment_id: botComment.id,
-      #           body: output
-      #         })
-      #       } else {
-      #         github.rest.issues.createComment({
-      #           issue_number: context.issue.number,
-      #           owner: context.repo.owner,
-      #           repo: context.repo.repo,
-      #           body: output
-      #         })
-      #       }
-      
+            // 3. If we have a comment, update it, otherwise create a new one
+            if (botComment) {
+              github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: output
+              })
+            } else {
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: output
+              })
+            }
+
       - name: Fail if tests failed
         if: steps.unit_tests.outcome == 'failure' || steps.integration_tests.outcome == 'failure' 
         run: exit 1
