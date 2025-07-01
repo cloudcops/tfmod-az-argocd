@@ -289,11 +289,7 @@ Default: `false`
 
 ## Outputs
 
-The following outputs are exported:
-
-### <a name="output_rendered_argo_values"></a> [rendered\_argo\_values](#output\_rendered\_argo\_values)
-
-Description: n/a
+No outputs.
 
 ## Modules
 

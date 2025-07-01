@@ -108,7 +108,7 @@ configs:
     oidc.clientSecret: ${sp_client_secret}
     # GitHub App credentials for notifications
     github-privateKey: |
-      ${trimspace(github_private_key)}
+      ${replace(github_private_key, "\n", "\n      ")}
 
   # Repository credentials
   repositories:
@@ -116,10 +116,10 @@ configs:
     ${repo.name}:
       url: ${repo.url}
       type: git
-      githubAppID: ${repo.app_id}
-      githubAppInstallationID: ${repo.installation_id}
+      githubAppID: "${repo.app_id}"
+      githubAppInstallationID: "${repo.installation_id}"
       githubAppPrivateKey: |
-        ${trimspace(repo.private_key)}
+        ${replace(repo.private_key, "\n", "\n        ")}
 %{ endfor ~}
 
 # Server configuration with ingress
@@ -147,8 +147,8 @@ notifications:
   cm:
     # Notification services configuration
     service.github: |
-      appID: ${github_app_id}
-      installationID: ${github_installation_id}
+      appID: "${github_app_id}"
+      installationID: "${github_installation_id}"
       privateKey: $github-privateKey
 
     # Trigger configuration
