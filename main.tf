@@ -31,11 +31,6 @@ resource "local_file" "debug_values" {
   filename = "${path.module}/debug_values.yaml"
 }
 
-output "debug_values_content" {
-  value     = local_file.debug_values.content
-  sensitive = true
-}
-
 # ArgoCD Helm Release - Complete configuration with all settings
 resource "helm_release" "argocd" {
   name       = "argocd"
