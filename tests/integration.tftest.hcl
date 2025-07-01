@@ -69,18 +69,23 @@ run "apply" {
 
   # Test App of Apps deployment
   assert {
-    condition     = kubectl_manifest.app_of_apps.yaml_body_parsed != null
-    error_message = "App of Apps manifest not created."
+    condition     = kubectl_manifest.app_of_apps.api_version == "argoproj.io/v1alpha1"
+    error_message = "App of Apps API version not correct."
   }
 
   assert {
-    condition     = kubectl_manifest.app_of_apps.yaml_body_parsed.kind == "Application"
+    condition     = kubectl_manifest.app_of_apps.kind == "Application"
     error_message = "App of Apps is not an ArgoCD Application."
   }
 
   assert {
-    condition     = kubectl_manifest.app_of_apps.yaml_body_parsed.metadata.name == "app-of-apps"
+    condition     = kubectl_manifest.app_of_apps.name == "app-of-apps"
     error_message = "App of Apps name not correct."
+  }
+
+  assert {
+    condition     = kubectl_manifest.app_of_apps.namespace == "argocd"
+    error_message = "App of Apps namespace not correct."
   }
 
   # Test resource limits
