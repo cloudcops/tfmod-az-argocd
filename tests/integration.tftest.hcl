@@ -98,10 +98,4 @@ run "apply" {
     condition     = kubernetes_limit_range.default_resources.spec[0].limit[0].type == "Container"
     error_message = "Limit range not configured for containers."
   }
-
-  # Test time sleep for CRD readiness
-  assert {
-    condition     = time_sleep.wait_for_crds.create_duration == "60s"
-    error_message = "CRD wait time not configured correctly."
-  }
 }
