@@ -13,12 +13,6 @@ resource "helm_release" "argocd" {
   version    = var.argocd_chart_version
   namespace  = kubernetes_namespace.argocd.metadata[0].name
 
-  # Wait for CRDs to be ready and ensure proper deployment
-  wait             = true
-  wait_for_jobs    = true
-  timeout          = 600
-  create_namespace = false # We create it explicitly above
-
   values = [
     templatefile("${path.module}/templates/values.yaml.tpl", {
       url                                = var.url
