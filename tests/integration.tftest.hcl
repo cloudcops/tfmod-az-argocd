@@ -12,7 +12,7 @@ run "setup" {
 }
 
 variables {
-  argocd_version                     = "v2.10.7"
+  argocd_chart_version               = "8.1.2"
   repo_revision                      = "main"
   repo_url                           = "https://github.com/example/test-argocd-repo"
   url                                = "argocd-test.example.com"
@@ -50,28 +50,52 @@ run "apply" {
     kubernetes_cluster_ca_certificate = run.setup.cluster_ca_certificate
   }
 
+  # Test ArgoCD Helm deployment status
   assert {
-    condition     = kubectl_manifest.argocd_namespace.yaml_body_parsed != null
-    error_message = "Argocd namespace yaml wasn't parsed."
+    condition     = helm_release.argocd.status == "deployed"
+    error_message = "ArgoCD helm release not deployed successfully."
   }
+
   assert {
-    condition     = kubectl_manifest.argocd_cm.yaml_body_parsed != null
-    error_message = "Argocd cm yaml wasn't parsed."
+    condition     = helm_release.argocd.namespace == "argocd"
+    error_message = "ArgoCD helm release not in correct namespace."
   }
+
   assert {
-    condition     = kubectl_manifest.argocd_cmd_params_cm.yaml_body_parsed != null
-    error_message = "Argocd params yaml wasn't parsed."
+    condition     = kubernetes_namespace.argocd.metadata[0].name == "argocd"
+    error_message = "ArgoCD namespace not created correctly."
   }
+
+
+  # Test App of Apps deployment
   assert {
-    condition     = kubectl_manifest.argocd_rbac.yaml_body_parsed != null
-    error_message = "Argocd rbac yaml wasn't parsed."
+    condition     = kubectl_manifest.app_of_apps.api_version == "argoproj.io/v1alpha1"
+    error_message = "App of Apps API version not correct."
   }
+
   assert {
-    condition     = kubectl_manifest.argocd_secrets.yaml_body_parsed != null
-    error_message = "Argocd secrets yaml wasn't parsed."
+    condition     = kubectl_manifest.app_of_apps.kind == "Application"
+    error_message = "App of Apps is not an ArgoCD Application."
   }
+
   assert {
-    condition     = kubectl_manifest.apps.yaml_body_parsed != null
-    error_message = "Argocd apps yaml wasn't parsed."
+    condition     = kubectl_manifest.app_of_apps.name == "app-of-apps"
+    error_message = "App of Apps name not correct."
+  }
+
+  assert {
+    condition     = kubectl_manifest.app_of_apps.namespace == "argocd"
+    error_message = "App of Apps namespace not correct."
+  }
+
+  # Test resource limits
+  assert {
+    condition     = kubernetes_limit_range.default_resources.metadata[0].name == "limit-range-ns-argocd"
+    error_message = "Limit range not created with correct name."
+  }
+
+  assert {
+    condition     = kubernetes_limit_range.default_resources.spec[0].limit[0].type == "Container"
+    error_message = "Limit range not configured for containers."
   }
 }

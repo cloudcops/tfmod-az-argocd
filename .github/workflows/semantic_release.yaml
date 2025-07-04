@@ -23,7 +23,7 @@ jobs:
         with:
           app-id: ${{ secrets.GH_SEMREL_APP_ID }}
           private-key: ${{ secrets.GH_SEMREL_PRIVATE_KEY }}
-          owner: myperfectstay
+          owner: cloudcops
 
       - uses: actions/setup-node@v4
         with:

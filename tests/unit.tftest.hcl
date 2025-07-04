@@ -12,7 +12,7 @@ run "setup" {
 }
 
 variables {
-  argocd_version                     = "v2.10.7"
+  argocd_chart_version               = "8.1.2"
   repo_revision                      = "main"
   repo_url                           = "https://github.com/example/test-argocd-repo"
   url                                = "argocd-test.example.com"
@@ -50,28 +50,46 @@ run "plan" {
     kubernetes_cluster_ca_certificate = run.setup.cluster_ca_certificate
   }
 
+  # Test basic resources are planned correctly
   assert {
-    condition     = kubectl_manifest.argocd_namespace.yaml_body_parsed != null
-    error_message = "Argocd namespace yaml wasn't parsed."
+    condition     = kubernetes_namespace.argocd.metadata[0].name == "argocd"
+    error_message = "ArgoCD namespace not planned correctly."
   }
+
   assert {
-    condition     = kubectl_manifest.argocd_cm.yaml_body_parsed != null
-    error_message = "Argocd cm yaml wasn't parsed."
+    condition     = helm_release.argocd.name == "argocd"
+    error_message = "ArgoCD helm release name not correct."
   }
+
   assert {
-    condition     = kubectl_manifest.argocd_cmd_params_cm.yaml_body_parsed != null
-    error_message = "Argocd params yaml wasn't parsed."
+    condition     = helm_release.argocd.chart == "argo-cd"
+    error_message = "ArgoCD helm chart not correct."
   }
+
   assert {
-    condition     = kubectl_manifest.argocd_rbac.yaml_body_parsed != null
-    error_message = "Argocd rbac yaml wasn't parsed."
+    condition     = helm_release.argocd.version == var.argocd_chart_version
+    error_message = "ArgoCD helm chart version not correct."
   }
+
   assert {
-    condition     = kubectl_manifest.argocd_secrets.yaml_body_parsed != null
-    error_message = "Argocd secrets yaml wasn't parsed."
+    condition     = helm_release.argocd.namespace == "argocd"
+    error_message = "ArgoCD Helm release namespace not correct."
   }
+
+  # Test template rendering
   assert {
-    condition     = kubectl_manifest.apps.yaml_body_parsed != null
-    error_message = "Argocd apps yaml wasn't parsed."
+    condition     = length(helm_release.argocd.values) > 0
+    error_message = "ArgoCD Helm values not rendered from template."
+  }
+
+  # Test kubectl manifest is planned (can't access parsed content in plan phase)
+  assert {
+    condition     = kubectl_manifest.app_of_apps != null
+    error_message = "App of Apps manifest not planned."
+  }
+
+  assert {
+    condition     = kubernetes_limit_range.default_resources.metadata[0].name == "limit-range-ns-argocd"
+    error_message = "Limit range name not correct."
   }
 }

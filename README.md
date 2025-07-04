@@ -65,11 +65,13 @@ The following requirements are needed by this module:
 
 - <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (4.28.0)
 
-- <a name="requirement_external"></a> [external](#requirement\_external) (2.3.3)
+- <a name="requirement_helm"></a> [helm](#requirement\_helm) (2.17.0)
 
-- <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) (1.14.0)
+- <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) (1.19.0)
 
 - <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) (2.29.0)
+
+- <a name="requirement_time"></a> [time](#requirement\_time) (0.13.1)
 
 ## Providers
 
@@ -77,9 +79,9 @@ The following providers are used by this module:
 
 - <a name="provider_azuread"></a> [azuread](#provider\_azuread) (2.51.0)
 
-- <a name="provider_external"></a> [external](#provider\_external) (2.3.3)
+- <a name="provider_helm"></a> [helm](#provider\_helm) (2.17.0)
 
-- <a name="provider_kubectl"></a> [kubectl](#provider\_kubectl) (1.14.0)
+- <a name="provider_kubectl"></a> [kubectl](#provider\_kubectl) (1.19.0)
 
 - <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) (2.29.0)
 
@@ -87,25 +89,11 @@ The following providers are used by this module:
 
 The following resources are used by this module:
 
-- [kubectl_manifest.apps](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
-- [kubectl_manifest.argocd_access_token](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
-- [kubectl_manifest.argocd_cm](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
-- [kubectl_manifest.argocd_cmd_params_cm](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
-- [kubectl_manifest.argocd_ingress](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
-- [kubectl_manifest.argocd_install](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
-- [kubectl_manifest.argocd_namespace](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
-- [kubectl_manifest.argocd_notifications_cm](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
-- [kubectl_manifest.argocd_rbac](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
-- [kubectl_manifest.argocd_secrets](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
-- [kubectl_manifest.notification-secrets](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/resources/manifest) (resource)
+- [helm_release.argocd](https://registry.terraform.io/providers/hashicorp/helm/2.17.0/docs/resources/release) (resource)
+- [kubectl_manifest.app_of_apps](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
 - [kubernetes_limit_range.default_resources](https://registry.terraform.io/providers/hashicorp/kubernetes/2.29.0/docs/resources/limit_range) (resource)
+- [kubernetes_namespace.argocd](https://registry.terraform.io/providers/hashicorp/kubernetes/2.29.0/docs/resources/namespace) (resource)
 - [azuread_group.rbac4groups](https://registry.terraform.io/providers/hashicorp/azuread/2.51.0/docs/data-sources/group) (data source)
-- [external_external.argocd_yaml_split](https://registry.terraform.io/providers/hashicorp/external/2.3.3/docs/data-sources/external) (data source)
-- [kubectl_file_documents.apps](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/data-sources/file_documents) (data source)
-- [kubectl_file_documents.argocd_cm](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/data-sources/file_documents) (data source)
-- [kubectl_file_documents.argocd_ingress](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/data-sources/file_documents) (data source)
-- [kubectl_file_documents.argocd_rbac](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/data-sources/file_documents) (data source)
-- [kubectl_file_documents.argocd_secrets](https://registry.terraform.io/providers/gavinbunney/kubectl/1.14.0/docs/data-sources/file_documents) (data source)
 
 <!-- markdownlint-disable MD013 -->
 ## Required Inputs
@@ -182,13 +170,13 @@ Type: `string`
 
 The following input variables are optional (have default values):
 
-### <a name="input_argocd_version"></a> [argocd\_version](#input\_argocd\_version)
+### <a name="input_argocd_chart_version"></a> [argocd\_chart\_version](#input\_argocd\_chart\_version)
 
-Description: Version of ArgoCD to install
+Description: Version of ArgoCD Helm Chart to install
 
 Type: `string`
 
-Default: `"v2.10.7"`
+Default: `"8.1.2"`
 
 ### <a name="input_default_role"></a> [default\_role](#input\_default\_role)
 
