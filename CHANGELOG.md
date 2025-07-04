@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/cloudcops/tfmod-az-argocd/compare/1.4.0...1.5.0) (2025-07-04)
+
+
+### Features
+
+* **CC-9:** Rework ArgoCD Module ([#1](https://github.com/cloudcops/tfmod-az-argocd/issues/1)) ([08a200a](https://github.com/cloudcops/tfmod-az-argocd/commit/08a200ac879abd7228398912ed43bdcae65be414))
+
 # [1.4.0](https://github.com/myperfectstay/tfmod-az-argocd/compare/1.3.0...1.4.0) (2025-05-14)
 
 
