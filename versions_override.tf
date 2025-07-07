@@ -7,15 +7,15 @@ terraform {
     }
     kubectl = {
       source  = "gavinbunney/kubectl"
-      version = "1.14.0"
+      version = "1.19.0"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
       version = "2.29.0"
     }
-    external = {
-      source  = "hashicorp/external"
-      version = "2.3.3"
+    helm = {
+      source  = "hashicorp/helm"
+      version = "2.17.0"
     }
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -37,4 +37,13 @@ provider "kubernetes" {
   client_certificate     = var.kubernetes_client_certificate
   client_key             = var.kubernetes_client_key
   cluster_ca_certificate = var.kubernetes_cluster_ca_certificate
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = var.kubernetes_host
+    client_certificate     = var.kubernetes_client_certificate
+    client_key             = var.kubernetes_client_key
+    cluster_ca_certificate = var.kubernetes_cluster_ca_certificate
+  }
 }
