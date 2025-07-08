@@ -12,10 +12,6 @@ resource "helm_release" "argocd" {
   chart      = "argo-cd"
   version    = var.argocd_chart_version
   namespace  = kubernetes_namespace.argocd.metadata[0].name
-  
-  # Increased timeout for large deployments
-  timeout = 600
-  wait    = true
 
   values = [
     templatefile("${path.module}/templates/values.yaml.tpl", {
