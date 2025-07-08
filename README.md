@@ -118,30 +118,6 @@ Description: Endpoint URL for the identity provider, including the tenant ID.
 
 Type: `string`
 
-### <a name="input_kubernetes_client_certificate"></a> [kubernetes\_client\_certificate](#input\_kubernetes\_client\_certificate)
-
-Description: n/a
-
-Type: `string`
-
-### <a name="input_kubernetes_client_key"></a> [kubernetes\_client\_key](#input\_kubernetes\_client\_key)
-
-Description: n/a
-
-Type: `string`
-
-### <a name="input_kubernetes_cluster_ca_certificate"></a> [kubernetes\_cluster\_ca\_certificate](#input\_kubernetes\_cluster\_ca\_certificate)
-
-Description: n/a
-
-Type: `string`
-
-### <a name="input_kubernetes_host"></a> [kubernetes\_host](#input\_kubernetes\_host)
-
-Description: n/a
-
-Type: `string`
-
 ### <a name="input_repo_url"></a> [repo\_url](#input\_repo\_url)
 
 Description: URL to the GitOps repository.

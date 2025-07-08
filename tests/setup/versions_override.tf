@@ -13,6 +13,18 @@ terraform {
       source  = "hashicorp/random"
       version = "3.6.2"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "2.29.0"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "2.17.0"
+    }
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = "1.19.0"
+    }
   }
 }
 provider "azurerm" {
@@ -20,4 +32,29 @@ provider "azurerm" {
   tenant_id                       = "a2727b52-014e-4273-ba69-33db2948ea02"
   resource_provider_registrations = "none"
   features {}
+}
+
+# Provider configurations for testing
+provider "kubernetes" {
+  host                   = azurerm_kubernetes_cluster.this.kube_config[0].host
+  client_certificate     = base64decode(azurerm_kubernetes_cluster.this.kube_config[0].client_certificate)
+  client_key             = base64decode(azurerm_kubernetes_cluster.this.kube_config[0].client_key)
+  cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config[0].cluster_ca_certificate)
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = azurerm_kubernetes_cluster.this.kube_config[0].host
+    client_certificate     = base64decode(azurerm_kubernetes_cluster.this.kube_config[0].client_certificate)
+    client_key             = base64decode(azurerm_kubernetes_cluster.this.kube_config[0].client_key)
+    cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config[0].cluster_ca_certificate)
+  }
+}
+
+provider "kubectl" {
+  host                   = azurerm_kubernetes_cluster.this.kube_config[0].host
+  client_certificate     = base64decode(azurerm_kubernetes_cluster.this.kube_config[0].client_certificate)
+  client_key             = base64decode(azurerm_kubernetes_cluster.this.kube_config[0].client_key)
+  cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config[0].cluster_ca_certificate)
+  load_config_file       = false
 }

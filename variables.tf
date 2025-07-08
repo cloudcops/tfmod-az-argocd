@@ -111,22 +111,6 @@ variable "namespace_memory_limit" {
   default     = "1Gi"
 }
 
-variable "kubernetes_host" {
-  type = string
-}
-
-variable "kubernetes_client_certificate" {
-  type = string
-}
-
-variable "kubernetes_client_key" {
-  type = string
-}
-
-variable "kubernetes_cluster_ca_certificate" {
-  type = string
-}
-
 # ArgoCD Server Resource Configuration
 variable "argocd_server_memory" {
   description = "Memory limit and request for ArgoCD Server (limits = requests)"
