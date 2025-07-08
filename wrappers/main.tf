@@ -5,7 +5,7 @@ module "wrapper" {
 
   app_path                           = try(each.value.app_path, var.defaults.app_path)
   argocd_notification_url_for_github = try(each.value.argocd_notification_url_for_github, var.defaults.argocd_notification_url_for_github)
-  argocd_version                     = try(each.value.argocd_version, var.defaults.argocd_version, "v2.10.7")
+  argocd_chart_version               = try(each.value.argocd_version, var.defaults.argocd_version, "8.1.2")
   default_role                       = try(each.value.default_role, var.defaults.default_role, "readonly")
   github_access                      = try(each.value.github_access, var.defaults.github_access, {})
   idp_argocd_allowed_oauth_scopes    = try(each.value.idp_argocd_allowed_oauth_scopes, var.defaults.idp_argocd_allowed_oauth_scopes, ["email", "openid", "profile"])
@@ -26,4 +26,20 @@ module "wrapper" {
   sp_client_secret                   = try(each.value.sp_client_secret, var.defaults.sp_client_secret)
   tls_enabled                        = try(each.value.tls_enabled, var.defaults.tls_enabled, false)
   url                                = try(each.value.url, var.defaults.url)
+
+  # ArgoCD Resource Configuration
+  argocd_server_memory              = try(each.value.argocd_server_memory, var.defaults.argocd_server_memory, "300Mi")
+  argocd_server_cpu_request         = try(each.value.argocd_server_cpu_request, var.defaults.argocd_server_cpu_request, "100m")
+  argocd_controller_memory          = try(each.value.argocd_controller_memory, var.defaults.argocd_controller_memory, "1536Mi")
+  argocd_controller_cpu_request     = try(each.value.argocd_controller_cpu_request, var.defaults.argocd_controller_cpu_request, "250m")
+  argocd_reposerver_memory          = try(each.value.argocd_reposerver_memory, var.defaults.argocd_reposerver_memory, "300Mi")
+  argocd_reposerver_cpu_request     = try(each.value.argocd_reposerver_cpu_request, var.defaults.argocd_reposerver_cpu_request, "200m")
+  argocd_applicationset_memory      = try(each.value.argocd_applicationset_memory, var.defaults.argocd_applicationset_memory, "100Mi")
+  argocd_applicationset_cpu_request = try(each.value.argocd_applicationset_cpu_request, var.defaults.argocd_applicationset_cpu_request, "50m")
+  argocd_notifications_memory       = try(each.value.argocd_notifications_memory, var.defaults.argocd_notifications_memory, "100Mi")
+  argocd_notifications_cpu_request  = try(each.value.argocd_notifications_cpu_request, var.defaults.argocd_notifications_cpu_request, "50m")
+  argocd_redis_memory               = try(each.value.argocd_redis_memory, var.defaults.argocd_redis_memory, "100Mi")
+  argocd_redis_cpu_request          = try(each.value.argocd_redis_cpu_request, var.defaults.argocd_redis_cpu_request, "50m")
+  argocd_dex_memory                 = try(each.value.argocd_dex_memory, var.defaults.argocd_dex_memory, "100Mi")
+  argocd_dex_cpu_request            = try(each.value.argocd_dex_cpu_request, var.defaults.argocd_dex_cpu_request, "50m")
 }
