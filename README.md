@@ -170,6 +170,22 @@ Type: `string`
 
 The following input variables are optional (have default values):
 
+### <a name="input_argocd_applicationset_cpu_request"></a> [argocd\_applicationset\_cpu\_request](#input\_argocd\_applicationset\_cpu\_request)
+
+Description: CPU request for ArgoCD ApplicationSet Controller (no CPU limits)
+
+Type: `string`
+
+Default: `"50m"`
+
+### <a name="input_argocd_applicationset_memory"></a> [argocd\_applicationset\_memory](#input\_argocd\_applicationset\_memory)
+
+Description: Memory limit and request for ArgoCD ApplicationSet Controller (limits = requests)
+
+Type: `string`
+
+Default: `"100Mi"`
+
 ### <a name="input_argocd_chart_version"></a> [argocd\_chart\_version](#input\_argocd\_chart\_version)
 
 Description: Version of ArgoCD Helm Chart to install
@@ -177,6 +193,102 @@ Description: Version of ArgoCD Helm Chart to install
 Type: `string`
 
 Default: `"8.1.2"`
+
+### <a name="input_argocd_controller_cpu_request"></a> [argocd\_controller\_cpu\_request](#input\_argocd\_controller\_cpu\_request)
+
+Description: CPU request for ArgoCD Application Controller (no CPU limits)
+
+Type: `string`
+
+Default: `"250m"`
+
+### <a name="input_argocd_controller_memory"></a> [argocd\_controller\_memory](#input\_argocd\_controller\_memory)
+
+Description: Memory limit and request for ArgoCD Application Controller (limits = requests)
+
+Type: `string`
+
+Default: `"1536Mi"`
+
+### <a name="input_argocd_dex_cpu_request"></a> [argocd\_dex\_cpu\_request](#input\_argocd\_dex\_cpu\_request)
+
+Description: CPU request for Dex (no CPU limits)
+
+Type: `string`
+
+Default: `"50m"`
+
+### <a name="input_argocd_dex_memory"></a> [argocd\_dex\_memory](#input\_argocd\_dex\_memory)
+
+Description: Memory limit and request for Dex (limits = requests)
+
+Type: `string`
+
+Default: `"100Mi"`
+
+### <a name="input_argocd_notifications_cpu_request"></a> [argocd\_notifications\_cpu\_request](#input\_argocd\_notifications\_cpu\_request)
+
+Description: CPU request for ArgoCD Notifications Controller (no CPU limits)
+
+Type: `string`
+
+Default: `"50m"`
+
+### <a name="input_argocd_notifications_memory"></a> [argocd\_notifications\_memory](#input\_argocd\_notifications\_memory)
+
+Description: Memory limit and request for ArgoCD Notifications Controller (limits = requests)
+
+Type: `string`
+
+Default: `"100Mi"`
+
+### <a name="input_argocd_redis_cpu_request"></a> [argocd\_redis\_cpu\_request](#input\_argocd\_redis\_cpu\_request)
+
+Description: CPU request for Redis (no CPU limits)
+
+Type: `string`
+
+Default: `"50m"`
+
+### <a name="input_argocd_redis_memory"></a> [argocd\_redis\_memory](#input\_argocd\_redis\_memory)
+
+Description: Memory limit and request for Redis (limits = requests)
+
+Type: `string`
+
+Default: `"100Mi"`
+
+### <a name="input_argocd_reposerver_cpu_request"></a> [argocd\_reposerver\_cpu\_request](#input\_argocd\_reposerver\_cpu\_request)
+
+Description: CPU request for ArgoCD Repository Server (no CPU limits)
+
+Type: `string`
+
+Default: `"200m"`
+
+### <a name="input_argocd_reposerver_memory"></a> [argocd\_reposerver\_memory](#input\_argocd\_reposerver\_memory)
+
+Description: Memory limit and request for ArgoCD Repository Server (limits = requests)
+
+Type: `string`
+
+Default: `"300Mi"`
+
+### <a name="input_argocd_server_cpu_request"></a> [argocd\_server\_cpu\_request](#input\_argocd\_server\_cpu\_request)
+
+Description: CPU request for ArgoCD Server (no CPU limits)
+
+Type: `string`
+
+Default: `"100m"`
+
+### <a name="input_argocd_server_memory"></a> [argocd\_server\_memory](#input\_argocd\_server\_memory)
+
+Description: Memory limit and request for ArgoCD Server (limits = requests)
+
+Type: `string`
+
+Default: `"300Mi"`
 
 ### <a name="input_default_role"></a> [default\_role](#input\_default\_role)
 

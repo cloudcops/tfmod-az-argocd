@@ -124,6 +124,14 @@ configs:
 
 # Server configuration with ingress
 server:
+  # Resource limits for ArgoCD Server (memory limits = requests, no CPU limits)
+  resources:
+    limits:
+      memory: ${argocd_server_memory}
+    requests:
+      memory: ${argocd_server_memory}
+      cpu: ${argocd_server_cpu_request}
+  
   ingress:
     enabled: true
     ingressClassName: ${ingress_class_name}
@@ -140,9 +148,67 @@ server:
       cert-manager.io/cluster-issuer: "letsencrypt-prod"
 %{ endif ~}
 
+# Application Controller configuration
+controller:
+  # Resource limits for ArgoCD Application Controller (memory limits = requests, no CPU limits)
+  resources:
+    limits:
+      memory: ${argocd_controller_memory}
+    requests:
+      memory: ${argocd_controller_memory}
+      cpu: ${argocd_controller_cpu_request}
+
+# Repository Server configuration
+repoServer:
+  # Resource limits for ArgoCD Repository Server (memory limits = requests, no CPU limits)
+  resources:
+    limits:
+      memory: ${argocd_reposerver_memory}
+    requests:
+      memory: ${argocd_reposerver_memory}
+      cpu: ${argocd_reposerver_cpu_request}
+
+# ApplicationSet Controller configuration
+applicationSet:
+  # Resource limits for ArgoCD ApplicationSet Controller (memory limits = requests, no CPU limits)
+  resources:
+    limits:
+      memory: ${argocd_applicationset_memory}
+    requests:
+      memory: ${argocd_applicationset_memory}
+      cpu: ${argocd_applicationset_cpu_request}
+
+# Redis configuration
+redis:
+  # Resource limits for Redis (memory limits = requests, no CPU limits)
+  resources:
+    limits:
+      memory: ${argocd_redis_memory}
+    requests:
+      memory: ${argocd_redis_memory}
+      cpu: ${argocd_redis_cpu_request}
+
+# Dex configuration (if using Dex for OIDC)
+dex:
+  # Resource limits for Dex (memory limits = requests, no CPU limits)
+  resources:
+    limits:
+      memory: ${argocd_dex_memory}
+    requests:
+      memory: ${argocd_dex_memory}
+      cpu: ${argocd_dex_cpu_request}
+
 # Notifications configuration
 notifications:
   enabled: true
+  
+  # Resource limits for ArgoCD Notifications Controller (memory limits = requests, no CPU limits)
+  resources:
+    limits:
+      memory: ${argocd_notifications_memory}
+    requests:
+      memory: ${argocd_notifications_memory}
+      cpu: ${argocd_notifications_cpu_request}
   
   cm:
     # Notification services configuration

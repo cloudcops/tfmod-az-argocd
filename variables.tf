@@ -126,3 +126,94 @@ variable "kubernetes_client_key" {
 variable "kubernetes_cluster_ca_certificate" {
   type = string
 }
+
+# ArgoCD Server Resource Configuration
+variable "argocd_server_memory" {
+  description = "Memory limit and request for ArgoCD Server (limits = requests)"
+  type        = string
+  default     = "300Mi"
+}
+
+variable "argocd_server_cpu_request" {
+  description = "CPU request for ArgoCD Server (no CPU limits)"
+  type        = string
+  default     = "100m"
+}
+
+# ArgoCD Controller Resource Configuration
+variable "argocd_controller_memory" {
+  description = "Memory limit and request for ArgoCD Application Controller (limits = requests)"
+  type        = string
+  default     = "1536Mi"
+}
+
+variable "argocd_controller_cpu_request" {
+  description = "CPU request for ArgoCD Application Controller (no CPU limits)"
+  type        = string
+  default     = "250m"
+}
+
+# ArgoCD Repository Server Resource Configuration
+variable "argocd_reposerver_memory" {
+  description = "Memory limit and request for ArgoCD Repository Server (limits = requests)"
+  type        = string
+  default     = "300Mi"
+}
+
+variable "argocd_reposerver_cpu_request" {
+  description = "CPU request for ArgoCD Repository Server (no CPU limits)"
+  type        = string
+  default     = "200m"
+}
+
+# ArgoCD ApplicationSet Controller Resource Configuration
+variable "argocd_applicationset_memory" {
+  description = "Memory limit and request for ArgoCD ApplicationSet Controller (limits = requests)"
+  type        = string
+  default     = "100Mi"
+}
+
+variable "argocd_applicationset_cpu_request" {
+  description = "CPU request for ArgoCD ApplicationSet Controller (no CPU limits)"
+  type        = string
+  default     = "50m"
+}
+
+# ArgoCD Notifications Controller Resource Configuration
+variable "argocd_notifications_memory" {
+  description = "Memory limit and request for ArgoCD Notifications Controller (limits = requests)"
+  type        = string
+  default     = "100Mi"
+}
+
+variable "argocd_notifications_cpu_request" {
+  description = "CPU request for ArgoCD Notifications Controller (no CPU limits)"
+  type        = string
+  default     = "50m"
+}
+
+# Redis Resource Configuration
+variable "argocd_redis_memory" {
+  description = "Memory limit and request for Redis (limits = requests)"
+  type        = string
+  default     = "100Mi"
+}
+
+variable "argocd_redis_cpu_request" {
+  description = "CPU request for Redis (no CPU limits)"
+  type        = string
+  default     = "50m"
+}
+
+# Dex Resource Configuration
+variable "argocd_dex_memory" {
+  description = "Memory limit and request for Dex (limits = requests)"
+  type        = string
+  default     = "100Mi"
+}
+
+variable "argocd_dex_cpu_request" {
+  description = "CPU request for Dex (no CPU limits)"
+  type        = string
+  default     = "50m"
+}
