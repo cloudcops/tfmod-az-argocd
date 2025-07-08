@@ -27,6 +27,22 @@ variables {
   p_role                             = "no-access"
   log_level                          = "info"
   argocd_notification_url_for_github = "http://example.com/notification"
+  
+  # Reduced resource allocation for test environment
+  argocd_server_memory               = "200Mi"
+  argocd_server_cpu_request          = "50m"
+  argocd_controller_memory           = "800Mi"
+  argocd_controller_cpu_request      = "100m"
+  argocd_reposerver_memory           = "200Mi"
+  argocd_reposerver_cpu_request      = "50m"
+  argocd_applicationset_memory       = "100Mi"
+  argocd_applicationset_cpu_request  = "25m"
+  argocd_notifications_memory        = "100Mi"
+  argocd_notifications_cpu_request   = "25m"
+  argocd_redis_memory                = "100Mi"
+  argocd_redis_cpu_request           = "25m"
+  argocd_dex_memory                  = "100Mi"
+  argocd_dex_cpu_request             = "25m"
 }
 
 run "apply" {
