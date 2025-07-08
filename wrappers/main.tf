@@ -5,7 +5,7 @@ module "wrapper" {
 
   app_path                           = try(each.value.app_path, var.defaults.app_path)
   argocd_notification_url_for_github = try(each.value.argocd_notification_url_for_github, var.defaults.argocd_notification_url_for_github)
-  argocd_chart_version               = try(each.value.argocd_version, var.defaults.argocd_version, "8.1.2")
+  argocd_chart_version               = try(each.value.argocd_version, var.defaults.argocd_chart_version, "8.1.2")
   default_role                       = try(each.value.default_role, var.defaults.default_role, "readonly")
   github_access                      = try(each.value.github_access, var.defaults.github_access, {})
   idp_argocd_allowed_oauth_scopes    = try(each.value.idp_argocd_allowed_oauth_scopes, var.defaults.idp_argocd_allowed_oauth_scopes, ["email", "openid", "profile"])
