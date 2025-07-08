@@ -11,6 +11,31 @@ run "setup" {
   }
 }
 
+# Provider configurations for main module tests
+provider "kubernetes" {
+  host                   = run.setup.host
+  client_certificate     = run.setup.client_certificate
+  client_key             = run.setup.client_key
+  cluster_ca_certificate = run.setup.cluster_ca_certificate
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = run.setup.host
+    client_certificate     = run.setup.client_certificate
+    client_key             = run.setup.client_key
+    cluster_ca_certificate = run.setup.cluster_ca_certificate
+  }
+}
+
+provider "kubectl" {
+  host                   = run.setup.host
+  client_certificate     = run.setup.client_certificate
+  client_key             = run.setup.client_key
+  cluster_ca_certificate = run.setup.cluster_ca_certificate
+  load_config_file       = false
+}
+
 variables {
   argocd_chart_version               = "8.1.2"
   repo_revision                      = "main"
@@ -44,10 +69,6 @@ run "plan" {
         private_key     = run.setup.github_private_key
       }
     }
-    kubernetes_host                   = run.setup.host
-    kubernetes_client_certificate     = run.setup.client_certificate
-    kubernetes_client_key             = run.setup.client_key
-    kubernetes_cluster_ca_certificate = run.setup.cluster_ca_certificate
   }
 
   # Test basic resources are planned correctly
