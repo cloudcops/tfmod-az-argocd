@@ -154,7 +154,7 @@ Type: `string`
 
 Default: `"50m"`
 
-### <a name="input_argocd_applicationset_memory"></a> [argocd\_applicationset\_memory](#input\_argocd\_applicationset\_memory)
+### <a name="input_argocd_applicationset_memory_limit"></a> [argocd\_applicationset\_memory\_limit](#input\_argocd\_applicationset\_memory\_limit)
 
 Description: Memory limit and request for ArgoCD ApplicationSet Controller (limits = requests)
 
@@ -178,7 +178,7 @@ Type: `string`
 
 Default: `"250m"`
 
-### <a name="input_argocd_controller_memory"></a> [argocd\_controller\_memory](#input\_argocd\_controller\_memory)
+### <a name="input_argocd_controller_memory_limit"></a> [argocd\_controller\_memory\_limit](#input\_argocd\_controller\_memory\_limit)
 
 Description: Memory limit and request for ArgoCD Application Controller (limits = requests)
 
@@ -194,7 +194,7 @@ Type: `string`
 
 Default: `"50m"`
 
-### <a name="input_argocd_dex_memory"></a> [argocd\_dex\_memory](#input\_argocd\_dex\_memory)
+### <a name="input_argocd_dex_memory_limit"></a> [argocd\_dex\_memory\_limit](#input\_argocd\_dex\_memory\_limit)
 
 Description: Memory limit and request for Dex (limits = requests)
 
@@ -210,7 +210,7 @@ Type: `string`
 
 Default: `"50m"`
 
-### <a name="input_argocd_notifications_memory"></a> [argocd\_notifications\_memory](#input\_argocd\_notifications\_memory)
+### <a name="input_argocd_notifications_memory_limit"></a> [argocd\_notifications\_memory\_limit](#input\_argocd\_notifications\_memory\_limit)
 
 Description: Memory limit and request for ArgoCD Notifications Controller (limits = requests)
 
@@ -226,7 +226,7 @@ Type: `string`
 
 Default: `"50m"`
 
-### <a name="input_argocd_redis_memory"></a> [argocd\_redis\_memory](#input\_argocd\_redis\_memory)
+### <a name="input_argocd_redis_memory_limit"></a> [argocd\_redis\_memory\_limit](#input\_argocd\_redis\_memory\_limit)
 
 Description: Memory limit and request for Redis (limits = requests)
 
@@ -242,7 +242,7 @@ Type: `string`
 
 Default: `"200m"`
 
-### <a name="input_argocd_reposerver_memory"></a> [argocd\_reposerver\_memory](#input\_argocd\_reposerver\_memory)
+### <a name="input_argocd_reposerver_memory_limit"></a> [argocd\_reposerver\_memory\_limit](#input\_argocd\_reposerver\_memory\_limit)
 
 Description: Memory limit and request for ArgoCD Repository Server (limits = requests)
 
@@ -258,7 +258,7 @@ Type: `string`
 
 Default: `"100m"`
 
-### <a name="input_argocd_server_memory"></a> [argocd\_server\_memory](#input\_argocd\_server\_memory)
+### <a name="input_argocd_server_memory_limit"></a> [argocd\_server\_memory\_limit](#input\_argocd\_server\_memory\_limit)
 
 Description: Memory limit and request for ArgoCD Server (limits = requests)
 
