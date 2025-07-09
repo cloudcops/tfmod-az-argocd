@@ -160,7 +160,7 @@ Description: Memory limit and request for ArgoCD ApplicationSet Controller (limi
 
 Type: `string`
 
-Default: `"100Mi"`
+Default: `"128Mi"`
 
 ### <a name="input_argocd_chart_version"></a> [argocd\_chart\_version](#input\_argocd\_chart\_version)
 
@@ -200,7 +200,7 @@ Description: Memory limit and request for Dex (limits = requests)
 
 Type: `string`
 
-Default: `"100Mi"`
+Default: `"128Mi"`
 
 ### <a name="input_argocd_notifications_cpu_request"></a> [argocd\_notifications\_cpu\_request](#input\_argocd\_notifications\_cpu\_request)
 
@@ -216,7 +216,7 @@ Description: Memory limit and request for ArgoCD Notifications Controller (limit
 
 Type: `string`
 
-Default: `"100Mi"`
+Default: `"128Mi"`
 
 ### <a name="input_argocd_redis_cpu_request"></a> [argocd\_redis\_cpu\_request](#input\_argocd\_redis\_cpu\_request)
 
@@ -232,7 +232,7 @@ Description: Memory limit and request for Redis (limits = requests)
 
 Type: `string`
 
-Default: `"100Mi"`
+Default: `"128Mi"`
 
 ### <a name="input_argocd_reposerver_cpu_request"></a> [argocd\_reposerver\_cpu\_request](#input\_argocd\_reposerver\_cpu\_request)
 
@@ -248,7 +248,7 @@ Description: Memory limit and request for ArgoCD Repository Server (limits = req
 
 Type: `string`
 
-Default: `"300Mi"`
+Default: `"256Mi"`
 
 ### <a name="input_argocd_server_cpu_request"></a> [argocd\_server\_cpu\_request](#input\_argocd\_server\_cpu\_request)
 
@@ -264,7 +264,7 @@ Description: Memory limit and request for ArgoCD Server (limits = requests)
 
 Type: `string`
 
-Default: `"300Mi"`
+Default: `"256Mi"`
 
 ### <a name="input_default_role"></a> [default\_role](#input\_default\_role)
 
