@@ -37,19 +37,19 @@ resource "helm_release" "argocd" {
       github_installation_id             = sensitive(var.github_access["0"].installation_id)
 
       # ArgoCD Resource Configuration
-      argocd_server_memory              = var.argocd_server_memory
+      argocd_server_memory              = var.argocd_server_memory_limit
       argocd_server_cpu_request         = var.argocd_server_cpu_request
-      argocd_controller_memory          = var.argocd_controller_memory
+      argocd_controller_memory          = var.argocd_controller_memory_limit
       argocd_controller_cpu_request     = var.argocd_controller_cpu_request
-      argocd_reposerver_memory          = var.argocd_reposerver_memory
+      argocd_reposerver_memory          = var.argocd_reposerver_memory_limit
       argocd_reposerver_cpu_request     = var.argocd_reposerver_cpu_request
-      argocd_applicationset_memory      = var.argocd_applicationset_memory
+      argocd_applicationset_memory      = var.argocd_applicationset_memory_limit
       argocd_applicationset_cpu_request = var.argocd_applicationset_cpu_request
-      argocd_notifications_memory       = var.argocd_notifications_memory
+      argocd_notifications_memory       = var.argocd_notifications_memory_limit
       argocd_notifications_cpu_request  = var.argocd_notifications_cpu_request
-      argocd_redis_memory               = var.argocd_redis_memory
+      argocd_redis_memory               = var.argocd_redis_memory_limit
       argocd_redis_cpu_request          = var.argocd_redis_cpu_request
-      argocd_dex_memory                 = var.argocd_dex_memory
+      argocd_dex_memory                 = var.argocd_dex_memory_limit
       argocd_dex_cpu_request            = var.argocd_dex_cpu_request
     })
   ]

@@ -112,7 +112,7 @@ variable "namespace_memory_limit" {
 }
 
 # ArgoCD Server Resource Configuration
-variable "argocd_server_memory" {
+variable "argocd_server_memory_limit" {
   description = "Memory limit and request for ArgoCD Server (limits = requests)"
   type        = string
   default     = "256Mi"
@@ -125,7 +125,7 @@ variable "argocd_server_cpu_request" {
 }
 
 # ArgoCD Controller Resource Configuration
-variable "argocd_controller_memory" {
+variable "argocd_controller_memory_limit" {
   description = "Memory limit and request for ArgoCD Application Controller (limits = requests)"
   type        = string
   default     = "1536Mi"
@@ -138,7 +138,7 @@ variable "argocd_controller_cpu_request" {
 }
 
 # ArgoCD Repository Server Resource Configuration
-variable "argocd_reposerver_memory" {
+variable "argocd_reposerver_memory_limit" {
   description = "Memory limit and request for ArgoCD Repository Server (limits = requests)"
   type        = string
   default     = "256Mi"
@@ -151,7 +151,7 @@ variable "argocd_reposerver_cpu_request" {
 }
 
 # ArgoCD ApplicationSet Controller Resource Configuration
-variable "argocd_applicationset_memory" {
+variable "argocd_applicationset_memory_limit" {
   description = "Memory limit and request for ArgoCD ApplicationSet Controller (limits = requests)"
   type        = string
   default     = "128Mi"
@@ -164,7 +164,7 @@ variable "argocd_applicationset_cpu_request" {
 }
 
 # ArgoCD Notifications Controller Resource Configuration
-variable "argocd_notifications_memory" {
+variable "argocd_notifications_memory_limit" {
   description = "Memory limit and request for ArgoCD Notifications Controller (limits = requests)"
   type        = string
   default     = "128Mi"
@@ -177,7 +177,7 @@ variable "argocd_notifications_cpu_request" {
 }
 
 # Redis Resource Configuration
-variable "argocd_redis_memory" {
+variable "argocd_redis_memory_limit" {
   description = "Memory limit and request for Redis (limits = requests)"
   type        = string
   default     = "128Mi"
@@ -190,7 +190,7 @@ variable "argocd_redis_cpu_request" {
 }
 
 # Dex Resource Configuration
-variable "argocd_dex_memory" {
+variable "argocd_dex_memory_limit" {
   description = "Memory limit and request for Dex (limits = requests)"
   type        = string
   default     = "128Mi"
