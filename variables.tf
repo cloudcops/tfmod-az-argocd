@@ -115,7 +115,7 @@ variable "namespace_memory_limit" {
 variable "argocd_server_memory" {
   description = "Memory limit and request for ArgoCD Server (limits = requests)"
   type        = string
-  default     = "300Mi"
+  default     = "256Mi"
 }
 
 variable "argocd_server_cpu_request" {
@@ -141,7 +141,7 @@ variable "argocd_controller_cpu_request" {
 variable "argocd_reposerver_memory" {
   description = "Memory limit and request for ArgoCD Repository Server (limits = requests)"
   type        = string
-  default     = "300Mi"
+  default     = "256Mi"
 }
 
 variable "argocd_reposerver_cpu_request" {
@@ -154,7 +154,7 @@ variable "argocd_reposerver_cpu_request" {
 variable "argocd_applicationset_memory" {
   description = "Memory limit and request for ArgoCD ApplicationSet Controller (limits = requests)"
   type        = string
-  default     = "100Mi"
+  default     = "128Mi"
 }
 
 variable "argocd_applicationset_cpu_request" {
@@ -167,7 +167,7 @@ variable "argocd_applicationset_cpu_request" {
 variable "argocd_notifications_memory" {
   description = "Memory limit and request for ArgoCD Notifications Controller (limits = requests)"
   type        = string
-  default     = "100Mi"
+  default     = "128Mi"
 }
 
 variable "argocd_notifications_cpu_request" {
@@ -180,7 +180,7 @@ variable "argocd_notifications_cpu_request" {
 variable "argocd_redis_memory" {
   description = "Memory limit and request for Redis (limits = requests)"
   type        = string
-  default     = "100Mi"
+  default     = "128Mi"
 }
 
 variable "argocd_redis_cpu_request" {
@@ -193,7 +193,7 @@ variable "argocd_redis_cpu_request" {
 variable "argocd_dex_memory" {
   description = "Memory limit and request for Dex (limits = requests)"
   type        = string
-  default     = "100Mi"
+  default     = "128Mi"
 }
 
 variable "argocd_dex_cpu_request" {

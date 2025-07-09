@@ -54,19 +54,19 @@ variables {
   argocd_notification_url_for_github = "http://example.com/notification"
 
   # Reduced resource allocation for test environment
-  argocd_server_memory              = "200Mi"
+  argocd_server_memory              = "128Mi"
   argocd_server_cpu_request         = "50m"
-  argocd_controller_memory          = "800Mi"
+  argocd_controller_memory          = "512Mi"
   argocd_controller_cpu_request     = "100m"
-  argocd_reposerver_memory          = "200Mi"
+  argocd_reposerver_memory          = "128Mi"
   argocd_reposerver_cpu_request     = "50m"
-  argocd_applicationset_memory      = "100Mi"
+  argocd_applicationset_memory      = "64Mi"
   argocd_applicationset_cpu_request = "25m"
-  argocd_notifications_memory       = "100Mi"
+  argocd_notifications_memory       = "64Mi"
   argocd_notifications_cpu_request  = "25m"
-  argocd_redis_memory               = "100Mi"
+  argocd_redis_memory               = "64Mi"
   argocd_redis_cpu_request          = "25m"
-  argocd_dex_memory                 = "100Mi"
+  argocd_dex_memory                 = "64Mi"
   argocd_dex_cpu_request            = "25m"
 }
 
