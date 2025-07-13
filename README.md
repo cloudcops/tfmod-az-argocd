@@ -374,7 +374,15 @@ Default: `false`
 
 ## Outputs
 
-No outputs.
+The following outputs are exported:
+
+### <a name="output_github_access"></a> [github\_access](#output\_github\_access)
+
+Description: GitHub access configuration
+
+### <a name="output_sp_client_secret"></a> [sp\_client\_secret](#output\_sp\_client\_secret)
+
+Description: Service Principal Client Secret
 
 ## Modules
 

@@ -18,7 +18,7 @@ resource "helm_release" "argocd" {
       url                                = var.url
       idp_argocd_name                    = var.idp_argocd_name
       idp_endpoint                       = var.idp_endpoint
-      sp_client_id                       = sensitive(var.sp_client_id)
+      sp_client_id                       = var.sp_client_id
       idp_argocd_allowed_oauth_scopes    = var.idp_argocd_allowed_oauth_scopes
       app_environment                    = split("/", var.app_path)[1]
       app_path                           = var.app_path

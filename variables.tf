@@ -92,7 +92,8 @@ variable "github_access" {
     installation_id = string
     private_key     = string
   }))
-  default = {}
+  default   = {}
+  sensitive = true
 }
 
 variable "log_level" {

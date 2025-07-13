@@ -26,7 +26,7 @@ repos:
         name: create `for_each` wrapper module
         args:
           - --args=--module-dir=. # Process only root module
-          - --args=--dry-run # No files will be created/updated
+          #- --args=--dry-run # No files will be created/updated
           #- --args=--verbose # Verbose output
   # If you want to run tests on pre-commit
   #  - repo: local

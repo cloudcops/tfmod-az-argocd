@@ -1,5 +1,5 @@
 output "wrapper" {
   description = "Map of outputs of a wrapper."
   value       = module.wrapper
-  sensitive   = true # Contains sensitive data: github_private_key, sp_client_secret, etc.
+  sensitive   = true # At least one sensitive module output (sp_client_secret) found (requires Terraform 0.14+)
 }
