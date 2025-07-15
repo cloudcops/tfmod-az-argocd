@@ -11,11 +11,11 @@ terraform {
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "2.29.0"
+      version = "2.37.1"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = "2.17.0"
+      version = "3.0.2"
     }
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -44,7 +44,7 @@ provider "kubernetes" {
 }
 
 provider "helm" {
-  kubernetes {
+  kubernetes = {
     host                   = var.kubernetes_host
     client_certificate     = var.kubernetes_client_certificate
     client_key             = var.kubernetes_client_key
