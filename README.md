@@ -91,7 +91,6 @@ The following resources are used by this module:
 
 - [helm_release.argocd](https://registry.terraform.io/providers/hashicorp/helm/2.17.0/docs/resources/release) (resource)
 - [kubectl_manifest.app_of_apps](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
-- [kubernetes_limit_range.default_resources](https://registry.terraform.io/providers/hashicorp/kubernetes/2.29.0/docs/resources/limit_range) (resource)
 - [kubernetes_namespace.argocd](https://registry.terraform.io/providers/hashicorp/kubernetes/2.29.0/docs/resources/namespace) (resource)
 - [azuread_group.rbac4groups](https://registry.terraform.io/providers/hashicorp/azuread/2.51.0/docs/data-sources/group) (data source)
 
@@ -332,14 +331,6 @@ Type: `string`
 
 Default: `"info"`
 
-### <a name="input_namespace_memory_limit"></a> [namespace\_memory\_limit](#input\_namespace\_memory\_limit)
-
-Description: Kubernetes memory limit range.
-
-Type: `string`
-
-Default: `"1Gi"`
-
 ### <a name="input_p_role"></a> [p\_role](#input\_p\_role)
 
 Description: Placeholder role, typically assigning no access in ArgoCD via OIDC.
@@ -375,10 +366,6 @@ Default: `false`
 ## Outputs
 
 The following outputs are exported:
-
-### <a name="output_github_access"></a> [github\_access](#output\_github\_access)
-
-Description: GitHub access configuration
 
 ### <a name="output_sp_client_secret"></a> [sp\_client\_secret](#output\_sp\_client\_secret)
 

@@ -101,7 +101,6 @@ run "apply" {
     error_message = "ArgoCD namespace not created correctly."
   }
 
-
   # Test App of Apps deployment
   assert {
     condition     = kubectl_manifest.app_of_apps.api_version == "argoproj.io/v1alpha1"
