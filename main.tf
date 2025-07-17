@@ -57,24 +57,6 @@ resource "helm_release" "argocd" {
   depends_on = [kubernetes_namespace.argocd]
 }
 
-# Limit Range for ArgoCD namespace
-resource "kubernetes_limit_range" "default_resources" {
-  depends_on = [helm_release.argocd]
-  metadata {
-    name      = "limit-range-ns-argocd"
-    namespace = "argocd"
-  }
-
-  spec {
-    limit {
-      type = "Container"
-      default = {
-        memory = var.namespace_memory_limit
-      }
-    }
-  }
-}
-
 # App of Apps using kubectl_manifest provider (more tolerant of missing CRDs)
 resource "kubectl_manifest" "app_of_apps" {
   yaml_body = yamlencode({

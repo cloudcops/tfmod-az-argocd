@@ -11,7 +11,6 @@ run "setup" {
   }
 }
 
-# Provider configurations for main module tests
 provider "kubernetes" {
   host                   = run.setup.host
   client_certificate     = run.setup.client_certificate
@@ -53,7 +52,6 @@ variables {
   log_level                          = "info"
   argocd_notification_url_for_github = "http://example.com/notification"
 
-  # Reduced resource allocation for test environment
   argocd_server_memory_limit         = "128Mi"
   argocd_server_cpu_request          = "50m"
   argocd_controller_memory_limit     = "512Mi"
@@ -123,16 +121,5 @@ run "apply" {
   assert {
     condition     = kubectl_manifest.app_of_apps.namespace == "argocd"
     error_message = "App of Apps namespace not correct."
-  }
-
-  # Test resource limits
-  assert {
-    condition     = kubernetes_limit_range.default_resources.metadata[0].name == "limit-range-ns-argocd"
-    error_message = "Limit range not created with correct name."
-  }
-
-  assert {
-    condition     = kubernetes_limit_range.default_resources.spec[0].limit[0].type == "Container"
-    error_message = "Limit range not configured for containers."
   }
 }

@@ -27,7 +27,6 @@ module "wrapper" {
   idp_endpoint                       = try(each.value.idp_endpoint, var.defaults.idp_endpoint)
   ingress_class_name                 = try(each.value.ingress_class_name, var.defaults.ingress_class_name, "nginx")
   log_level                          = try(each.value.log_level, var.defaults.log_level, "info")
-  namespace_memory_limit             = try(each.value.namespace_memory_limit, var.defaults.namespace_memory_limit, "1Gi")
   p_role                             = try(each.value.p_role, var.defaults.p_role, "no-access")
   rbac4groups                        = try(each.value.rbac4groups, var.defaults.rbac4groups, [])
   repo_revision                      = try(each.value.repo_revision, var.defaults.repo_revision, "main")

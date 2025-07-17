@@ -11,7 +11,6 @@ run "setup" {
   }
 }
 
-# Provider configurations for main module tests
 provider "kubernetes" {
   host                   = run.setup.host
   client_certificate     = run.setup.client_certificate
@@ -107,10 +106,5 @@ run "plan" {
   assert {
     condition     = kubectl_manifest.app_of_apps != null
     error_message = "App of Apps manifest not planned."
-  }
-
-  assert {
-    condition     = kubernetes_limit_range.default_resources.metadata[0].name == "limit-range-ns-argocd"
-    error_message = "Limit range name not correct."
   }
 }

@@ -124,7 +124,6 @@ configs:
 
 # Server configuration with ingress
 server:
-  # Resource limits for ArgoCD Server (memory limits = requests, no CPU limits)
   resources:
     limits:
       memory: ${argocd_server_memory}
@@ -150,7 +149,6 @@ server:
 
 # Application Controller configuration
 controller:
-  # Resource limits for ArgoCD Application Controller (memory limits = requests, no CPU limits)
   resources:
     limits:
       memory: ${argocd_controller_memory}
@@ -160,7 +158,6 @@ controller:
 
 # Repository Server configuration
 repoServer:
-  # Resource limits for ArgoCD Repository Server (memory limits = requests, no CPU limits)
   resources:
     limits:
       memory: ${argocd_reposerver_memory}
@@ -170,7 +167,6 @@ repoServer:
 
 # ApplicationSet Controller configuration
 applicationSet:
-  # Resource limits for ArgoCD ApplicationSet Controller (memory limits = requests, no CPU limits)
   resources:
     limits:
       memory: ${argocd_applicationset_memory}
@@ -180,7 +176,6 @@ applicationSet:
 
 # Redis configuration
 redis:
-  # Resource limits for Redis (memory limits = requests, no CPU limits)
   resources:
     limits:
       memory: ${argocd_redis_memory}
@@ -190,7 +185,6 @@ redis:
 
 # Dex configuration (if using Dex for OIDC)
 dex:
-  # Resource limits for Dex (memory limits = requests, no CPU limits)
   resources:
     limits:
       memory: ${argocd_dex_memory}
@@ -201,8 +195,7 @@ dex:
 # Notifications configuration
 notifications:
   enabled: true
-  
-  # Resource limits for ArgoCD Notifications Controller (memory limits = requests, no CPU limits)
+
   resources:
     limits:
       memory: ${argocd_notifications_memory}
