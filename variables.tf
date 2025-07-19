@@ -107,7 +107,7 @@ variable "argocd_notification_url_for_github" {
 }
 
 variable "argocd_server_memory_limit" {
-  description = "Memory limit and request for ArgoCD Server (limits = requests)"
+  description = "Memory limit for the ArgoCD Server service"
   type        = string
   default     = "256Mi"
 
@@ -118,18 +118,18 @@ variable "argocd_server_memory_limit" {
 }
 
 variable "argocd_server_cpu_request" {
-  description = "CPU request for ArgoCD Server (no CPU limits)"
+  description = "CPU requests for the ArgoCD Server service"
   type        = string
   default     = "100m"
 
   validation {
     condition     = can(regex("^[0-9]+(m|[0-9]*\\.?[0-9]+)?$", var.argocd_server_cpu_request))
-    error_message = "CPU request must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
+    error_message = "CPU requests must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
   }
 }
 
 variable "argocd_controller_memory_limit" {
-  description = "Memory limit and request for ArgoCD Application Controller (limits = requests)"
+  description = "Memory limit for the ArgoCD Application Controller service"
   type        = string
   default     = "1536Mi"
 
@@ -140,18 +140,18 @@ variable "argocd_controller_memory_limit" {
 }
 
 variable "argocd_controller_cpu_request" {
-  description = "CPU request for ArgoCD Application Controller (no CPU limits)"
+  description = "CPU requests for the ArgoCD Application Controller service"
   type        = string
   default     = "250m"
 
   validation {
     condition     = can(regex("^[0-9]+(m|[0-9]*\\.?[0-9]+)?$", var.argocd_controller_cpu_request))
-    error_message = "CPU request must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
+    error_message = "CPU requests must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
   }
 }
 
 variable "argocd_reposerver_memory_limit" {
-  description = "Memory limit and request for ArgoCD Repository Server (limits = requests)"
+  description = "Memory limit for the ArgoCD Repository Server service"
   type        = string
   default     = "256Mi"
 
@@ -162,18 +162,18 @@ variable "argocd_reposerver_memory_limit" {
 }
 
 variable "argocd_reposerver_cpu_request" {
-  description = "CPU request for ArgoCD Repository Server (no CPU limits)"
+  description = "CPU requests for the ArgoCD Repository Server service"
   type        = string
   default     = "200m"
 
   validation {
     condition     = can(regex("^[0-9]+(m|[0-9]*\\.?[0-9]+)?$", var.argocd_reposerver_cpu_request))
-    error_message = "CPU request must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
+    error_message = "CPU requests must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
   }
 }
 
 variable "argocd_applicationset_memory_limit" {
-  description = "Memory limit and request for ArgoCD ApplicationSet Controller (limits = requests)"
+  description = "Memory limit for the ArgoCD ApplicationSet Controller service"
   type        = string
   default     = "128Mi"
 
@@ -184,18 +184,18 @@ variable "argocd_applicationset_memory_limit" {
 }
 
 variable "argocd_applicationset_cpu_request" {
-  description = "CPU request for ArgoCD ApplicationSet Controller (no CPU limits)"
+  description = "CPU requests for the ArgoCD ApplicationSet Controller service"
   type        = string
   default     = "50m"
 
   validation {
     condition     = can(regex("^[0-9]+(m|[0-9]*\\.?[0-9]+)?$", var.argocd_applicationset_cpu_request))
-    error_message = "CPU request must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
+    error_message = "CPU requests must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
   }
 }
 
 variable "argocd_notifications_memory_limit" {
-  description = "Memory limit and request for ArgoCD Notifications Controller (limits = requests)"
+  description = "Memory limit for the ArgoCD Notifications Controller service"
   type        = string
   default     = "128Mi"
 
@@ -206,18 +206,18 @@ variable "argocd_notifications_memory_limit" {
 }
 
 variable "argocd_notifications_cpu_request" {
-  description = "CPU request for ArgoCD Notifications Controller (no CPU limits)"
+  description = "CPU requests for the ArgoCD Notifications Controller service"
   type        = string
   default     = "50m"
 
   validation {
     condition     = can(regex("^[0-9]+(m|[0-9]*\\.?[0-9]+)?$", var.argocd_notifications_cpu_request))
-    error_message = "CPU request must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
+    error_message = "CPU requests must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
   }
 }
 
 variable "argocd_redis_memory_limit" {
-  description = "Memory limit and request for Redis (limits = requests)"
+  description = "Memory limit for the ArgoCD Redis service"
   type        = string
   default     = "128Mi"
 
@@ -228,18 +228,18 @@ variable "argocd_redis_memory_limit" {
 }
 
 variable "argocd_redis_cpu_request" {
-  description = "CPU request for Redis (no CPU limits)"
+  description = "CPU requests for the ArgoCD Redis service"
   type        = string
   default     = "50m"
 
   validation {
     condition     = can(regex("^[0-9]+(m|[0-9]*\\.?[0-9]+)?$", var.argocd_redis_cpu_request))
-    error_message = "CPU request must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
+    error_message = "CPU requests must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
   }
 }
 
 variable "argocd_dex_memory_limit" {
-  description = "Memory limit and request for Dex (limits = requests)"
+  description = "Memory limit for the ArgoCD Dex service"
   type        = string
   default     = "128Mi"
 
@@ -250,12 +250,12 @@ variable "argocd_dex_memory_limit" {
 }
 
 variable "argocd_dex_cpu_request" {
-  description = "CPU request for Dex (no CPU limits)"
+  description = "CPU requests for the ArgoCD Dex service"
   type        = string
   default     = "50m"
 
   validation {
     condition     = can(regex("^[0-9]+(m|[0-9]*\\.?[0-9]+)?$", var.argocd_dex_cpu_request))
-    error_message = "CPU request must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
+    error_message = "CPU requests must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
   }
 }
