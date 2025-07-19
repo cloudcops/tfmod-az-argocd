@@ -107,7 +107,7 @@ variable "argocd_notification_url_for_github" {
 }
 
 variable "argocd_server_memory_limit" {
-  description = "Memory limit for the ArgoCD Server service"
+  description = "Memory limit for the ArgoCD Server"
   type        = string
   default     = "256Mi"
 
@@ -118,7 +118,7 @@ variable "argocd_server_memory_limit" {
 }
 
 variable "argocd_server_cpu_request" {
-  description = "CPU requests for the ArgoCD Server service"
+  description = "CPU requests for the ArgoCD Server"
   type        = string
   default     = "100m"
 
@@ -129,7 +129,7 @@ variable "argocd_server_cpu_request" {
 }
 
 variable "argocd_controller_memory_limit" {
-  description = "Memory limit for the ArgoCD Application Controller service"
+  description = "Memory limit for the ArgoCD Application Controller"
   type        = string
   default     = "1536Mi"
 
@@ -140,7 +140,7 @@ variable "argocd_controller_memory_limit" {
 }
 
 variable "argocd_controller_cpu_request" {
-  description = "CPU requests for the ArgoCD Application Controller service"
+  description = "CPU requests for the ArgoCD Application Controller"
   type        = string
   default     = "250m"
 
@@ -151,7 +151,7 @@ variable "argocd_controller_cpu_request" {
 }
 
 variable "argocd_reposerver_memory_limit" {
-  description = "Memory limit for the ArgoCD Repository Server service"
+  description = "Memory limit for the ArgoCD Repository Server"
   type        = string
   default     = "256Mi"
 
@@ -162,7 +162,7 @@ variable "argocd_reposerver_memory_limit" {
 }
 
 variable "argocd_reposerver_cpu_request" {
-  description = "CPU requests for the ArgoCD Repository Server service"
+  description = "CPU requests for the ArgoCD Repository Server"
   type        = string
   default     = "200m"
 
@@ -173,7 +173,7 @@ variable "argocd_reposerver_cpu_request" {
 }
 
 variable "argocd_applicationset_memory_limit" {
-  description = "Memory limit for the ArgoCD ApplicationSet Controller service"
+  description = "Memory limit for the ArgoCD ApplicationSet Controller"
   type        = string
   default     = "128Mi"
 
@@ -184,7 +184,7 @@ variable "argocd_applicationset_memory_limit" {
 }
 
 variable "argocd_applicationset_cpu_request" {
-  description = "CPU requests for the ArgoCD ApplicationSet Controller service"
+  description = "CPU requests for the ArgoCD ApplicationSet Controller"
   type        = string
   default     = "50m"
 
@@ -195,7 +195,7 @@ variable "argocd_applicationset_cpu_request" {
 }
 
 variable "argocd_notifications_memory_limit" {
-  description = "Memory limit for the ArgoCD Notifications Controller service"
+  description = "Memory limit for the ArgoCD Notifications Controller"
   type        = string
   default     = "128Mi"
 
@@ -206,7 +206,7 @@ variable "argocd_notifications_memory_limit" {
 }
 
 variable "argocd_notifications_cpu_request" {
-  description = "CPU requests for the ArgoCD Notifications Controller service"
+  description = "CPU requests for the ArgoCD Notifications Controller"
   type        = string
   default     = "50m"
 
