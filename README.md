@@ -147,7 +147,7 @@ The following input variables are optional (have default values):
 
 ### <a name="input_argocd_applicationset_cpu_request"></a> [argocd\_applicationset\_cpu\_request](#input\_argocd\_applicationset\_cpu\_request)
 
-Description: CPU requests for the ArgoCD ApplicationSet Controller service
+Description: CPU requests for the ArgoCD ApplicationSet Controller
 
 Type: `string`
 
@@ -155,7 +155,7 @@ Default: `"50m"`
 
 ### <a name="input_argocd_applicationset_memory_limit"></a> [argocd\_applicationset\_memory\_limit](#input\_argocd\_applicationset\_memory\_limit)
 
-Description: Memory limit for the ArgoCD ApplicationSet Controller service
+Description: Memory limit for the ArgoCD ApplicationSet Controller
 
 Type: `string`
 
@@ -171,7 +171,7 @@ Default: `"8.1.2"`
 
 ### <a name="input_argocd_controller_cpu_request"></a> [argocd\_controller\_cpu\_request](#input\_argocd\_controller\_cpu\_request)
 
-Description: CPU requests for the ArgoCD Application Controller service
+Description: CPU requests for the ArgoCD Application Controller
 
 Type: `string`
 
@@ -179,7 +179,7 @@ Default: `"250m"`
 
 ### <a name="input_argocd_controller_memory_limit"></a> [argocd\_controller\_memory\_limit](#input\_argocd\_controller\_memory\_limit)
 
-Description: Memory limit for the ArgoCD Application Controller service
+Description: Memory limit for the ArgoCD Application Controller
 
 Type: `string`
 
@@ -203,7 +203,7 @@ Default: `"128Mi"`
 
 ### <a name="input_argocd_notifications_cpu_request"></a> [argocd\_notifications\_cpu\_request](#input\_argocd\_notifications\_cpu\_request)
 
-Description: CPU requests for the ArgoCD Notifications Controller service
+Description: CPU requests for the ArgoCD Notifications Controller
 
 Type: `string`
 
@@ -211,7 +211,7 @@ Default: `"50m"`
 
 ### <a name="input_argocd_notifications_memory_limit"></a> [argocd\_notifications\_memory\_limit](#input\_argocd\_notifications\_memory\_limit)
 
-Description: Memory limit for the ArgoCD Notifications Controller service
+Description: Memory limit for the ArgoCD Notifications Controller
 
 Type: `string`
 
@@ -235,7 +235,7 @@ Default: `"128Mi"`
 
 ### <a name="input_argocd_reposerver_cpu_request"></a> [argocd\_reposerver\_cpu\_request](#input\_argocd\_reposerver\_cpu\_request)
 
-Description: CPU requests for the ArgoCD Repository Server service
+Description: CPU requests for the ArgoCD Repository Server
 
 Type: `string`
 
@@ -243,7 +243,7 @@ Default: `"200m"`
 
 ### <a name="input_argocd_reposerver_memory_limit"></a> [argocd\_reposerver\_memory\_limit](#input\_argocd\_reposerver\_memory\_limit)
 
-Description: Memory limit for the ArgoCD Repository Server service
+Description: Memory limit for the ArgoCD Repository Server
 
 Type: `string`
 
@@ -251,7 +251,7 @@ Default: `"256Mi"`
 
 ### <a name="input_argocd_server_cpu_request"></a> [argocd\_server\_cpu\_request](#input\_argocd\_server\_cpu\_request)
 
-Description: CPU requests for the ArgoCD Server service
+Description: CPU requests for the ArgoCD Server
 
 Type: `string`
 
@@ -259,7 +259,7 @@ Default: `"100m"`
 
 ### <a name="input_argocd_server_memory_limit"></a> [argocd\_server\_memory\_limit](#input\_argocd\_server\_memory\_limit)
 
-Description: Memory limit for the ArgoCD Server service
+Description: Memory limit for the ArgoCD Server
 
 Type: `string`
 
