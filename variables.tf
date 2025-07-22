@@ -164,7 +164,7 @@ variable "argocd_reposerver_memory_limit" {
 variable "argocd_reposerver_cpu_request" {
   description = "CPU requests for the ArgoCD Repository Server"
   type        = string
-  default     = "200m"
+  default     = "50m"
 
   validation {
     condition     = can(regex("^[0-9]+(m|[0-9]*\\.?[0-9]+)?$", var.argocd_reposerver_cpu_request))
@@ -197,7 +197,7 @@ variable "argocd_applicationset_cpu_request" {
 variable "argocd_notifications_memory_limit" {
   description = "Memory limit for the ArgoCD Notifications Controller"
   type        = string
-  default     = "128Mi"
+  default     = "256Mi"
 
   validation {
     condition     = can(regex("^[0-9]+(Mi|Gi)$", var.argocd_notifications_memory_limit))
