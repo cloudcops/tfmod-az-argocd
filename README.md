@@ -215,7 +215,7 @@ Description: Memory limit for the ArgoCD Notifications Controller
 
 Type: `string`
 
-Default: `"128Mi"`
+Default: `"256Mi"`
 
 ### <a name="input_argocd_redis_cpu_request"></a> [argocd\_redis\_cpu\_request](#input\_argocd\_redis\_cpu\_request)
 
@@ -239,7 +239,7 @@ Description: CPU requests for the ArgoCD Repository Server
 
 Type: `string`
 
-Default: `"200m"`
+Default: `"50m"`
 
 ### <a name="input_argocd_reposerver_memory_limit"></a> [argocd\_reposerver\_memory\_limit](#input\_argocd\_reposerver\_memory\_limit)
 
