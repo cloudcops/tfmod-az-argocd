@@ -63,13 +63,13 @@ The following requirements are needed by this module:
 
 - <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (3.105.0)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (4.28.0)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (4.37.0)
 
-- <a name="requirement_helm"></a> [helm](#requirement\_helm) (2.17.0)
+- <a name="requirement_helm"></a> [helm](#requirement\_helm) (3.0.2)
 
 - <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) (1.19.0)
 
-- <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) (2.29.0)
+- <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) (2.37.1)
 
 - <a name="requirement_time"></a> [time](#requirement\_time) (0.13.1)
 
@@ -79,19 +79,19 @@ The following providers are used by this module:
 
 - <a name="provider_azuread"></a> [azuread](#provider\_azuread) (2.51.0)
 
-- <a name="provider_helm"></a> [helm](#provider\_helm) (2.17.0)
+- <a name="provider_helm"></a> [helm](#provider\_helm) (3.0.2)
 
 - <a name="provider_kubectl"></a> [kubectl](#provider\_kubectl) (1.19.0)
 
-- <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) (2.29.0)
+- <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) (2.37.1)
 
 ## Resources
 
 The following resources are used by this module:
 
-- [helm_release.argocd](https://registry.terraform.io/providers/hashicorp/helm/2.17.0/docs/resources/release) (resource)
+- [helm_release.argocd](https://registry.terraform.io/providers/hashicorp/helm/3.0.2/docs/resources/release) (resource)
 - [kubectl_manifest.app_of_apps](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
-- [kubernetes_namespace.argocd](https://registry.terraform.io/providers/hashicorp/kubernetes/2.29.0/docs/resources/namespace) (resource)
+- [kubernetes_namespace.argocd](https://registry.terraform.io/providers/hashicorp/kubernetes/2.37.1/docs/resources/namespace) (resource)
 - [azuread_group.rbac4groups](https://registry.terraform.io/providers/hashicorp/azuread/2.51.0/docs/data-sources/group) (data source)
 
 <!-- markdownlint-disable MD013 -->
