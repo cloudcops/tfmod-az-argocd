@@ -19,7 +19,7 @@ provider "kubernetes" {
 }
 
 provider "helm" {
-  kubernetes {
+  kubernetes = {
     host                   = run.setup.host
     client_certificate     = run.setup.client_certificate
     client_key             = run.setup.client_key
