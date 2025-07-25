@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/cloudcops/tfmod-az-argocd/compare/2.0.0...2.1.0) (2025-07-25)
+
+
+### Features
+
+* **CC-15:** Configure Renovate and upgrade provider versions ([#2](https://github.com/cloudcops/tfmod-az-argocd/issues/2)) ([324e08e](https://github.com/cloudcops/tfmod-az-argocd/commit/324e08ef2dd7c202119f74f498a84e5a0d588aca))
+
 # [2.0.0](https://github.com/cloudcops/tfmod-az-argocd/compare/1.5.0...2.0.0) (2025-07-25)
 
 
