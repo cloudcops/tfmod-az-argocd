@@ -92,7 +92,8 @@ variable "github_access" {
     installation_id = string
     private_key     = string
   }))
-  default = {}
+  default   = {}
+  sensitive = true
 }
 
 variable "log_level" {
@@ -105,24 +106,156 @@ variable "argocd_notification_url_for_github" {
   type = string
 }
 
-variable "namespace_memory_limit" {
-  description = "Kubernetes memory limit range."
+variable "argocd_server_memory_limit" {
+  description = "Memory limit for the ArgoCD Server"
   type        = string
-  default     = "1Gi"
+  default     = "256Mi"
+
+  validation {
+    condition     = can(regex("^[0-9]+(Mi|Gi)$", var.argocd_server_memory_limit))
+    error_message = "Memory limit must be a number followed by 'Mi' or 'Gi' (e.g., '256Mi', '1Gi')."
+  }
 }
 
-variable "kubernetes_host" {
-  type = string
+variable "argocd_server_cpu_request" {
+  description = "CPU requests for the ArgoCD Server"
+  type        = string
+  default     = "100m"
+
+  validation {
+    condition     = can(regex("^[0-9]+(m|[0-9]*\\.?[0-9]+)?$", var.argocd_server_cpu_request))
+    error_message = "CPU requests must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
+  }
 }
 
-variable "kubernetes_client_certificate" {
-  type = string
+variable "argocd_controller_memory_limit" {
+  description = "Memory limit for the ArgoCD Application Controller"
+  type        = string
+  default     = "1536Mi"
+
+  validation {
+    condition     = can(regex("^[0-9]+(Mi|Gi)$", var.argocd_controller_memory_limit))
+    error_message = "Memory limit must be a number followed by 'Mi' or 'Gi' (e.g., '256Mi', '1Gi')."
+  }
 }
 
-variable "kubernetes_client_key" {
-  type = string
+variable "argocd_controller_cpu_request" {
+  description = "CPU requests for the ArgoCD Application Controller"
+  type        = string
+  default     = "250m"
+
+  validation {
+    condition     = can(regex("^[0-9]+(m|[0-9]*\\.?[0-9]+)?$", var.argocd_controller_cpu_request))
+    error_message = "CPU requests must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
+  }
 }
 
-variable "kubernetes_cluster_ca_certificate" {
-  type = string
+variable "argocd_reposerver_memory_limit" {
+  description = "Memory limit for the ArgoCD Repository Server"
+  type        = string
+  default     = "256Mi"
+
+  validation {
+    condition     = can(regex("^[0-9]+(Mi|Gi)$", var.argocd_reposerver_memory_limit))
+    error_message = "Memory limit must be a number followed by 'Mi' or 'Gi' (e.g., '256Mi', '1Gi')."
+  }
+}
+
+variable "argocd_reposerver_cpu_request" {
+  description = "CPU requests for the ArgoCD Repository Server"
+  type        = string
+  default     = "50m"
+
+  validation {
+    condition     = can(regex("^[0-9]+(m|[0-9]*\\.?[0-9]+)?$", var.argocd_reposerver_cpu_request))
+    error_message = "CPU requests must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
+  }
+}
+
+variable "argocd_applicationset_memory_limit" {
+  description = "Memory limit for the ArgoCD ApplicationSet Controller"
+  type        = string
+  default     = "128Mi"
+
+  validation {
+    condition     = can(regex("^[0-9]+(Mi|Gi)$", var.argocd_applicationset_memory_limit))
+    error_message = "Memory limit must be a number followed by 'Mi' or 'Gi' (e.g., '256Mi', '1Gi')."
+  }
+}
+
+variable "argocd_applicationset_cpu_request" {
+  description = "CPU requests for the ArgoCD ApplicationSet Controller"
+  type        = string
+  default     = "50m"
+
+  validation {
+    condition     = can(regex("^[0-9]+(m|[0-9]*\\.?[0-9]+)?$", var.argocd_applicationset_cpu_request))
+    error_message = "CPU requests must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
+  }
+}
+
+variable "argocd_notifications_memory_limit" {
+  description = "Memory limit for the ArgoCD Notifications Controller"
+  type        = string
+  default     = "256Mi"
+
+  validation {
+    condition     = can(regex("^[0-9]+(Mi|Gi)$", var.argocd_notifications_memory_limit))
+    error_message = "Memory limit must be a number followed by 'Mi' or 'Gi' (e.g., '256Mi', '1Gi')."
+  }
+}
+
+variable "argocd_notifications_cpu_request" {
+  description = "CPU requests for the ArgoCD Notifications Controller"
+  type        = string
+  default     = "50m"
+
+  validation {
+    condition     = can(regex("^[0-9]+(m|[0-9]*\\.?[0-9]+)?$", var.argocd_notifications_cpu_request))
+    error_message = "CPU requests must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
+  }
+}
+
+variable "argocd_redis_memory_limit" {
+  description = "Memory limit for the ArgoCD Redis service"
+  type        = string
+  default     = "128Mi"
+
+  validation {
+    condition     = can(regex("^[0-9]+(Mi|Gi)$", var.argocd_redis_memory_limit))
+    error_message = "Memory limit must be a number followed by 'Mi' or 'Gi' (e.g., '256Mi', '1Gi')."
+  }
+}
+
+variable "argocd_redis_cpu_request" {
+  description = "CPU requests for the ArgoCD Redis service"
+  type        = string
+  default     = "50m"
+
+  validation {
+    condition     = can(regex("^[0-9]+(m|[0-9]*\\.?[0-9]+)?$", var.argocd_redis_cpu_request))
+    error_message = "CPU requests must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
+  }
+}
+
+variable "argocd_dex_memory_limit" {
+  description = "Memory limit for the ArgoCD Dex service"
+  type        = string
+  default     = "128Mi"
+
+  validation {
+    condition     = can(regex("^[0-9]+(Mi|Gi)$", var.argocd_dex_memory_limit))
+    error_message = "Memory limit must be a number followed by 'Mi' or 'Gi' (e.g., '256Mi', '1Gi')."
+  }
+}
+
+variable "argocd_dex_cpu_request" {
+  description = "CPU requests for the ArgoCD Dex service"
+  type        = string
+  default     = "50m"
+
+  validation {
+    condition     = can(regex("^[0-9]+(m|[0-9]*\\.?[0-9]+)?$", var.argocd_dex_cpu_request))
+    error_message = "CPU requests must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
+  }
 }

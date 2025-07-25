@@ -11,39 +11,15 @@ terraform {
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "2.29.0"
+      version = "2.37.1"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = "2.17.0"
+      version = "3.0.2"
     }
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "4.28.0"
+      version = "4.37.0"
     }
-  }
-}
-
-provider "kubectl" {
-  host                   = var.kubernetes_host
-  client_certificate     = var.kubernetes_client_certificate
-  client_key             = var.kubernetes_client_key
-  cluster_ca_certificate = var.kubernetes_cluster_ca_certificate
-  load_config_file       = false
-}
-
-provider "kubernetes" {
-  host                   = var.kubernetes_host
-  client_certificate     = var.kubernetes_client_certificate
-  client_key             = var.kubernetes_client_key
-  cluster_ca_certificate = var.kubernetes_cluster_ca_certificate
-}
-
-provider "helm" {
-  kubernetes {
-    host                   = var.kubernetes_host
-    client_certificate     = var.kubernetes_client_certificate
-    client_key             = var.kubernetes_client_key
-    cluster_ca_certificate = var.kubernetes_cluster_ca_certificate
   }
 }

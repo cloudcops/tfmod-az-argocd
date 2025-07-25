@@ -11,6 +11,30 @@ run "setup" {
   }
 }
 
+provider "kubernetes" {
+  host                   = run.setup.host
+  client_certificate     = run.setup.client_certificate
+  client_key             = run.setup.client_key
+  cluster_ca_certificate = run.setup.cluster_ca_certificate
+}
+
+provider "helm" {
+  kubernetes = {
+    host                   = run.setup.host
+    client_certificate     = run.setup.client_certificate
+    client_key             = run.setup.client_key
+    cluster_ca_certificate = run.setup.cluster_ca_certificate
+  }
+}
+
+provider "kubectl" {
+  host                   = run.setup.host
+  client_certificate     = run.setup.client_certificate
+  client_key             = run.setup.client_key
+  cluster_ca_certificate = run.setup.cluster_ca_certificate
+  load_config_file       = false
+}
+
 variables {
   argocd_chart_version               = "8.1.2"
   repo_revision                      = "main"
@@ -27,6 +51,21 @@ variables {
   p_role                             = "no-access"
   log_level                          = "info"
   argocd_notification_url_for_github = "http://example.com/notification"
+
+  argocd_server_memory_limit         = "128Mi"
+  argocd_server_cpu_request          = "50m"
+  argocd_controller_memory_limit     = "512Mi"
+  argocd_controller_cpu_request      = "100m"
+  argocd_reposerver_memory_limit     = "128Mi"
+  argocd_reposerver_cpu_request      = "50m"
+  argocd_applicationset_memory_limit = "64Mi"
+  argocd_applicationset_cpu_request  = "25m"
+  argocd_notifications_memory_limit  = "64Mi"
+  argocd_notifications_cpu_request   = "25m"
+  argocd_redis_memory_limit          = "64Mi"
+  argocd_redis_cpu_request           = "25m"
+  argocd_dex_memory_limit            = "64Mi"
+  argocd_dex_cpu_request             = "25m"
 }
 
 run "apply" {
@@ -44,10 +83,6 @@ run "apply" {
         private_key     = run.setup.github_private_key
       }
     }
-    kubernetes_host                   = run.setup.host
-    kubernetes_client_certificate     = run.setup.client_certificate
-    kubernetes_client_key             = run.setup.client_key
-    kubernetes_cluster_ca_certificate = run.setup.cluster_ca_certificate
   }
 
   # Test ArgoCD Helm deployment status
@@ -65,7 +100,6 @@ run "apply" {
     condition     = kubernetes_namespace.argocd.metadata[0].name == "argocd"
     error_message = "ArgoCD namespace not created correctly."
   }
-
 
   # Test App of Apps deployment
   assert {
@@ -86,16 +120,5 @@ run "apply" {
   assert {
     condition     = kubectl_manifest.app_of_apps.namespace == "argocd"
     error_message = "App of Apps namespace not correct."
-  }
-
-  # Test resource limits
-  assert {
-    condition     = kubernetes_limit_range.default_resources.metadata[0].name == "limit-range-ns-argocd"
-    error_message = "Limit range not created with correct name."
-  }
-
-  assert {
-    condition     = kubernetes_limit_range.default_resources.spec[0].limit[0].type == "Container"
-    error_message = "Limit range not configured for containers."
   }
 }

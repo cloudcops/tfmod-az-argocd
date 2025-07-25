@@ -63,13 +63,13 @@ The following requirements are needed by this module:
 
 - <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (3.105.0)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (4.28.0)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (4.37.0)
 
-- <a name="requirement_helm"></a> [helm](#requirement\_helm) (2.17.0)
+- <a name="requirement_helm"></a> [helm](#requirement\_helm) (3.0.2)
 
 - <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) (1.19.0)
 
-- <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) (2.29.0)
+- <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) (2.37.1)
 
 - <a name="requirement_time"></a> [time](#requirement\_time) (0.13.1)
 
@@ -79,20 +79,19 @@ The following providers are used by this module:
 
 - <a name="provider_azuread"></a> [azuread](#provider\_azuread) (2.51.0)
 
-- <a name="provider_helm"></a> [helm](#provider\_helm) (2.17.0)
+- <a name="provider_helm"></a> [helm](#provider\_helm) (3.0.2)
 
 - <a name="provider_kubectl"></a> [kubectl](#provider\_kubectl) (1.19.0)
 
-- <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) (2.29.0)
+- <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) (2.37.1)
 
 ## Resources
 
 The following resources are used by this module:
 
-- [helm_release.argocd](https://registry.terraform.io/providers/hashicorp/helm/2.17.0/docs/resources/release) (resource)
+- [helm_release.argocd](https://registry.terraform.io/providers/hashicorp/helm/3.0.2/docs/resources/release) (resource)
 - [kubectl_manifest.app_of_apps](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
-- [kubernetes_limit_range.default_resources](https://registry.terraform.io/providers/hashicorp/kubernetes/2.29.0/docs/resources/limit_range) (resource)
-- [kubernetes_namespace.argocd](https://registry.terraform.io/providers/hashicorp/kubernetes/2.29.0/docs/resources/namespace) (resource)
+- [kubernetes_namespace.argocd](https://registry.terraform.io/providers/hashicorp/kubernetes/2.37.1/docs/resources/namespace) (resource)
 - [azuread_group.rbac4groups](https://registry.terraform.io/providers/hashicorp/azuread/2.51.0/docs/data-sources/group) (data source)
 
 <!-- markdownlint-disable MD013 -->
@@ -115,30 +114,6 @@ Type: `string`
 ### <a name="input_idp_endpoint"></a> [idp\_endpoint](#input\_idp\_endpoint)
 
 Description: Endpoint URL for the identity provider, including the tenant ID.
-
-Type: `string`
-
-### <a name="input_kubernetes_client_certificate"></a> [kubernetes\_client\_certificate](#input\_kubernetes\_client\_certificate)
-
-Description: n/a
-
-Type: `string`
-
-### <a name="input_kubernetes_client_key"></a> [kubernetes\_client\_key](#input\_kubernetes\_client\_key)
-
-Description: n/a
-
-Type: `string`
-
-### <a name="input_kubernetes_cluster_ca_certificate"></a> [kubernetes\_cluster\_ca\_certificate](#input\_kubernetes\_cluster\_ca\_certificate)
-
-Description: n/a
-
-Type: `string`
-
-### <a name="input_kubernetes_host"></a> [kubernetes\_host](#input\_kubernetes\_host)
-
-Description: n/a
 
 Type: `string`
 
@@ -170,6 +145,22 @@ Type: `string`
 
 The following input variables are optional (have default values):
 
+### <a name="input_argocd_applicationset_cpu_request"></a> [argocd\_applicationset\_cpu\_request](#input\_argocd\_applicationset\_cpu\_request)
+
+Description: CPU requests for the ArgoCD ApplicationSet Controller
+
+Type: `string`
+
+Default: `"50m"`
+
+### <a name="input_argocd_applicationset_memory_limit"></a> [argocd\_applicationset\_memory\_limit](#input\_argocd\_applicationset\_memory\_limit)
+
+Description: Memory limit for the ArgoCD ApplicationSet Controller
+
+Type: `string`
+
+Default: `"128Mi"`
+
 ### <a name="input_argocd_chart_version"></a> [argocd\_chart\_version](#input\_argocd\_chart\_version)
 
 Description: Version of ArgoCD Helm Chart to install
@@ -177,6 +168,102 @@ Description: Version of ArgoCD Helm Chart to install
 Type: `string`
 
 Default: `"8.1.2"`
+
+### <a name="input_argocd_controller_cpu_request"></a> [argocd\_controller\_cpu\_request](#input\_argocd\_controller\_cpu\_request)
+
+Description: CPU requests for the ArgoCD Application Controller
+
+Type: `string`
+
+Default: `"250m"`
+
+### <a name="input_argocd_controller_memory_limit"></a> [argocd\_controller\_memory\_limit](#input\_argocd\_controller\_memory\_limit)
+
+Description: Memory limit for the ArgoCD Application Controller
+
+Type: `string`
+
+Default: `"1536Mi"`
+
+### <a name="input_argocd_dex_cpu_request"></a> [argocd\_dex\_cpu\_request](#input\_argocd\_dex\_cpu\_request)
+
+Description: CPU requests for the ArgoCD Dex service
+
+Type: `string`
+
+Default: `"50m"`
+
+### <a name="input_argocd_dex_memory_limit"></a> [argocd\_dex\_memory\_limit](#input\_argocd\_dex\_memory\_limit)
+
+Description: Memory limit for the ArgoCD Dex service
+
+Type: `string`
+
+Default: `"128Mi"`
+
+### <a name="input_argocd_notifications_cpu_request"></a> [argocd\_notifications\_cpu\_request](#input\_argocd\_notifications\_cpu\_request)
+
+Description: CPU requests for the ArgoCD Notifications Controller
+
+Type: `string`
+
+Default: `"50m"`
+
+### <a name="input_argocd_notifications_memory_limit"></a> [argocd\_notifications\_memory\_limit](#input\_argocd\_notifications\_memory\_limit)
+
+Description: Memory limit for the ArgoCD Notifications Controller
+
+Type: `string`
+
+Default: `"256Mi"`
+
+### <a name="input_argocd_redis_cpu_request"></a> [argocd\_redis\_cpu\_request](#input\_argocd\_redis\_cpu\_request)
+
+Description: CPU requests for the ArgoCD Redis service
+
+Type: `string`
+
+Default: `"50m"`
+
+### <a name="input_argocd_redis_memory_limit"></a> [argocd\_redis\_memory\_limit](#input\_argocd\_redis\_memory\_limit)
+
+Description: Memory limit for the ArgoCD Redis service
+
+Type: `string`
+
+Default: `"128Mi"`
+
+### <a name="input_argocd_reposerver_cpu_request"></a> [argocd\_reposerver\_cpu\_request](#input\_argocd\_reposerver\_cpu\_request)
+
+Description: CPU requests for the ArgoCD Repository Server
+
+Type: `string`
+
+Default: `"50m"`
+
+### <a name="input_argocd_reposerver_memory_limit"></a> [argocd\_reposerver\_memory\_limit](#input\_argocd\_reposerver\_memory\_limit)
+
+Description: Memory limit for the ArgoCD Repository Server
+
+Type: `string`
+
+Default: `"256Mi"`
+
+### <a name="input_argocd_server_cpu_request"></a> [argocd\_server\_cpu\_request](#input\_argocd\_server\_cpu\_request)
+
+Description: CPU requests for the ArgoCD Server
+
+Type: `string`
+
+Default: `"100m"`
+
+### <a name="input_argocd_server_memory_limit"></a> [argocd\_server\_memory\_limit](#input\_argocd\_server\_memory\_limit)
+
+Description: Memory limit for the ArgoCD Server
+
+Type: `string`
+
+Default: `"256Mi"`
 
 ### <a name="input_default_role"></a> [default\_role](#input\_default\_role)
 
@@ -244,14 +331,6 @@ Type: `string`
 
 Default: `"info"`
 
-### <a name="input_namespace_memory_limit"></a> [namespace\_memory\_limit](#input\_namespace\_memory\_limit)
-
-Description: Kubernetes memory limit range.
-
-Type: `string`
-
-Default: `"1Gi"`
-
 ### <a name="input_p_role"></a> [p\_role](#input\_p\_role)
 
 Description: Placeholder role, typically assigning no access in ArgoCD via OIDC.
@@ -286,7 +365,11 @@ Default: `false`
 
 ## Outputs
 
-No outputs.
+The following outputs are exported:
+
+### <a name="output_sp_client_secret"></a> [sp\_client\_secret](#output\_sp\_client\_secret)
+
+Description: Service Principal Client Secret
 
 ## Modules
 

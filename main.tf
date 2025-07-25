@@ -18,7 +18,7 @@ resource "helm_release" "argocd" {
       url                                = var.url
       idp_argocd_name                    = var.idp_argocd_name
       idp_endpoint                       = var.idp_endpoint
-      sp_client_id                       = sensitive(var.sp_client_id)
+      sp_client_id                       = var.sp_client_id
       idp_argocd_allowed_oauth_scopes    = var.idp_argocd_allowed_oauth_scopes
       app_environment                    = split("/", var.app_path)[1]
       app_path                           = var.app_path
@@ -35,28 +35,26 @@ resource "helm_release" "argocd" {
       tls_enabled                        = var.tls_enabled
       github_app_id                      = sensitive(var.github_access["0"].app_id)
       github_installation_id             = sensitive(var.github_access["0"].installation_id)
+
+      # ArgoCD Resource Configuration
+      argocd_server_memory              = var.argocd_server_memory_limit
+      argocd_server_cpu_request         = var.argocd_server_cpu_request
+      argocd_controller_memory          = var.argocd_controller_memory_limit
+      argocd_controller_cpu_request     = var.argocd_controller_cpu_request
+      argocd_reposerver_memory          = var.argocd_reposerver_memory_limit
+      argocd_reposerver_cpu_request     = var.argocd_reposerver_cpu_request
+      argocd_applicationset_memory      = var.argocd_applicationset_memory_limit
+      argocd_applicationset_cpu_request = var.argocd_applicationset_cpu_request
+      argocd_notifications_memory       = var.argocd_notifications_memory_limit
+      argocd_notifications_cpu_request  = var.argocd_notifications_cpu_request
+      argocd_redis_memory               = var.argocd_redis_memory_limit
+      argocd_redis_cpu_request          = var.argocd_redis_cpu_request
+      argocd_dex_memory                 = var.argocd_dex_memory_limit
+      argocd_dex_cpu_request            = var.argocd_dex_cpu_request
     })
   ]
 
   depends_on = [kubernetes_namespace.argocd]
-}
-
-# Limit Range for ArgoCD namespace
-resource "kubernetes_limit_range" "default_resources" {
-  depends_on = [helm_release.argocd]
-  metadata {
-    name      = "limit-range-ns-argocd"
-    namespace = "argocd"
-  }
-
-  spec {
-    limit {
-      type = "Container"
-      default = {
-        memory = var.namespace_memory_limit
-      }
-    }
-  }
 }
 
 # App of Apps using kubectl_manifest provider (more tolerant of missing CRDs)

@@ -124,6 +124,13 @@ configs:
 
 # Server configuration with ingress
 server:
+  resources:
+    limits:
+      memory: ${argocd_server_memory}
+    requests:
+      memory: ${argocd_server_memory}
+      cpu: ${argocd_server_cpu_request}
+  
   ingress:
     enabled: true
     ingressClassName: ${ingress_class_name}
@@ -140,9 +147,61 @@ server:
       cert-manager.io/cluster-issuer: "letsencrypt-prod"
 %{ endif ~}
 
+# Application Controller configuration
+controller:
+  resources:
+    limits:
+      memory: ${argocd_controller_memory}
+    requests:
+      memory: ${argocd_controller_memory}
+      cpu: ${argocd_controller_cpu_request}
+
+# Repository Server configuration
+repoServer:
+  resources:
+    limits:
+      memory: ${argocd_reposerver_memory}
+    requests:
+      memory: ${argocd_reposerver_memory}
+      cpu: ${argocd_reposerver_cpu_request}
+
+# ApplicationSet Controller configuration
+applicationSet:
+  resources:
+    limits:
+      memory: ${argocd_applicationset_memory}
+    requests:
+      memory: ${argocd_applicationset_memory}
+      cpu: ${argocd_applicationset_cpu_request}
+
+# Redis configuration
+redis:
+  resources:
+    limits:
+      memory: ${argocd_redis_memory}
+    requests:
+      memory: ${argocd_redis_memory}
+      cpu: ${argocd_redis_cpu_request}
+
+# Dex configuration (if using Dex for OIDC)
+dex:
+  resources:
+    limits:
+      memory: ${argocd_dex_memory}
+    requests:
+      memory: ${argocd_dex_memory}
+      cpu: ${argocd_dex_cpu_request}
+
 # Notifications configuration
 notifications:
   enabled: true
+
+  resources:
+    limits:
+      memory: ${argocd_notifications_memory}
+    requests:
+      memory: ${argocd_notifications_memory}
+      cpu: ${argocd_notifications_cpu_request}
   
   cm:
     # Notification services configuration
