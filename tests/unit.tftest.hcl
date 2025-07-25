@@ -11,6 +11,30 @@ run "setup" {
   }
 }
 
+provider "kubernetes" {
+  host                   = run.setup.host
+  client_certificate     = run.setup.client_certificate
+  client_key             = run.setup.client_key
+  cluster_ca_certificate = run.setup.cluster_ca_certificate
+}
+
+provider "helm" {
+  kubernetes = {
+    host                   = run.setup.host
+    client_certificate     = run.setup.client_certificate
+    client_key             = run.setup.client_key
+    cluster_ca_certificate = run.setup.cluster_ca_certificate
+  }
+}
+
+provider "kubectl" {
+  host                   = run.setup.host
+  client_certificate     = run.setup.client_certificate
+  client_key             = run.setup.client_key
+  cluster_ca_certificate = run.setup.cluster_ca_certificate
+  load_config_file       = false
+}
+
 variables {
   argocd_chart_version               = "8.1.2"
   repo_revision                      = "main"
@@ -44,10 +68,6 @@ run "plan" {
         private_key     = run.setup.github_private_key
       }
     }
-    kubernetes_host                   = run.setup.host
-    kubernetes_client_certificate     = run.setup.client_certificate
-    kubernetes_client_key             = run.setup.client_key
-    kubernetes_cluster_ca_certificate = run.setup.cluster_ca_certificate
   }
 
   # Test basic resources are planned correctly
@@ -86,10 +106,5 @@ run "plan" {
   assert {
     condition     = kubectl_manifest.app_of_apps != null
     error_message = "App of Apps manifest not planned."
-  }
-
-  assert {
-    condition     = kubernetes_limit_range.default_resources.metadata[0].name == "limit-range-ns-argocd"
-    error_message = "Limit range name not correct."
   }
 }

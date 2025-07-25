@@ -1,5 +1,5 @@
 output "wrapper" {
   description = "Map of outputs of a wrapper."
   value       = module.wrapper
-  sensitive   = true # At least one sensitive module output (kubernetes_host_reference) found (requires Terraform 0.14+)
+  sensitive   = true # At least one sensitive module output (sp_client_secret) found (requires Terraform 0.14+)
 }
