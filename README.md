@@ -57,11 +57,7 @@ The following requirements are needed by this module:
 
 - <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (>= 1.8.0)
 
-- <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (>= 1.8.0)
-
 - <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) (2.51.0)
-
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (3.105.0)
 
 - <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (4.37.0)
 
@@ -70,8 +66,6 @@ The following requirements are needed by this module:
 - <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) (1.19.0)
 
 - <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) (2.37.1)
-
-- <a name="requirement_time"></a> [time](#requirement\_time) (0.13.1)
 
 ## Providers
 

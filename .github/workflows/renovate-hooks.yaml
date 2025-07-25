@@ -1,0 +1,15 @@
+name: "Run Pre-Commit on Renovate branches"
+
+on:    
+  pull_request:
+    branches: ['main']
+
+permissions: read-all
+
+jobs:
+  renovate-hooks: 
+    if: startsWith(github.head_ref, 'renovate/')
+    permissions:
+      contents: write
+
+    uses: cloudcops/github-actions/.github/workflows/renovate-hooks.yaml@main

@@ -29,3 +29,17 @@
 
 # Ignore only terraform.tfvars files
 terraform.tfvars
+
+#tfsec binary
+tfsec
+tfsec.exe
+tfsec.tar.gz
+tfsec.tgz
+
+# Archive files
+*.zip
+*.tar.gz
+*.tgz
+*.tar
+*.gz
+*.rar
