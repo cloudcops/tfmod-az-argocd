@@ -1,3 +1,45 @@
+# [2.0.0](https://github.com/cloudcops/tfmod-az-argocd/compare/1.5.0...2.0.0) (2025-07-25)
+
+
+### Features
+
+* **CC-9:** rework ArgoCD with resource definitions ([#3](https://github.com/cloudcops/tfmod-az-argocd/issues/3)) ([7bd867f](https://github.com/cloudcops/tfmod-az-argocd/commit/7bd867f4afb44ce0be82bdbc9bdb36df3688354b))
+
+
+### BREAKING CHANGES
+
+* **CC-9:** remove unnecessary variables
+
+* feat(CC-9): adjust resource capacity based on best practice
+
+* feat(CC-9): run precommit
+
+* fix(CC-9): rename argocd resources variable names
+
+* fix(CC-9): run precommit
+
+* feat(CC-9): add dryrun option and sensitive true
+
+* feat(CC-9): add sensitive output for wrapper module
+
+* feat(CC-9): remove unnecessary commentremove unnecessary memory limitsremove limit range resources
+
+* feat(CC-9): add validation for resource variables
+
+* fix(CC-9): modifying descriptions properly
+
+* fix(CC-9): remove unnecessary description
+
+* chore(CC-9): run pre commit
+
+* fix(CC-9): modifying resource capacities
+
+* fix(CC-9): run precommit
+
+* feat(CC-9): use latest version providers
+
+* hotfix(CC-9): apply latest helm version
+
 # [1.5.0](https://github.com/cloudcops/tfmod-az-argocd/compare/1.4.0...1.5.0) (2025-07-04)
 
 
