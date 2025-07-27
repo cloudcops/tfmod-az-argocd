@@ -59,7 +59,6 @@ resource "helm_release" "argocd" {
 
 # ArgoCD Git Access Tokens (GitHub App credentials for repository access)
 resource "kubectl_manifest" "argocd_access_token" {
-  for_each = var.github_access
   yaml_body = yamlencode({
     apiVersion = "v1"
     kind       = "Secret"
@@ -67,31 +66,30 @@ resource "kubectl_manifest" "argocd_access_token" {
       labels = {
         "argocd.argoproj.io/secret-type" = "repository"
       }
-      name      = each.value.name
+      name      = var.github_access["0"].name
       namespace = "argocd"
     }
     type = "Opaque"
     stringData = {
       type                    = "git"
-      url                     = each.value.url
-      githubAppID             = each.value.app_id
-      githubAppInstallationID = each.value.installation_id
-      githubAppPrivateKey     = each.value.private_key
+      url                     = var.github_access["0"].url
+      githubAppID             = var.github_access["0"].app_id
+      githubAppInstallationID = var.github_access["0"].installation_id
+      githubAppPrivateKey     = var.github_access["0"].private_key
     }
   })
-  
+
   sensitive_fields = [
     "stringData.githubAppPrivateKey",
     "stringData.githubAppID",
     "stringData.githubAppInstallationID"
   ]
-  
+
   depends_on = [helm_release.argocd]
 }
 
 # ArgoCD Notification Secret (GitHub App credentials for notifications)
 resource "kubectl_manifest" "notification_secrets" {
-  for_each = var.github_access
   yaml_body = yamlencode({
     apiVersion = "v1"
     kind       = "Secret"
@@ -106,14 +104,14 @@ resource "kubectl_manifest" "notification_secrets" {
     }
     type = "Opaque"
     stringData = {
-      github-privateKey = each.value.private_key
+      github-privateKey = var.github_access["0"].private_key
     }
   })
-  
+
   sensitive_fields = [
     "stringData.github-privateKey"
   ]
-  
+
   depends_on = [helm_release.argocd]
 }
 
