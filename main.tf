@@ -57,6 +57,66 @@ resource "helm_release" "argocd" {
   depends_on = [kubernetes_namespace.argocd]
 }
 
+# ArgoCD Git Access Tokens (GitHub App credentials for repository access)
+resource "kubectl_manifest" "argocd_access_token" {
+  for_each = var.github_access
+  yaml_body = yamlencode({
+    apiVersion = "v1"
+    kind       = "Secret"
+    metadata = {
+      labels = {
+        "argocd.argoproj.io/secret-type" = "repository"
+      }
+      name      = each.value.name
+      namespace = "argocd"
+    }
+    type = "Opaque"
+    stringData = {
+      type                    = "git"
+      url                     = each.value.url
+      githubAppID             = each.value.app_id
+      githubAppInstallationID = each.value.installation_id
+      githubAppPrivateKey     = each.value.private_key
+    }
+  })
+  
+  sensitive_fields = [
+    "stringData.githubAppPrivateKey",
+    "stringData.githubAppID",
+    "stringData.githubAppInstallationID"
+  ]
+  
+  depends_on = [helm_release.argocd]
+}
+
+# ArgoCD Notification Secret (GitHub App credentials for notifications)
+resource "kubectl_manifest" "notification_secrets" {
+  for_each = var.github_access
+  yaml_body = yamlencode({
+    apiVersion = "v1"
+    kind       = "Secret"
+    metadata = {
+      labels = {
+        "app.kubernetes.io/component" = "notifications-controller"
+        "app.kubernetes.io/name"      = "argocd-notifications-controller"
+        "app.kubernetes.io/part-of"   = "argocd"
+      }
+      name      = "argocd-notifications-secret"
+      namespace = "argocd"
+    }
+    type = "Opaque"
+    stringData = {
+      github-privateKey = each.value.private_key
+    }
+  })
+  
+  sensitive_fields = [
+    "stringData.github-privateKey"
+  ]
+  
+  depends_on = [helm_release.argocd]
+}
+
 # App of Apps using kubectl_manifest provider (more tolerant of missing CRDs)
 resource "kubectl_manifest" "app_of_apps" {
   yaml_body = yamlencode({
@@ -104,6 +164,9 @@ resource "kubectl_manifest" "app_of_apps" {
     }
   })
 
-  # Wait for ArgoCD helm chart to be fully deployed
-  depends_on = [helm_release.argocd]
+  # Wait for ArgoCD secrets to be created
+  depends_on = [
+    kubectl_manifest.argocd_access_token,
+    kubectl_manifest.notification_secrets
+  ]
 }
