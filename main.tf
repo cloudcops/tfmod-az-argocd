@@ -66,7 +66,7 @@ resource "kubectl_manifest" "argocd_access_token" {
       labels = {
         "argocd.argoproj.io/secret-type" = "repository"
       }
-      name      = var.github_access["0"].name
+      name      = "github-access-secret"
       namespace = "argocd"
     }
     type = "Opaque"
