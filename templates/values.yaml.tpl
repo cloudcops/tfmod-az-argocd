@@ -104,11 +104,13 @@ configs:
 
   # Secret configuration
   secret:
-    # OIDC client secret
-    oidc.auth0.clientSecret: ${sp_client_secret}
-    # GitHub App credentials for notifications
-    github-privateKey: |
-      ${replace(github_private_key, "\n", "\n      ")}
+    createSecret: true
+    extra:
+      # OIDC client secret
+      oidc.auth0.clientSecret: ${sp_client_secret}
+      # GitHub App credentials for notifications
+      github-privateKey: |
+        ${replace(github_private_key, "\n", "\n        ")}
 
   # Repository credentials
   repositories:
