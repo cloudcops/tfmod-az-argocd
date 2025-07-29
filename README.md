@@ -364,10 +364,6 @@ Default: `false`
 
 The following outputs are exported:
 
-### <a name="output_argocd_secret_validation"></a> [argocd\_secret\_validation](#output\_argocd\_secret\_validation)
-
-Description: ArgoCD secret validation data for testing purposes
-
 ### <a name="output_sp_client_secret"></a> [sp\_client\_secret](#output\_sp\_client\_secret)
 
 Description: Service Principal Client Secret
