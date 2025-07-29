@@ -12,14 +12,3 @@ locals {
     }
   ]
 }
-
-# Data source to read ArgoCD secret for validation
-# tflint-ignore: terraform_unused_declarations
-data "kubernetes_secret" "argocd_secret" {
-  metadata {
-    name      = "argocd-secret"
-    namespace = "argocd"
-  }
-
-  depends_on = [helm_release.argocd]
-}

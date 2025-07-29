@@ -89,7 +89,6 @@ The following resources are used by this module:
 - [kubectl_manifest.notification_secrets](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
 - [kubernetes_namespace.argocd](https://registry.terraform.io/providers/hashicorp/kubernetes/2.37.1/docs/resources/namespace) (resource)
 - [azuread_group.rbac4groups](https://registry.terraform.io/providers/hashicorp/azuread/2.51.0/docs/data-sources/group) (data source)
-- [kubernetes_secret.argocd_secret](https://registry.terraform.io/providers/hashicorp/kubernetes/2.37.1/docs/data-sources/secret) (data source)
 
 <!-- markdownlint-disable MD013 -->
 ## Required Inputs
