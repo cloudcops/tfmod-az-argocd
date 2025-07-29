@@ -89,6 +89,7 @@ The following resources are used by this module:
 - [kubectl_manifest.notification_secrets](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
 - [kubernetes_namespace.argocd](https://registry.terraform.io/providers/hashicorp/kubernetes/2.37.1/docs/resources/namespace) (resource)
 - [azuread_group.rbac4groups](https://registry.terraform.io/providers/hashicorp/azuread/2.51.0/docs/data-sources/group) (data source)
+- [kubernetes_secret.argocd_secret](https://registry.terraform.io/providers/hashicorp/kubernetes/2.37.1/docs/data-sources/secret) (data source)
 
 <!-- markdownlint-disable MD013 -->
 ## Required Inputs
@@ -362,6 +363,10 @@ Default: `false`
 ## Outputs
 
 The following outputs are exported:
+
+### <a name="output_argocd_secret_validation"></a> [argocd\_secret\_validation](#output\_argocd\_secret\_validation)
+
+Description: ArgoCD secret validation data for testing purposes
 
 ### <a name="output_sp_client_secret"></a> [sp\_client\_secret](#output\_sp\_client\_secret)
 

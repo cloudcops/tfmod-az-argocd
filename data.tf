@@ -12,3 +12,13 @@ locals {
     }
   ]
 }
+
+# Data source to read ArgoCD secret for validation
+data "kubernetes_secret" "argocd_secret" {
+  metadata {
+    name      = "argocd-secret"
+    namespace = "argocd"
+  }
+
+  depends_on = [helm_release.argocd]
+}

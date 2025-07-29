@@ -130,4 +130,51 @@ run "apply" {
     condition     = kubectl_manifest.notification_secrets.name == "argocd-notifications-secret"
     error_message = "Notifications secret name not correct."
   }
+
+  # Test ArgoCD Secret exists and contains expected data
+  assert {
+    condition     = data.kubernetes_secret.argocd_secret.metadata[0].name == "argocd-secret"
+    error_message = "ArgoCD secret not found or name incorrect."
+  }
+
+  # Verify secret contains required data fields
+  assert {
+    condition     = contains(keys(data.kubernetes_secret.argocd_secret.data), "oidc.auth0.clientSecret")
+    error_message = "ArgoCD secret missing OIDC client secret."
+  }
+
+  assert {
+    condition     = contains(keys(data.kubernetes_secret.argocd_secret.data), "github-privateKey")
+    error_message = "ArgoCD secret missing GitHub private key."
+  }
+
+  assert {
+    condition     = contains(keys(data.kubernetes_secret.argocd_secret.data), "admin.password")
+    error_message = "ArgoCD secret missing admin password."
+  }
+
+  assert {
+    condition     = contains(keys(data.kubernetes_secret.argocd_secret.data), "server.secretkey")
+    error_message = "ArgoCD secret missing server secret key."
+  }
+
+  assert {
+    condition     = length(data.kubernetes_secret.argocd_secret.data["oidc.auth0.clientSecret"]) > 0
+    error_message = "ArgoCD secret OIDC client secret is empty."
+  }
+
+  assert {
+    condition     = length(data.kubernetes_secret.argocd_secret.data["github-privateKey"]) > 0
+    error_message = "ArgoCD secret GitHub private key is empty."
+  }
+
+  assert {
+    condition     = length(data.kubernetes_secret.argocd_secret.data["admin.password"]) > 0
+    error_message = "ArgoCD secret admin password is empty."
+  }
+
+  assert {
+    condition     = length(data.kubernetes_secret.argocd_secret.data["server.secretkey"]) > 0
+    error_message = "ArgoCD secret server secret key is empty."
+  }
 }
