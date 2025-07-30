@@ -122,8 +122,25 @@ run "apply" {
     error_message = "App of Apps namespace not correct."
   }
 
+  # Test Terraform-managed repository secret
   assert {
     condition     = kubectl_manifest.argocd_access_token.name == "github-access-secret"
     error_message = "GitHub access token secret name not correct."
+  }
+
+  assert {
+    condition     = kubectl_manifest.argocd_access_token.namespace == "argocd"
+    error_message = "GitHub access token secret namespace not correct."
+  }
+
+  # Test Terraform-managed notification secret
+  assert {
+    condition     = kubectl_manifest.notification_secrets.name == "argocd-notifications-secret"
+    error_message = "Notifications secret name not correct."
+  }
+
+  assert {
+    condition     = kubectl_manifest.notification_secrets.namespace == "argocd"
+    error_message = "Notifications secret namespace not correct."
   }
 }

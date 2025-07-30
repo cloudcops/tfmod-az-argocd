@@ -190,12 +190,6 @@ notifications:
     requests:
       memory: ${argocd_notifications_memory}
       cpu: ${argocd_notifications_cpu_request}
-
-  secret:
-    create: true
-    items:
-      github-privateKey: |
-        ${replace(github_private_key, "\n", "\n        ")}
   
   cm:
     # Notification services configuration
