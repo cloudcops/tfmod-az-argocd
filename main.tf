@@ -88,33 +88,6 @@ resource "kubectl_manifest" "argocd_access_token" {
   depends_on = [helm_release.argocd]
 }
 
-# ArgoCD Notification Secret (GitHub App credentials for notifications)
-resource "kubectl_manifest" "notification_secrets" {
-  yaml_body = yamlencode({
-    apiVersion = "v1"
-    kind       = "Secret"
-    metadata = {
-      labels = {
-        "app.kubernetes.io/component" = "notifications-controller"
-        "app.kubernetes.io/name"      = "argocd-notifications-controller"
-        "app.kubernetes.io/part-of"   = "argocd"
-      }
-      name      = "argocd-notifications-secret"
-      namespace = "argocd"
-    }
-    type = "Opaque"
-    stringData = {
-      github-privateKey = var.github_access["0"].private_key
-    }
-  })
-
-  sensitive_fields = [
-    "stringData.github-privateKey"
-  ]
-
-  depends_on = [helm_release.argocd]
-}
-
 # App of Apps using kubectl_manifest provider (more tolerant of missing CRDs)
 resource "kubectl_manifest" "app_of_apps" {
   yaml_body = yamlencode({
@@ -164,7 +137,6 @@ resource "kubectl_manifest" "app_of_apps" {
 
   # Wait for ArgoCD secrets to be created
   depends_on = [
-    kubectl_manifest.argocd_access_token,
-    kubectl_manifest.notification_secrets
+    kubectl_manifest.argocd_access_token
   ]
 }

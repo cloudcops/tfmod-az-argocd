@@ -108,9 +108,6 @@ configs:
     extra:
       # OIDC client secret
       oidc.auth0.clientSecret: ${sp_client_secret}
-      # GitHub App credentials for notifications
-      github-privateKey: |
-        ${replace(github_private_key, "\n", "\n        ")}
 
   # Repository credentials
   repositories:
@@ -205,6 +202,12 @@ notifications:
     requests:
       memory: ${argocd_notifications_memory}
       cpu: ${argocd_notifications_cpu_request}
+
+  secret:
+    create: true
+    items:
+      github-privateKey: |
+        ${replace(github_private_key, "\n", "\n        ")}
   
   cm:
     # Notification services configuration
