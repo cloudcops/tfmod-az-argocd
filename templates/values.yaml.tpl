@@ -121,15 +121,6 @@ configs:
         ${replace(repo.private_key, "\n", "\n        ")}
 %{ endfor ~}
 
-  # Credential templates (creates argocd-repo-creds-github-access-secret)
-  credentialTemplates:
-    github-access-secret-test:
-      url: ${github_repositories[0].url}
-      githubAppID: "${github_repositories[0].app_id}"
-      githubAppInstallationID: "${github_repositories[0].installation_id}"
-      githubAppPrivateKey: |
-        ${replace(github_repositories[0].private_key, "\n", "\n        ")}
-
 # Server configuration with ingress
 server:
   resources:
