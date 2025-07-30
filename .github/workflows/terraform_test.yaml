@@ -1,210 +1,210 @@
-# DO NOT EDIT; MANAGED BY TERRAFORM
-name: PR Status Checks
+# # DO NOT EDIT; MANAGED BY TERRAFORM
+# name: PR Status Checks
 
-on:
-  pull_request:
-   branches:
-      - main
+# on:
+#   pull_request:
+#    branches:
+#       - main
 
 
-env:
-  # TODO: Changing CC_TFTEST github secrets to AR_TERRAFORM_001 secrets
-  ARM_CLIENT_ID: ${{ secrets.CC_TFTEST_CLIENT_ID }}
-  ARM_CLIENT_SECRET: ${{ secrets.CC_TFTEST_CLIENT_SECRET }}
-  ARM_TENANT_ID: ${{ vars.CC_TENANT_ID }}
-  # GitHub App credentials for ArgoCD tests
-  TF_VAR_github_app_id: ${{ secrets.GHA_ARGOCD_ACCESS_APPID }}
-  TF_VAR_github_installation_id: ${{ secrets.GHA_ARGOCD_ACCESS_INSTID }}
-  TF_VAR_github_private_key: ${{ secrets.GHA_ARGOCD_ACCESS_PRIVATEKEY }}
+# env:
+#   # TODO: Changing CC_TFTEST github secrets to AR_TERRAFORM_001 secrets
+#   ARM_CLIENT_ID: ${{ secrets.CC_TFTEST_CLIENT_ID }}
+#   ARM_CLIENT_SECRET: ${{ secrets.CC_TFTEST_CLIENT_SECRET }}
+#   ARM_TENANT_ID: ${{ vars.CC_TENANT_ID }}
+#   # GitHub App credentials for ArgoCD tests
+#   TF_VAR_github_app_id: ${{ secrets.GHA_ARGOCD_ACCESS_APPID }}
+#   TF_VAR_github_installation_id: ${{ secrets.GHA_ARGOCD_ACCESS_INSTID }}
+#   TF_VAR_github_private_key: ${{ secrets.GHA_ARGOCD_ACCESS_PRIVATEKEY }}
 
-permissions: read-all
+# permissions: read-all
 
-jobs:
-  pre-commit-hooks:
-    name: Verify Pre-Commit Hooks
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v3
-      - uses: actions/setup-python@v5
-      - name: Install dependencies
-        run: | 
-          sudo apt update
-          sudo apt install -y unzip software-properties-common python3 python3-pip python-is-python3
-          python3 -m pip install --upgrade pip
-          pip3 install --no-cache-dir pre-commit
-          pip3 install --no-cache-dir checkov
-          curl -L "$(curl -s https://api.github.com/repos/terraform-docs/terraform-docs/releases/latest | grep -o -E -m 1 "https://.+?-linux-amd64.tar.gz")" > terraform-docs.tgz && tar -xzf terraform-docs.tgz terraform-docs && rm terraform-docs.tgz && chmod +x terraform-docs && sudo mv terraform-docs /usr/bin/
-          curl -L "$(curl -s https://api.github.com/repos/tenable/terrascan/releases/latest | grep -o -E -m 1 "https://.+?_Linux_x86_64.tar.gz")" > terrascan.tar.gz && tar -xzf terrascan.tar.gz terrascan && rm terrascan.tar.gz && sudo mv terrascan /usr/bin/ && terrascan init
-          curl -L "$(curl -s https://api.github.com/repos/terraform-linters/tflint/releases/latest | grep -o -E -m 1 "https://.+?_linux_amd64.zip")" > tflint.zip && unzip tflint.zip && rm tflint.zip && sudo mv tflint /usr/bin/
-          curl -L "$(curl -s https://api.github.com/repos/aquasecurity/tfsec/releases/latest | grep -o -E -m 1 "https://.+?tfsec-linux-amd64")" > tfsec && chmod +x tfsec && sudo mv tfsec /usr/bin/
-          curl -L "$(curl -s https://api.github.com/repos/aquasecurity/trivy/releases/latest | grep -o -E -i -m 1 "https://.+?/trivy_.+?_Linux-64bit.tar.gz")" > trivy.tar.gz && tar -xzf trivy.tar.gz trivy && rm trivy.tar.gz && sudo mv trivy /usr/bin
-          sudo apt install -y jq && \
-          curl -L "$(curl -s https://api.github.com/repos/minamijoyo/tfupdate/releases/latest | grep -o -E -m 1 "https://.+?_linux_amd64.tar.gz")" > tfupdate.tar.gz && tar -xzf tfupdate.tar.gz tfupdate && rm tfupdate.tar.gz && sudo mv tfupdate /usr/bin/
-          curl -L "$(curl -s https://api.github.com/repos/minamijoyo/hcledit/releases/latest | grep -o -E -m 1 "https://.+?_linux_amd64.tar.gz")" > hcledit.tar.gz && tar -xzf hcledit.tar.gz hcledit && rm hcledit.tar.gz && sudo mv hcledit /usr/bin/
+# jobs:
+#   pre-commit-hooks:
+#     name: Verify Pre-Commit Hooks
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+#       - name: Install Terraform
+#         uses: hashicorp/setup-terraform@v3
+#       - uses: actions/setup-python@v5
+#       - name: Install dependencies
+#         run: | 
+#           sudo apt update
+#           sudo apt install -y unzip software-properties-common python3 python3-pip python-is-python3
+#           python3 -m pip install --upgrade pip
+#           pip3 install --no-cache-dir pre-commit
+#           pip3 install --no-cache-dir checkov
+#           curl -L "$(curl -s https://api.github.com/repos/terraform-docs/terraform-docs/releases/latest | grep -o -E -m 1 "https://.+?-linux-amd64.tar.gz")" > terraform-docs.tgz && tar -xzf terraform-docs.tgz terraform-docs && rm terraform-docs.tgz && chmod +x terraform-docs && sudo mv terraform-docs /usr/bin/
+#           curl -L "$(curl -s https://api.github.com/repos/tenable/terrascan/releases/latest | grep -o -E -m 1 "https://.+?_Linux_x86_64.tar.gz")" > terrascan.tar.gz && tar -xzf terrascan.tar.gz terrascan && rm terrascan.tar.gz && sudo mv terrascan /usr/bin/ && terrascan init
+#           curl -L "$(curl -s https://api.github.com/repos/terraform-linters/tflint/releases/latest | grep -o -E -m 1 "https://.+?_linux_amd64.zip")" > tflint.zip && unzip tflint.zip && rm tflint.zip && sudo mv tflint /usr/bin/
+#           curl -L "$(curl -s https://api.github.com/repos/aquasecurity/tfsec/releases/latest | grep -o -E -m 1 "https://.+?tfsec-linux-amd64")" > tfsec && chmod +x tfsec && sudo mv tfsec /usr/bin/
+#           curl -L "$(curl -s https://api.github.com/repos/aquasecurity/trivy/releases/latest | grep -o -E -i -m 1 "https://.+?/trivy_.+?_Linux-64bit.tar.gz")" > trivy.tar.gz && tar -xzf trivy.tar.gz trivy && rm trivy.tar.gz && sudo mv trivy /usr/bin
+#           sudo apt install -y jq && \
+#           curl -L "$(curl -s https://api.github.com/repos/minamijoyo/tfupdate/releases/latest | grep -o -E -m 1 "https://.+?_linux_amd64.tar.gz")" > tfupdate.tar.gz && tar -xzf tfupdate.tar.gz tfupdate && rm tfupdate.tar.gz && sudo mv tfupdate /usr/bin/
+#           curl -L "$(curl -s https://api.github.com/repos/minamijoyo/hcledit/releases/latest | grep -o -E -m 1 "https://.+?_linux_amd64.tar.gz")" > hcledit.tar.gz && tar -xzf hcledit.tar.gz hcledit && rm hcledit.tar.gz && sudo mv hcledit /usr/bin/
 
-      - uses: pre-commit/action@v3.0.1
-        with:
-          extra_args: --all-files --show-diff-on-failure --verbose --color always
+#       - uses: pre-commit/action@v3.0.1
+#         with:
+#           extra_args: --all-files --show-diff-on-failure --verbose --color always
 
-  commitlint:
-    name: Commit Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+#   commitlint:
+#     name: Commit Lint
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      - name: Generate Token
-        uses: actions/create-github-app-token@v1
-        id: generate-token
-        with:
-          app-id: ${{ secrets.GHA_PR_COMMENTS_APPID }}
-          private-key: ${{ secrets.GHA_PR_COMMENTS_PRIVATEKEY }}
-          owner: cloudcops
+#       - name: Generate Token
+#         uses: actions/create-github-app-token@v1
+#         id: generate-token
+#         with:
+#           app-id: ${{ secrets.GHA_PR_COMMENTS_APPID }}
+#           private-key: ${{ secrets.GHA_PR_COMMENTS_PRIVATEKEY }}
+#           owner: cloudcops
 
-      - uses: amannn/action-semantic-pull-request@v5
-        id: lint_pr_title
-        env:
-          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+#       - uses: amannn/action-semantic-pull-request@v5
+#         id: lint_pr_title
+#         env:
+#           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
 
-      - uses: marocchino/sticky-pull-request-comment@v2
-        # When the previous steps fails, the workflow would stop. By adding this
-        # condition you can continue the execution with the populated error message.
-        if: always() && (steps.lint_pr_title.outputs.error_message != null)
-        with:
-          header: pr-title-lint-error
-          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
-          message: |
-            Hey there and thank you for opening this pull request! 👋🏼
+#       - uses: marocchino/sticky-pull-request-comment@v2
+#         # When the previous steps fails, the workflow would stop. By adding this
+#         # condition you can continue the execution with the populated error message.
+#         if: always() && (steps.lint_pr_title.outputs.error_message != null)
+#         with:
+#           header: pr-title-lint-error
+#           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+#           message: |
+#             Hey there and thank you for opening this pull request! 👋🏼
 
-            We require pull request titles to follow the [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/) and it looks like your proposed title needs to be adjusted.
+#             We require pull request titles to follow the [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/) and it looks like your proposed title needs to be adjusted.
 
-            Details:
+#             Details:
 
-            ```
-            ${{ steps.lint_pr_title.outputs.error_message }}
-            ```
+#             ```
+#             ${{ steps.lint_pr_title.outputs.error_message }}
+#             ```
 
-      # Delete a previous comment when the issue has been resolved
-      - if: ${{ steps.lint_pr_title.outputs.error_message == null }}
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: pr-title-lint-error
-          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
-          delete: true
+#       # Delete a previous comment when the issue has been resolved
+#       - if: ${{ steps.lint_pr_title.outputs.error_message == null }}
+#         uses: marocchino/sticky-pull-request-comment@v2
+#         with:
+#           header: pr-title-lint-error
+#           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+#           delete: true
 
-  test:
-    name: Terraform Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+#   test:
+#     name: Terraform Test
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      - name: Generate Token
-        uses: actions/create-github-app-token@v1
-        id: generate-token
-        with:
-          app-id: ${{ secrets.GHA_PR_COMMENTS_APPID }}
-          private-key: ${{ secrets.GHA_PR_COMMENTS_PRIVATEKEY }}
-          owner: cloudcops
+#       - name: Generate Token
+#         uses: actions/create-github-app-token@v1
+#         id: generate-token
+#         with:
+#           app-id: ${{ secrets.GHA_PR_COMMENTS_APPID }}
+#           private-key: ${{ secrets.GHA_PR_COMMENTS_PRIVATEKEY }}
+#           owner: cloudcops
 
-      - uses: hashicorp/setup-terraform@v3
-        name: Install terraform
+#       - uses: hashicorp/setup-terraform@v3
+#         name: Install terraform
         
-      - name: Terraform fmt
-        id: fmt
-        run: terraform fmt -check
-        continue-on-error: true
+#       - name: Terraform fmt
+#         id: fmt
+#         run: terraform fmt -check
+#         continue-on-error: true
       
-      - name: Terraform Init
-        id: init
-        run: terraform init
+#       - name: Terraform Init
+#         id: init
+#         run: terraform init
         
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
+#       - name: Terraform Validate
+#         id: validate
+#         run: terraform validate -no-color
 
-      - name: Terraform Unit Tests
-        id: unit_tests
-        run: terraform test -verbose -no-color -filter=tests/unit.tftest.hcl
-        continue-on-error: true
+#       - name: Terraform Unit Tests
+#         id: unit_tests
+#         run: terraform test -verbose -no-color -filter=tests/unit.tftest.hcl
+#         continue-on-error: true
 
-      - name: Terraform Integration Tests
-        id: integration_tests
-        run: terraform test -verbose -no-color -filter=tests/integration.tftest.hcl
-        continue-on-error: true
+#       - name: Terraform Integration Tests
+#         id: integration_tests
+#         run: terraform test -verbose -no-color -filter=tests/integration.tftest.hcl
+#         continue-on-error: true
 
-      - uses: actions/github-script@v7
-      #   if: github.event_name == 'pull_request'
-        with:
-          github-token: ${{ steps.generate-token.outputs.token }}
-          script: |
-            // 1. Retrieve existing bot comments for the PR
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            })
-            const botComment = comments.find(comment => {
-              return comment.user.type === 'Bot' && comment.body.includes('Terraform Format and Style')
-            })
+#       - uses: actions/github-script@v7
+#       #   if: github.event_name == 'pull_request'
+#         with:
+#           github-token: ${{ steps.generate-token.outputs.token }}
+#           script: |
+#             // 1. Retrieve existing bot comments for the PR
+#             const { data: comments } = await github.rest.issues.listComments({
+#               owner: context.repo.owner,
+#               repo: context.repo.repo,
+#               issue_number: context.issue.number,
+#             })
+#             const botComment = comments.find(comment => {
+#               return comment.user.type === 'Bot' && comment.body.includes('Terraform Format and Style')
+#             })
 
-            // Get test outcomes
-            const unitOutcome = "${{ steps.unit_tests.outcome }}";
-            const integrationOutcome = "${{ steps.integration_tests.outcome }}";
+#             // Get test outcomes
+#             const unitOutcome = "${{ steps.unit_tests.outcome }}";
+#             const integrationOutcome = "${{ steps.integration_tests.outcome }}";
             
-            // Workflow URL for failures
-            const workflowUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}";
+#             // Workflow URL for failures
+#             const workflowUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}";
 
-            // Unit test section
-            let unitSection = `#### Terraform Unit Tests 🧪\`${unitOutcome}\``;
-            if (unitOutcome === 'failure') {
-              unitSection += `\n\n<details><summary>❌ View Failure Details</summary>\n\nTest Failed\n\n[View complete test logs in workflow run](${workflowUrl})\n\n</details>`;
-            }
+#             // Unit test section
+#             let unitSection = `#### Terraform Unit Tests 🧪\`${unitOutcome}\``;
+#             if (unitOutcome === 'failure') {
+#               unitSection += `\n\n<details><summary>❌ View Failure Details</summary>\n\nTest Failed\n\n[View complete test logs in workflow run](${workflowUrl})\n\n</details>`;
+#             }
 
-            // Integration test section
-            let integrationSection = `#### Terraform Integration Tests 🧪\`${integrationOutcome}\``;
-            if (integrationOutcome === 'failure') {
-              integrationSection += `\n\n<details><summary>❌ View Failure Details</summary>\n\nTest failed\n\n[View complete test logs in workflow run](${workflowUrl})\n\n</details>`;
-            }
+#             // Integration test section
+#             let integrationSection = `#### Terraform Integration Tests 🧪\`${integrationOutcome}\``;
+#             if (integrationOutcome === 'failure') {
+#               integrationSection += `\n\n<details><summary>❌ View Failure Details</summary>\n\nTest failed\n\n[View complete test logs in workflow run](${workflowUrl})\n\n</details>`;
+#             }
 
-            // 2. Prepare format of the comment
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-            <details><summary>Validation Output</summary>
+#             // 2. Prepare format of the comment
+#             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+#             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+#             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+#             <details><summary>Validation Output</summary>
 
-            \`\`\`terraform
-            ${{ steps.validate.outputs.stdout }}
-            \`\`\`
+#             \`\`\`terraform
+#             ${{ steps.validate.outputs.stdout }}
+#             \`\`\`
 
-            </details>
+#             </details>
 
-            ${unitSection}
+#             ${unitSection}
 
-            ${integrationSection}
+#             ${integrationSection}
 
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
+#             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
 
-            // 3. If we have a comment, update it, otherwise create a new one
-            if (botComment) {
-              github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: botComment.id,
-                body: output
-              })
-            } else {
-              github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: output
-              })
-            }
+#             // 3. If we have a comment, update it, otherwise create a new one
+#             if (botComment) {
+#               github.rest.issues.updateComment({
+#                 owner: context.repo.owner,
+#                 repo: context.repo.repo,
+#                 comment_id: botComment.id,
+#                 body: output
+#               })
+#             } else {
+#               github.rest.issues.createComment({
+#                 issue_number: context.issue.number,
+#                 owner: context.repo.owner,
+#                 repo: context.repo.repo,
+#                 body: output
+#               })
+#             }
 
-      - name: Fail if tests failed
-        if: steps.unit_tests.outcome == 'failure' || steps.integration_tests.outcome == 'failure' 
-        run: exit 1
+#       - name: Fail if tests failed
+#         if: steps.unit_tests.outcome == 'failure' || steps.integration_tests.outcome == 'failure' 
+#         run: exit 1

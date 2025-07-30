@@ -121,13 +121,9 @@ run "apply" {
     condition     = kubectl_manifest.app_of_apps.namespace == "argocd"
     error_message = "App of Apps namespace not correct."
   }
+
   assert {
     condition     = kubectl_manifest.argocd_access_token.name == "github-access-secret"
     error_message = "GitHub access token secret name not correct."
-  }
-
-  assert {
-    condition     = kubectl_manifest.notification_secrets.name == "argocd-notifications-secret"
-    error_message = "Notifications secret name not correct."
   }
 }
