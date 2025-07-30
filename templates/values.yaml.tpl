@@ -109,18 +109,6 @@ configs:
       # OIDC client secret
       oidc.auth0.clientSecret: ${sp_client_secret}
 
-  # Repository credentials
-  repositories:
-%{ for repo in github_repositories ~}
-    ${repo.name}:
-      url: ${repo.url}
-      type: git
-      githubAppID: "${repo.app_id}"
-      githubAppInstallationID: "${repo.installation_id}"
-      githubAppPrivateKey: |
-        ${replace(repo.private_key, "\n", "\n        ")}
-%{ endfor ~}
-
 # Server configuration with ingress
 server:
   resources:
