@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/cloudcops/tfmod-az-argocd/compare/2.1.0...2.2.0) (2025-07-31)
+
+
+### Features
+
+* **CC-9:** add necessary argocd secrets ([d424d95](https://github.com/cloudcops/tfmod-az-argocd/commit/d424d95043a03048c8272d7fae2818d7e7ebbd15))
+
 # [2.1.0](https://github.com/cloudcops/tfmod-az-argocd/compare/2.0.0...2.1.0) (2025-07-25)
 
 
