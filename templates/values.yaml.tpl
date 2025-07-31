@@ -15,7 +15,7 @@ configs:
       name: ${idp_argocd_name}
       issuer: https://${idp_endpoint}
       clientID: ${sp_client_id}
-      clientSecret: $oidc.clientSecret
+      clientSecret: $oidc.auth0.clientSecret
       skipAudienceCheckWhenTokenHasNoAudience: true
       requestedScopes: [${join(", ", formatlist("\"%s\"", idp_argocd_allowed_oauth_scopes))}]
       requestedIDTokenClaims:
@@ -104,23 +104,10 @@ configs:
 
   # Secret configuration
   secret:
-    # OIDC client secret
-    oidc.clientSecret: ${sp_client_secret}
-    # GitHub App credentials for notifications
-    github-privateKey: |
-      ${replace(github_private_key, "\n", "\n      ")}
-
-  # Repository credentials
-  repositories:
-%{ for repo in github_repositories ~}
-    ${repo.name}:
-      url: ${repo.url}
-      type: git
-      githubAppID: "${repo.app_id}"
-      githubAppInstallationID: "${repo.installation_id}"
-      githubAppPrivateKey: |
-        ${replace(repo.private_key, "\n", "\n        ")}
-%{ endfor ~}
+    createSecret: true
+    extra:
+      # OIDC client secret
+      oidc.auth0.clientSecret: ${sp_client_secret}
 
 # Server configuration with ingress
 server:
@@ -138,6 +125,7 @@ server:
     tls: ${tls_enabled}
 %{ if tls_enabled ~}
     annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       nginx.ingress.kubernetes.io/configuration-snippet: |
         if ($http_x_forwarded_proto = 'http') {
           return 301 https://$host$request_uri;
