@@ -259,3 +259,15 @@ variable "argocd_dex_cpu_request" {
     error_message = "CPU requests must be a number optionally followed by 'm' (e.g., '100m', '0.5', '1')."
   }
 }
+
+variable "metrics_enabled" {
+  description = "Enable metrics endpoints for ArgoCD components."
+  type        = bool
+  default     = false
+}
+
+variable "service_monitor_enabled" {
+  description = "Enable ServiceMonitor resources for Prometheus scraping."
+  type        = bool
+  default     = false
+}

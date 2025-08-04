@@ -327,6 +327,14 @@ Type: `string`
 
 Default: `"info"`
 
+### <a name="input_metrics_enabled"></a> [metrics\_enabled](#input\_metrics\_enabled)
+
+Description: Enable metrics endpoints for ArgoCD components.
+
+Type: `bool`
+
+Default: `false`
+
 ### <a name="input_p_role"></a> [p\_role](#input\_p\_role)
 
 Description: Placeholder role, typically assigning no access in ArgoCD via OIDC.
@@ -350,6 +358,14 @@ Description: Specifies the Git branch name for the ArgoCD Application.
 Type: `string`
 
 Default: `"main"`
+
+### <a name="input_service_monitor_enabled"></a> [service\_monitor\_enabled](#input\_service\_monitor\_enabled)
+
+Description: Enable ServiceMonitor resources for Prometheus scraping.
+
+Type: `bool`
+
+Default: `false`
 
 ### <a name="input_tls_enabled"></a> [tls\_enabled](#input\_tls\_enabled)
 
