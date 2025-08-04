@@ -51,6 +51,9 @@ resource "helm_release" "argocd" {
       argocd_redis_cpu_request          = var.argocd_redis_cpu_request
       argocd_dex_memory                 = var.argocd_dex_memory_limit
       argocd_dex_cpu_request            = var.argocd_dex_cpu_request
+      # Metrics configuration
+      metrics_enabled         = var.metrics_enabled
+      service_monitor_enabled = var.service_monitor_enabled
     })
   ]
 
