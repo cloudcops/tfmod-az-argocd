@@ -186,8 +186,6 @@ redis:
     requests:
       memory: ${argocd_redis_memory}
       cpu: ${argocd_redis_cpu_request}
-  
-  # Enable metrics endpoint for Prometheus scraping
   metrics:
     enabled: ${metrics_enabled}
     serviceMonitor:
