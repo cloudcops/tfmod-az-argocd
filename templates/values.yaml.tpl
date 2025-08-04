@@ -119,6 +119,9 @@ server:
       cpu: ${argocd_server_cpu_request}
   metrics:
     enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
   
   ingress:
     enabled: true
@@ -147,6 +150,9 @@ controller:
       cpu: ${argocd_controller_cpu_request}
   metrics:
     enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
 
 # Repository Server configuration
 repoServer:
@@ -158,6 +164,9 @@ repoServer:
       cpu: ${argocd_reposerver_cpu_request}
   metrics:
     enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
 
 # ApplicationSet Controller configuration
 applicationSet:
@@ -169,6 +178,9 @@ applicationSet:
       cpu: ${argocd_applicationset_cpu_request}
   metrics:
     enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
 
 # Redis configuration
 redis:
@@ -182,6 +194,9 @@ redis:
   # Enable metrics endpoint for Prometheus scraping
   metrics:
     enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
 
 # Dex configuration (if using Dex for OIDC)
 dex:
