@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/cloudcops/tfmod-az-argocd/compare/2.2.0...2.3.0) (2025-08-04)
+
+
+### Features
+
+* **MPS-529:** add service monitor setting  ([588951a](https://github.com/cloudcops/tfmod-az-argocd/commit/588951adc9ddf70fb04803d934456feefa5db640))
+
 # [2.2.0](https://github.com/cloudcops/tfmod-az-argocd/compare/2.1.0...2.2.0) (2025-07-31)
 
 
