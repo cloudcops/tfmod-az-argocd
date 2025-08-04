@@ -35,4 +35,6 @@ module "wrapper" {
   sp_client_secret                   = try(each.value.sp_client_secret, var.defaults.sp_client_secret)
   tls_enabled                        = try(each.value.tls_enabled, var.defaults.tls_enabled, false)
   url                                = try(each.value.url, var.defaults.url)
+  metrics_enabled                    = try(each.value.metrics_enabled, var.defaults.metrics_enabled, false)
+  service_monitor_enabled            = try(each.value.service_monitor_enabled, var.defaults.service_monitor_enabled, false)
 }
