@@ -211,21 +211,23 @@ notifications:
       memory: ${argocd_notifications_memory}
       cpu: ${argocd_notifications_cpu_request}
   
-  cm:
-    # Notification services configuration
+  # Notification services configuration
+  notifiers:
     service.github: |
       appID: "${github_app_id}"
       installationID: "${github_installation_id}"
       privateKey: $github-privateKey
 
-    # Trigger configuration
+  # Trigger configuration
+  triggers:
     trigger.on-deployed: |
       - description: "Application is synced and healthy. Triggered once per commit."
         oncePer: "app.status.operationState?.syncResult?.revision"
         send: ["app-deployed"]
         when: "app.status.operationState != nil and app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'"
 
-    # Template configuration
+  # Template configuration
+  templates:
     template.app-deployed: |
       message: "All Applications of {{.app.metadata.name}} are synced and healthy."
       github:
