@@ -12,6 +12,7 @@ run "setup" {
 }
 
 provider "kubernetes" {
+  alias                  = "test"
   host                   = run.setup.host
   client_certificate     = run.setup.client_certificate
   client_key             = run.setup.client_key
@@ -19,6 +20,7 @@ provider "kubernetes" {
 }
 
 provider "helm" {
+  alias = "test"
   kubernetes = {
     host                   = run.setup.host
     client_certificate     = run.setup.client_certificate
@@ -28,6 +30,7 @@ provider "helm" {
 }
 
 provider "kubectl" {
+  alias                  = "test"
   host                   = run.setup.host
   client_certificate     = run.setup.client_certificate
   client_key             = run.setup.client_key
@@ -55,6 +58,12 @@ variables {
 
 run "plan" {
   command = plan
+
+  providers = {
+    kubernetes = kubernetes.test
+    helm       = helm.test
+    kubectl    = kubectl.test
+  }
 
   variables {
     sp_client_id     = run.setup.client_id
