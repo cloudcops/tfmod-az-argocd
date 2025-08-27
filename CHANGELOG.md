@@ -1,3 +1,10 @@
+## [2.3.1](https://github.com/cloudcops/tfmod-az-argocd/compare/2.3.0...2.3.1) (2025-08-27)
+
+
+### Bug Fixes
+
+* **MPS-579:** use valid values for notification ([#14](https://github.com/cloudcops/tfmod-az-argocd/issues/14)) ([0159a2b](https://github.com/cloudcops/tfmod-az-argocd/commit/0159a2b5076388ff448ea4b36525b698d3da0e91))
+
 # [2.3.0](https://github.com/cloudcops/tfmod-az-argocd/compare/2.2.0...2.3.0) (2025-08-04)
 
 
