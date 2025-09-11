@@ -271,3 +271,4 @@ notifications:
             ---
 
             :robot: *Automated notification via ArgoCD*
+          commentTag: "argocd/{{.app.metadata.name}}/${app_environment}"  
