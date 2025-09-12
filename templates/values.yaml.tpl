@@ -246,6 +246,7 @@ notifications:
           autoMerge: true
           transientEnvironment: false
         pullRequestComment:
+          commentTag: "argocd/{{.app.metadata.name}}/${app_environment}" 
           content: |
             :wave: @myperfectstay/developers @myperfectstay/devops
 
