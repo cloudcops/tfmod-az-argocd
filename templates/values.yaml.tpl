@@ -271,4 +271,4 @@ notifications:
 
             ---
 
-            :robot: *Automated notification via ArgoCD* 
+            :robot: *Automated notification via ArgoCD*
