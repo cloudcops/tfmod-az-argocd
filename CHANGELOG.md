@@ -1,3 +1,10 @@
+## [2.3.2](https://github.com/cloudcops/tfmod-az-argocd/compare/2.3.1...2.3.2) (2025-09-12)
+
+
+### Bug Fixes
+
+* **MPS-654:** make argoCD PR comments sticky ([#18](https://github.com/cloudcops/tfmod-az-argocd/issues/18)) ([e807724](https://github.com/cloudcops/tfmod-az-argocd/commit/e8077246925b565ff0c6b93c6c751fa83a3ce265))
+
 ## [2.3.1](https://github.com/cloudcops/tfmod-az-argocd/compare/2.3.0...2.3.1) (2025-08-27)
 
 
