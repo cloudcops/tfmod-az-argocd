@@ -3,6 +3,8 @@
 ## Overview
 This module creates ArgoCD for a Kubernetes cluster and configures SSO via Azure Entra ID.
 
+Also implements a `wrapper` module so it can be used consumed easier via Terragrunt.
+
 ## Example usage
 
 ```
