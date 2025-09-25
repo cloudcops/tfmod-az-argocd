@@ -1,4 +1,5 @@
 ## Contribute
+TBD
 
 ### Development
 TBD
@@ -21,6 +22,3 @@ This terraform module features:
 The `tests` directory is meant run unit and integrations tests for the terraform module. For integration testing, prepare your environment in `tests/setup`. 
 
 Tests can be run with `terraform init && terraform test`.
-
-## Note
-This module is meant to be used internally by `myperfectstay.ai`. When selling products that rely on Terraform, be careful with HashiCorps BSL license. In such a case, get an enterprise license or try to use [OpenTofu](https://opentofu.org/).

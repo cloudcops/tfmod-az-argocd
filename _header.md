@@ -1,16 +1,16 @@
 # Terraform Module: `argocd`
 
 ## Overview
-This module creates ArgoCD for an Azure AKS cluster in Azure.
+This module creates ArgoCD for a Kubernetes cluster and configures SSO via Azure Entra ID.
 
 ## Example usage
 
 ```
 module "argocd" {
   source       = "../modules/argocd"
-  argocd_version     = "v2.10.7"
+  argocd_version     = "v3.0.0"
   repo_revision      = "main"
-  repo_url           = "https://git.immonow.at/now/dev-ops/continuous-deployments/projects/argocd-cluster-apps.git"
+  repo_url           = "https://example.com/argocd-repo.git"
   url                = "argocd.example.com"
   sp_client_id                = "..."
   sp_client_secret            = "..."
@@ -18,18 +18,18 @@ module "argocd" {
   cluster_resource_group_name = "..."
   tls_enabled        = true
   ingress_class_name = "nginx-public"
-  app_path           = "overlays/tests"
-  idp_endpoint       = "https://login.microsoftonline.com/39d11cc9-3e65-4ac2-938b-9e5264b7a7ce/v2.0"
+  app_path           = "overlays/dev"
+  idp_endpoint       = "https://login.microsoftonline.com/<your_tenant_id>/v2.0"
   access_token_secret_configuration = {
     "0" = {
-      url      = "https://git.immonow.at/now/dev-ops/continuous-deployments/projects/argocd-cluster-apps.git"
+      url      = "https://example.com/argocd-repo.git"
       username = "token"
       name     = "argocd-cluster-apps"
       password = "..."
       type     = "git"
     }
     "1" = {
-      url      = "https://git.immonow.at/api/v4/projects/99/packages/helm/generic"
+      url      = "https://example.com/helm-repo.git"
       username = "token"
       name     = "helm-charts"
       password = "..."
@@ -38,11 +38,11 @@ module "argocd" {
   }
   rbac4groups = [
     {
-      name = "sg-now-devops"
+      name = "sg-admin" # entra id group name
       role = "admin"
     },
     {
-      name = "sg-now-developer"
+      name = "sg-developer"
       role = "reader"
     }
   ]
