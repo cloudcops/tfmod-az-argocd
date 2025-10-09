@@ -20,47 +20,8 @@ data:
     requestedIDTokenClaims:
       groups:
         essential: true
-  resource.customizations: |
-    argoproj.io/Application:
-      health.lua: |
-        hs = {}
-        hs.status = "Progressing"
-        hs.message = ""
-        if obj.status ~= nil then
-          if obj.status.health ~= nil then
-            hs.status = obj.status.health.status
-            if obj.status.health.message ~= nil then
-              hs.message = obj.status.health.message
-            end
-          end
-        end
-        return hs
-    batch/Job:
-      health.lua: |
-        hs = {}
-        if obj.metadata.name == "viator-full-sync" then
-            hs.status = "Healthy"
-            hs.message = "Custom override: treating viator-full-sync as healthy"
-            return hs
-        end
-        if obj.status ~= nil then
-            if obj.status.succeeded ~= nil and obj.status.succeeded >= 1 then
-            hs.status = "Healthy"
-            hs.message = "Job completed successfully"
-            elseif obj.status.failed ~= nil and obj.status.failed > 0 then
-            hs.status = "Degraded"
-            hs.message = "Job has failed"
-            else
-            hs.status = "Progressing"
-            hs.message = "Job is running"
-            end
-        else
-            hs.status = "Progressing"
-            hs.message = "Waiting for job status"
-        end
-        return hs
   timeout.hard.reconciliation: 0s
-  timeout.reconciliation: 180s    
+  timeout.reconciliation: 180s
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -101,16 +62,16 @@ data:
         and app.status.health.status == 'Healthy'
   template.app-deployed: |
     message: |
-      All Applications of {{.app.metadata.name}} are synced and healthy.
+      Application {{.app.metadata.name}} finished sync {{ default "Unknown" .app.status.sync.status }} with health {{ default "Unknown" .app.status.health.status }}.
     github:
       repoURLPath: "{{.app.spec.source.repoURL}}"
       revisionPath: "{{.app.status.operationState.syncResult.revision}}"
       status:
-        state: success
-        label: "${ argocd_path }"
+        state: {{ if and (eq .app.status.sync.status "Synced") (eq .app.status.health.status "Healthy") }}success{{ else }}pending{{ end }}
+        label: "{{ .app.metadata.name }}"
         targetURL: "https://${ url }/applications/{{.app.metadata.name}}?operation=true"
       deployment:
-        state: success
+        state: {{ if and (eq .app.status.sync.status "Synced") (eq .app.status.health.status "Healthy") }}success{{ else }}failure{{ end }}
         environment: "${ argocd_environment }"
         environmentURL: "${ argocd_notification_url_for_github }"
         logURL: "https://${ url }/applications/{{.app.metadata.name}}?operation=true"
@@ -122,23 +83,28 @@ data:
           :wave: @myperfectstay/developers @myperfectstay/devops
 
           :tada: **Deployment Status:**
-          Your deployment for `Application` `{{.app.metadata.name}}` was successful! :rocket:
+          Application `{{ .app.metadata.name }}` is **{{ default "Unknown" .app.status.sync.status }}** with health **{{ default "Unknown" .app.status.health.status }}**.
 
-          All related applications are **synced** and **healthy**. :white_check_mark:
+          {{- $apps := dict "items" (list) -}}
+          {{- range $res := .app.status.resources }}
+          {{- if eq $res.kind "Application" -}}
+          {{- $_ := set $apps "items" (append (index $apps "items") $res) }}
+          {{- end -}}
+          {{- end -}}
 
-          ### :package: MPS Backend Applications Overview
-          | Application         | Status                        | Link                                                                            |
-          |---------------------|-------------------------------|---------------------------------------------------------------------------------|
-          | `app-of-apps`       | ✔ {{.app.status.sync.status}} | [Go to Operations](https://${ url }/applications/{{.app.metadata.name}}?operation=true) |
-          | `mps-core`          | ✔ {{.app.status.sync.status}} | [Go to Application](https://${ url }/applications/mps-core)                             |
-          | `mps-celery-beat`   | ✔ {{.app.status.sync.status}} | [Go to Application](https://${ url }/applications/mps-celery-beat)                      |
-          | `mps-celery-worker` | ✔ {{.app.status.sync.status}} | [Go to Application](https://${ url }/applications/mps-celery-worker)                    |
+          {{- if gt (len (index $apps "items")) 0 }}
+          ### :package: Application Overview
+          | Application | Sync Status | Health | Link |
+          |-------------|-------------|--------|------|
+          {{- range $item := (index $apps "items") }}
+          | `{{$item.name}}` | {{$item.status}} | {{ if $item.health }}{{$item.health.status}}{{ else }}Unknown{{ end }} | [Open in Argo](https://${ url }/applications/{{$item.name}}) |
+          {{- end }}
+          {{- end }}
 
           ---
 
           :link: **Quick Access:**
-          - [MPS backend API docs](${ argocd_notification_url_for_github })
-          - [ArgoCD Operations for `app-of-apps`](https://${ url }/applications/{{.app.metadata.name}}?operation=true)
+          - [ArgoCD Operations for `{{ .app.metadata.name }}`](https://${ url }/applications/{{.app.metadata.name}}?operation=true)
 
           ---
 
