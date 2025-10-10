@@ -248,8 +248,6 @@ notifications:
           transientEnvironment: false
         pullRequestComment:
           content: |
-            :wave: @myperfectstay/developers @myperfectstay/devops
-
             :tada: **Deployment Status:**
             Application `{{ .app.metadata.name }}` is **{{ default "Unknown" .app.status.sync.status }}** with health **{{ default "Unknown" .app.status.health.status }}** in **${app_environment}**.
 
@@ -268,24 +266,6 @@ notifications:
             | `{{$item.name}}` | {{$item.status}} | {{ if $item.health }}{{$item.health.status}}{{ else }}Unknown{{ end }} | [Open in Argo](https://${url}/applications/{{$item.name}}) |
             {{- end }}
             {{- end }}
-
-            ---
-
-            ### :link: Quick Links
-
-            **Application Access:**
-            - [Backend API Docs](https://api.${app_environment}.myperfectstay.com/api/docs/)
-            - [Django Admin](https://api.${app_environment}.myperfectstay.com/admin/)
-            - [ArgoCD](https://argocd.${app_environment}.myperfectstay.com)
-            - [Sentry Issues](https://cloudcops.sentry.io/issues/?environment=${app_environment}&statsPeriod=1h)
-
-            **Monitoring & Dashboards:**
-            - [Backend Resources](https://grafana.${app_environment}.myperfectstay.com/d/k8s_views_ns/kubernetes-views-namespaces?orgId=1&var-datasource=prometheus&var-namespace=mps-backend&refresh=30s)
-            - [Infrastructure Services](https://grafana.${app_environment}.myperfectstay.com/d/k8s_views_ns/kubernetes-views-namespaces?orgId=1&var-datasource=prometheus&var-namespace=dragonfly&var-namespace=mongodb&var-namespace=postgres-operator&var-namespace=rabbitmq&refresh=30s)
-            - [RabbitMQ](https://grafana.${app_environment}.myperfectstay.com/d/Kn5xm-gZk/rabbitmq-overview?orgId=1&var-DS_PROMETHEUS=prometheus&var-namespace=rabbitmq&var-rabbitmq_cluster=rabbitmq&refresh=15s)
-            - [PostgreSQL](https://grafana.${app_environment}.myperfectstay.com/d/000000039/postgresql-database?orgId=1&var-DS_PROMETHEUS=prometheus&refresh=10s)
-            - [DragonflyDB](https://grafana.${app_environment}.myperfectstay.com/d/xDLNRKUWl/dragonfly-dashboard?orgId=1&var-DS_PROMETHEUS=prometheus&var-namespace=dragonfly)
-            - [NGINX LoadBalancer](https://grafana.${app_environment}.myperfectstay.com/d/nextgen-custom/nginx-controller-nextgen-custom?orgId=1&refresh=1m)
 
             ---
 
