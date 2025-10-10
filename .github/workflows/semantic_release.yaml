@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main    
 
 permissions: read-all
 
@@ -15,11 +18,43 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          persist-credentials: false        
+          persist-credentials: false       
 
-      - name: Generate Token
+      - name: Validate Secret Formats
+        run: |
+          if [ -z "$GH_SEMREL_APP_ID" ]; then
+            echo "GH_SEMREL_APP_ID is not set"
+          elif [ ${#GH_SEMREL_APP_ID} -lt 5 ] || [ ${#GH_SEMREL_APP_ID} -gt 7 ]; then
+            echo "Warning: GH_SEMREL_APP_ID length unexpected (got ${#GH_SEMREL_APP_ID}, expected 5-7)"
+          else
+            echo "GH_SEMREL_APP_ID is set and length looks correct (${#GH_SEMREL_APP_ID} chars)"
+          fi
+          
+          if [ -z "$GH_SEMREL_PRIVATE_KEY" ]; then
+            echo "GH_SEMREL_PRIVATE_KEY is not set"
+          elif [ ${#GH_SEMREL_PRIVATE_KEY} -lt 1600 ]; then
+            echo "Warning: GH_SEMREL_PRIVATE_KEY seems too short (got ${#GH_SEMREL_PRIVATE_KEY})"
+          else
+            echo "GH_SEMREL_PRIVATE_KEY is set and length looks correct (${#GH_SEMREL_PRIVATE_KEY} chars)"
+          fi
+          
+          if [ -z "$CC_TFTEST_CLIENT_ID" ]; then
+            echo "CC_TFTEST_CLIENT_ID is not set"
+          elif [ ${#CC_TFTEST_CLIENT_ID} -ne 36 ]; then
+            echo "Warning: CC_TFTEST_CLIENT_ID length incorrect (got ${#CC_TFTEST_CLIENT_ID}, expected 36)"
+          else
+            echo "CC_TFTEST_CLIENT_ID is set and length looks correct (${#CC_TFTEST_CLIENT_ID} chars)"
+          fi
+          
+          echo "Secret validation complete"
+        env:
+          GH_SEMREL_APP_ID: ${{ secrets.GH_SEMREL_APP_ID }}
+          GH_SEMREL_PRIVATE_KEY: ${{ secrets.GH_SEMREL_PRIVATE_KEY }}
+          CC_TFTEST_CLIENT_ID: ${{ secrets.CC_TFTEST_CLIENT_ID }}
+        
+      - name: Generate GitHub App Token
         uses: actions/create-github-app-token@v1
-        id: generate-token
+        id: generate_token
         with:
           app-id: ${{ secrets.GH_SEMREL_APP_ID }}
           private-key: ${{ secrets.GH_SEMREL_PRIVATE_KEY }}
@@ -28,8 +63,3 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 'latest'
-
-      - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v4
-        env:
-          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
