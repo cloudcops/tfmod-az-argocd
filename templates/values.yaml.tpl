@@ -222,23 +222,24 @@ notifications:
   triggers:
     trigger.on-deployed: |
       - description: "Application is synced and healthy. Triggered once per commit."
-        oncePer: "app.status.operationState?.syncResult?.revision"
+        oncePer: "app.metadata.annotations[\"notifications.argoproj.io/github.sha\"]"
         send: ["app-deployed"]
         when: "app.status.operationState != nil and app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'"
 
   # Template configuration
   templates:
     template.app-deployed: |
-      message: "All Applications of {{.app.metadata.name}} are synced and healthy."
+      message: |
+        Deployment {{ if and (eq .app.status.sync.status "Synced") (eq .app.status.health.status "Healthy") }}successful{{ else }}failed{{ end }} - ${app_environment}
       github:
-        repoURLPath: "{{.app.spec.source.repoURL}}"
-        revisionPath: "{{.app.status.operationState.syncResult.revision}}"
+        repoURLPath: "{{ (get .app.metadata.annotations \"notifications.argoproj.io/github.repo\") | default .app.spec.source.repoURL }}"
+        revisionPath: "{{ get .app.metadata.annotations \"notifications.argoproj.io/github.sha\" }}"
         status:
-          state: "success"
-          label: "${app_path}"
+          state: "{{ if and (eq .app.status.sync.status \"Synced\") (eq .app.status.health.status \"Healthy\") }}success{{ else }}pending{{ end }}"
+          label: "{{ .app.metadata.name }}"
           targetURL: "https://${url}/applications/{{.app.metadata.name}}?operation=true"
         deployment:
-          state: "success"
+          state: "{{ if and (eq .app.status.sync.status \"Synced\") (eq .app.status.health.status \"Healthy\") }}success{{ else }}failure{{ end }}"
           environment: "${app_environment}"
           environmentURL: "${argocd_notification_url_for_github}"
           logURL: "https://${url}/applications/{{.app.metadata.name}}?operation=true"
@@ -246,28 +247,45 @@ notifications:
           autoMerge: true
           transientEnvironment: false
         pullRequestComment:
-          commentTag: "argocd/{{.app.metadata.name}}/${app_environment}" 
           content: |
             :wave: @myperfectstay/developers @myperfectstay/devops
 
             :tada: **Deployment Status:**
-            Your deployment for `Application` `{{.app.metadata.name}}` was successful! :rocket:
+            Application `{{ .app.metadata.name }}` is **{{ default "Unknown" .app.status.sync.status }}** with health **{{ default "Unknown" .app.status.health.status }}** in **${app_environment}**.
 
-            All related applications are **synced** and **healthy**. :white_check_mark:
+            {{- $apps := dict "items" (list) -}}
+            {{- range $res := .app.status.resources }}
+            {{- if eq $res.kind "Application" -}}
+            {{- $_ := set $apps "items" (append (index $apps "items") $res) }}
+            {{- end -}}
+            {{- end -}}
 
-            ### :package: MPS Backend Applications Overview
-            | Application         | Status                        | Link                                                                            |
-            |---------------------|-------------------------------|---------------------------------------------------------------------------------|
-            | `app-of-apps`       | ✔ {{.app.status.sync.status}} | [Go to Operations](https://${url}/applications/{{.app.metadata.name}}?operation=true) |
-            | `mps-core`          | ✔ {{.app.status.sync.status}} | [Go to Application](https://${url}/applications/mps-core)                             |
-            | `mps-celery-beat`   | ✔ {{.app.status.sync.status}} | [Go to Application](https://${url}/applications/mps-celery-beat)                      |
-            | `mps-celery-worker` | ✔ {{.app.status.sync.status}} | [Go to Application](https://${url}/applications/mps-celery-worker)                    |
+            {{- if gt (len (index $apps "items")) 0 }}
+            ### :package: Application Overview
+            | Application | Sync Status | Health | Link |
+            |-------------|-------------|--------|------|
+            {{- range $item := (index $apps "items") }}
+            | `{{$item.name}}` | {{$item.status}} | {{ if $item.health }}{{$item.health.status}}{{ else }}Unknown{{ end }} | [Open in Argo](https://${url}/applications/{{$item.name}}) |
+            {{- end }}
+            {{- end }}
 
             ---
 
-            :link: **Quick Access:**
-            - [MPS backend API docs](${argocd_notification_url_for_github})
-            - [ArgoCD Operations for `app-of-apps`](https://${url}/applications/{{.app.metadata.name}}?operation=true)
+            ### :link: Quick Links
+
+            **Application Access:**
+            - [Backend API Docs](https://api.${app_environment}.myperfectstay.com/api/docs/)
+            - [Django Admin](https://api.${app_environment}.myperfectstay.com/admin/)
+            - [ArgoCD](https://argocd.${app_environment}.myperfectstay.com)
+            - [Sentry Issues](https://cloudcops.sentry.io/issues/?environment=${app_environment}&statsPeriod=1h)
+
+            **Monitoring & Dashboards:**
+            - [Backend Resources](https://grafana.${app_environment}.myperfectstay.com/d/k8s_views_ns/kubernetes-views-namespaces?orgId=1&var-datasource=prometheus&var-namespace=mps-backend&refresh=30s)
+            - [Infrastructure Services](https://grafana.${app_environment}.myperfectstay.com/d/k8s_views_ns/kubernetes-views-namespaces?orgId=1&var-datasource=prometheus&var-namespace=dragonfly&var-namespace=mongodb&var-namespace=postgres-operator&var-namespace=rabbitmq&refresh=30s)
+            - [RabbitMQ](https://grafana.${app_environment}.myperfectstay.com/d/Kn5xm-gZk/rabbitmq-overview?orgId=1&var-DS_PROMETHEUS=prometheus&var-namespace=rabbitmq&var-rabbitmq_cluster=rabbitmq&refresh=15s)
+            - [PostgreSQL](https://grafana.${app_environment}.myperfectstay.com/d/000000039/postgresql-database?orgId=1&var-DS_PROMETHEUS=prometheus&refresh=10s)
+            - [DragonflyDB](https://grafana.${app_environment}.myperfectstay.com/d/xDLNRKUWl/dragonfly-dashboard?orgId=1&var-DS_PROMETHEUS=prometheus&var-namespace=dragonfly)
+            - [NGINX LoadBalancer](https://grafana.${app_environment}.myperfectstay.com/d/nextgen-custom/nginx-controller-nextgen-custom?orgId=1&refresh=1m)
 
             ---
 
