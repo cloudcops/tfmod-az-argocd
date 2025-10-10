@@ -4,7 +4,7 @@
 This module creates ArgoCD for a Kubernetes cluster and configures:
 - SSO via Azure Entra ID
 - GitHub App integration for notifications and deployments
-- Dynamic notification configuration for Helm based ArgoCD apps using annotatios `notifications.argoproj.io/github.sha=<full_commit_sha>` & `notifications.argoproj.io/github.repo=<github_repo_path>` on `Application` manifests
+- Dynamic notification configuration for Helm based ArgoCD apps using annotations `notifications.argoproj.io/github.sha=<full_commit_sha>` & `notifications.argoproj.io/github.repo=<github_repo_path>` on `Application` manifests
 - Resource limits and metrics
 
 Also implements a `wrapper` module so it can be consumed easier via Terragrunt.
@@ -55,4 +55,5 @@ module "argocd" {
       role = "reader"
     }
   ]
+}
 ```
