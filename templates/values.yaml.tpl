@@ -225,6 +225,11 @@ notifications:
         oncePer: "app.metadata.annotations[\"notifications.argoproj.io/github.sha\"]"
         send: ["app-deployed"]
         when: "app.status.operationState != nil and app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'"
+    trigger.on-deploy-failed: |
+      - description: "Application sync failed or is unhealthy. Triggered once per commit."
+        oncePer: "app.metadata.annotations[\"notifications.argoproj.io/github.sha\"]"
+        send: ["app-deploy-failed"]
+        when: "app.status.operationState != nil and (app.status.operationState.phase in ['Error', 'Failed'] or app.status.health.status in ['Degraded', 'Missing', 'Unknown'])"
 
   # Template configuration
   templates:
@@ -251,22 +256,49 @@ notifications:
             :tada: **Deployment Status:**
             Application `{{ .app.metadata.name }}` is **{{ default "Unknown" .app.status.sync.status }}** with health **{{ default "Unknown" .app.status.health.status }}** in **${app_environment}**.
 
-            {{- $apps := dict "items" (list) -}}
-            {{- range $res := .app.status.resources }}
-            {{- if eq $res.kind "Application" -}}
-            {{- $_ := set $apps "items" (append (index $apps "items") $res) }}
-            {{- end -}}
-            {{- end -}}
-
-            {{- if gt (len (index $apps "items")) 0 }}
-            ### :package: Application Overview
-            | Application | Sync Status | Health | Link |
-            |-------------|-------------|--------|------|
-            {{- range $item := (index $apps "items") }}
-            | `{{$item.name}}` | {{$item.status}} | {{ if $item.health }}{{$item.health.status}}{{ else }}Unknown{{ end }} | [Open in Argo](https://${url}/applications/{{$item.name}}) |
-            {{- end }}
-            {{- end }}
-
             ---
+
+            **Operation Details:**
+            {{- if .app.status.operationState.finishedAt }}
+            - **Finished At:** {{ .app.status.operationState.finishedAt }}
+            {{- end }}
+            {{- if .app.status.operationState.message }}
+            - **Message:** {{ .app.status.operationState.message }}
+            {{- end }}
+
+            :link: **[View in ArgoCD](https://${url}/applications/{{.app.metadata.name}}?operation=true)**
+
+            :robot: *Automated notification via ArgoCD*
+
+    template.app-deploy-failed: |
+      message: |
+        Deployment failed - ${app_environment}
+      github:
+        repoURLPath: "{{ (get .app.metadata.annotations \"notifications.argoproj.io/github.repo\") | default .app.spec.source.repoURL }}"
+        revisionPath: "{{ get .app.metadata.annotations \"notifications.argoproj.io/github.sha\" }}"
+        status:
+          state: "failure"
+          label: "{{ .app.metadata.name }}"
+          targetURL: "https://${url}/applications/{{.app.metadata.name}}?operation=true"
+        deployment:
+          state: "failure"
+          environment: "${app_environment}"
+          environmentURL: "${argocd_notification_url_for_github}"
+          logURL: "https://${url}/applications/{{.app.metadata.name}}?operation=true"
+        pullRequestComment:
+          content: |
+            :x: **Deployment Failed:**
+            Application `{{ .app.metadata.name }}` has **{{ default "Unknown" .app.status.sync.status }}** sync status with **{{ default "Unknown" .app.status.health.status }}** health in **${app_environment}**.
+            ---
+
+            **Operation Details:**
+            {{- if .app.status.operationState.finishedAt }}
+            - **Finished At:** `{{ .app.status.operationState.finishedAt }}`
+            {{- end }}
+            {{- if .app.status.operationState.message }}
+            - **Message:** `{{ .app.status.operationState.message }}`
+            {{- end }}
+
+            :link: **[View in ArgoCD](https://${url}/applications/{{.app.metadata.name}}?operation=true)**
 
             :robot: *Automated notification via ArgoCD*
