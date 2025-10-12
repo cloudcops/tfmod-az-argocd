@@ -296,6 +296,22 @@ map(object({
 
 Default: `{}`
 
+### <a name="input_github_pr_comment_on_failure_enabled"></a> [github\_pr\_comment\_on\_failure\_enabled](#input\_github\_pr\_comment\_on\_failure\_enabled)
+
+Description: Enable PR comments for failed deployments.
+
+Type: `bool`
+
+Default: `true`
+
+### <a name="input_github_pr_comment_on_success_enabled"></a> [github\_pr\_comment\_on\_success\_enabled](#input\_github\_pr\_comment\_on\_success\_enabled)
+
+Description: Enable PR comments for successful deployments.
+
+Type: `bool`
+
+Default: `false`
+
 ### <a name="input_idp_argocd_allowed_oauth_scopes"></a> [idp\_argocd\_allowed\_oauth\_scopes](#input\_idp\_argocd\_allowed\_oauth\_scopes)
 
 Description: List of OAuth scopes permitted for requests to the identity provider.
