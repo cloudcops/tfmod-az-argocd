@@ -55,6 +55,10 @@ resource "helm_release" "argocd" {
       # Metrics configuration
       metrics_enabled         = var.metrics_enabled
       service_monitor_enabled = var.service_monitor_enabled
+
+      # argocd notifications configuration
+      github_pr_comment_on_success_enabled = var.github_pr_comment_on_success_enabled
+      github_pr_comment_on_failure_enabled = var.github_pr_comment_on_failure_enabled
     })
   ]
 

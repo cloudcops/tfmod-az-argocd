@@ -251,6 +251,7 @@ notifications:
           requiredContexts: []
           autoMerge: true
           transientEnvironment: false
+%{ if github_pr_comment_on_success_enabled ~}
         pullRequestComment:
           content: |
             :tada: **Deployment Status:**
@@ -260,16 +261,16 @@ notifications:
 
             **Operation Details:**
             {{- if .app.status.operationState.finishedAt }}
-            - **Finished At:** {{ .app.status.operationState.finishedAt }}
+            - **Finished At:** `{{ .app.status.operationState.finishedAt }}`
             {{- end }}
             {{- if .app.status.operationState.message }}
-            - **Message:** {{ .app.status.operationState.message }}
+            - **Message:** `{{ .app.status.operationState.message }}`
             {{- end }}
 
             :link: **[View in ArgoCD](https://${url}/applications/{{.app.metadata.name}}?operation=true)**
 
             :robot: *Automated notification via ArgoCD*
-
+%{ endif ~}
     template.app-deploy-failed: |
       message: |
         Deployment failed - ${app_environment}
@@ -285,6 +286,7 @@ notifications:
           environment: "${app_environment}"
           environmentURL: "${argocd_notification_url_for_github}"
           logURL: "https://${url}/applications/{{.app.metadata.name}}?operation=true"
+%{ if github_pr_comment_on_failure_enabled ~}
         pullRequestComment:
           content: |
             :x: **Deployment Failed:**
@@ -302,3 +304,4 @@ notifications:
             :link: **[View in ArgoCD](https://${url}/applications/{{.app.metadata.name}}?operation=true)**
 
             :robot: *Automated notification via ArgoCD*
+%{ endif ~}

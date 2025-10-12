@@ -271,3 +271,15 @@ variable "service_monitor_enabled" {
   type        = bool
   default     = false
 }
+
+variable "github_pr_comment_on_success_enabled" {
+  description = "Enable PR comments for successful deployments."
+  type        = bool
+  default     = false
+}
+
+variable "github_pr_comment_on_failure_enabled" {
+  description = "Enable PR comments for failed deployments."
+  type        = bool
+  default     = true
+}
