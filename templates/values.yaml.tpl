@@ -222,53 +222,86 @@ notifications:
   triggers:
     trigger.on-deployed: |
       - description: "Application is synced and healthy. Triggered once per commit."
-        oncePer: "app.status.operationState?.syncResult?.revision"
+        oncePer: "app.metadata.annotations[\"notifications.argoproj.io/github.sha\"]"
         send: ["app-deployed"]
         when: "app.status.operationState != nil and app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'"
+    trigger.on-deploy-failed: |
+      - description: "Application sync failed or is unhealthy. Triggered once per commit."
+        oncePer: "app.metadata.annotations[\"notifications.argoproj.io/github.sha\"]"
+        send: ["app-deploy-failed"]
+        when: "app.status.operationState != nil and (app.status.operationState.phase in ['Error', 'Failed'] or app.status.health.status in ['Degraded', 'Missing', 'Unknown'])"
 
   # Template configuration
   templates:
     template.app-deployed: |
-      message: "All Applications of {{.app.metadata.name}} are synced and healthy."
+      message: |
+        Deployment {{ if and (eq .app.status.sync.status "Synced") (eq .app.status.health.status "Healthy") }}successful{{ else }}failed{{ end }} - ${app_environment}
       github:
-        repoURLPath: "{{.app.spec.source.repoURL}}"
-        revisionPath: "{{.app.status.operationState.syncResult.revision}}"
+        repoURLPath: "{{ (get .app.metadata.annotations \"notifications.argoproj.io/github.repo\") | default .app.spec.source.repoURL }}"
+        revisionPath: "{{ get .app.metadata.annotations \"notifications.argoproj.io/github.sha\" }}"
         status:
-          state: "success"
-          label: "${app_path}"
+          state: "{{ if and (eq .app.status.sync.status \"Synced\") (eq .app.status.health.status \"Healthy\") }}success{{ else }}pending{{ end }}"
+          label: "{{ .app.metadata.name }}"
           targetURL: "https://${url}/applications/{{.app.metadata.name}}?operation=true"
         deployment:
-          state: "success"
+          state: "{{ if and (eq .app.status.sync.status \"Synced\") (eq .app.status.health.status \"Healthy\") }}success{{ else }}failure{{ end }}"
           environment: "${app_environment}"
           environmentURL: "${argocd_notification_url_for_github}"
           logURL: "https://${url}/applications/{{.app.metadata.name}}?operation=true"
           requiredContexts: []
           autoMerge: true
           transientEnvironment: false
+%{ if github_pr_comment_on_success_enabled ~}
         pullRequestComment:
-          commentTag: "argocd/{{.app.metadata.name}}/${app_environment}" 
           content: |
-            :wave: @myperfectstay/developers @myperfectstay/devops
-
             :tada: **Deployment Status:**
-            Your deployment for `Application` `{{.app.metadata.name}}` was successful! :rocket:
-
-            All related applications are **synced** and **healthy**. :white_check_mark:
-
-            ### :package: MPS Backend Applications Overview
-            | Application         | Status                        | Link                                                                            |
-            |---------------------|-------------------------------|---------------------------------------------------------------------------------|
-            | `app-of-apps`       | ✔ {{.app.status.sync.status}} | [Go to Operations](https://${url}/applications/{{.app.metadata.name}}?operation=true) |
-            | `mps-core`          | ✔ {{.app.status.sync.status}} | [Go to Application](https://${url}/applications/mps-core)                             |
-            | `mps-celery-beat`   | ✔ {{.app.status.sync.status}} | [Go to Application](https://${url}/applications/mps-celery-beat)                      |
-            | `mps-celery-worker` | ✔ {{.app.status.sync.status}} | [Go to Application](https://${url}/applications/mps-celery-worker)                    |
+            Application `{{ .app.metadata.name }}` is **{{ default "Unknown" .app.status.sync.status }}** with health **{{ default "Unknown" .app.status.health.status }}** in **${app_environment}**.
 
             ---
 
-            :link: **Quick Access:**
-            - [MPS backend API docs](${argocd_notification_url_for_github})
-            - [ArgoCD Operations for `app-of-apps`](https://${url}/applications/{{.app.metadata.name}}?operation=true)
+            **Operation Details:**
+            {{- if .app.status.operationState.finishedAt }}
+            - **Finished At:** `{{ .app.status.operationState.finishedAt }}`
+            {{- end }}
+            {{- if .app.status.operationState.message }}
+            - **Message:** `{{ .app.status.operationState.message }}`
+            {{- end }}
 
-            ---
+            :link: **[View in ArgoCD](https://${url}/applications/{{.app.metadata.name}}?operation=true)**
 
             :robot: *Automated notification via ArgoCD*
+%{ endif ~}
+    template.app-deploy-failed: |
+      message: |
+        Deployment failed - ${app_environment}
+      github:
+        repoURLPath: "{{ (get .app.metadata.annotations \"notifications.argoproj.io/github.repo\") | default .app.spec.source.repoURL }}"
+        revisionPath: "{{ get .app.metadata.annotations \"notifications.argoproj.io/github.sha\" }}"
+        status:
+          state: "failure"
+          label: "{{ .app.metadata.name }}"
+          targetURL: "https://${url}/applications/{{.app.metadata.name}}?operation=true"
+        deployment:
+          state: "failure"
+          environment: "${app_environment}"
+          environmentURL: "${argocd_notification_url_for_github}"
+          logURL: "https://${url}/applications/{{.app.metadata.name}}?operation=true"
+%{ if github_pr_comment_on_failure_enabled ~}
+        pullRequestComment:
+          content: |
+            :x: **Deployment Failed:**
+            Application `{{ .app.metadata.name }}` has **{{ default "Unknown" .app.status.sync.status }}** sync status with **{{ default "Unknown" .app.status.health.status }}** health in **${app_environment}**.
+            ---
+
+            **Operation Details:**
+            {{- if .app.status.operationState.finishedAt }}
+            - **Finished At:** `{{ .app.status.operationState.finishedAt }}`
+            {{- end }}
+            {{- if .app.status.operationState.message }}
+            - **Message:** `{{ .app.status.operationState.message }}`
+            {{- end }}
+
+            :link: **[View in ArgoCD](https://${url}/applications/{{.app.metadata.name}}?operation=true)**
+
+            :robot: *Automated notification via ArgoCD*
+%{ endif ~}
