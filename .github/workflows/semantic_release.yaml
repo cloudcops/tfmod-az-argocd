@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
     branches:
-      - main    
+      - main
 
 permissions: read-all
 
@@ -62,4 +62,4 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 'latest'
