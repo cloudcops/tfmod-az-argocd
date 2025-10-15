@@ -46,7 +46,7 @@ jobs:
             echo "CC_TFTEST_CLIENT_ID is set and length looks correct (${#CC_TFTEST_CLIENT_ID} chars)"
           fi
           
-          echo "Secret validation complete"
+          echo "Secret validation complete."
         env:
           GH_SEMREL_APP_ID: ${{ secrets.GH_SEMREL_APP_ID }}
           GH_SEMREL_PRIVATE_KEY: ${{ secrets.GH_SEMREL_PRIVATE_KEY }}
