@@ -141,6 +141,17 @@ server:
 %{ endif ~}
 %{ endif ~}
 
+  httproute:
+    enabled: ${use_gateway_api}
+%{ if use_gateway_api ~}
+    parentRefs:
+      - name: ${gateway_name}
+        namespace: ${gateway_namespace}
+        sectionName: ${gateway_listener_name}
+    hostnames:
+      - ${url}
+%{ endif ~}
+
 # Application Controller configuration
 controller:
   resources:

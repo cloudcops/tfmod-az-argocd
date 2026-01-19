@@ -24,7 +24,7 @@ resource "helm_release" "argocd" {
       app_environment                    = split("/", var.app_path)[1]
       app_path                           = var.app_path
       argocd_notification_url_for_github = var.argocd_notification_url_for_github
-      server_insecure                    = tostring(!var.tls_enabled)
+      server_insecure                    = tostring(var.use_gateway_api || !var.tls_enabled)
       log_level                          = var.log_level
       default_role                       = var.default_role
       p_role                             = var.p_role
@@ -35,6 +35,10 @@ resource "helm_release" "argocd" {
       ingress_class_name                 = var.ingress_class_name
       ingress_enabled                    = !var.use_gateway_api
       tls_enabled                        = var.tls_enabled
+      use_gateway_api                    = var.use_gateway_api
+      gateway_name                       = var.gateway_name
+      gateway_namespace                  = var.gateway_namespace
+      gateway_listener_name              = var.gateway_listener_name
       github_app_id                      = sensitive(var.github_access["0"].app_id)
       github_installation_id             = sensitive(var.github_access["0"].installation_id)
 
@@ -171,7 +175,6 @@ resource "kubectl_manifest" "app_of_apps" {
     }
   })
 
-  # Wait for ArgoCD secrets to be created
   depends_on = [
     kubectl_manifest.argocd_access_token,
     kubectl_manifest.notification_secrets

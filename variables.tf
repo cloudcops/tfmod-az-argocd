@@ -296,7 +296,25 @@ variable "github_pr_comment_on_failure_enabled" {
 }
 
 variable "use_gateway_api" {
-  description = "Use Gateway API instead of Ingress for routing. When enabled, Helm Ingress is disabled. HTTPRoute must be managed separately (e.g., in argocd-k8s-app)."
+  description = "Use Gateway API instead of Ingress for routing. When enabled, Helm Ingress is disabled and HTTPRoute is created."
   type        = bool
   default     = false
+}
+
+variable "gateway_name" {
+  description = "Name of the Gateway resource to attach HTTPRoute to. Required when use_gateway_api is true."
+  type        = string
+  default     = "eg-public"
+}
+
+variable "gateway_namespace" {
+  description = "Namespace of the Gateway resource. Required when use_gateway_api is true."
+  type        = string
+  default     = "eg-public"
+}
+
+variable "gateway_listener_name" {
+  description = "Name of the Gateway listener (sectionName) for HTTPRoute. Required when use_gateway_api is true."
+  type        = string
+  default     = "https-argocd"
 }
