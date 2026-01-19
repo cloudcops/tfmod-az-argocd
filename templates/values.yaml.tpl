@@ -3,12 +3,14 @@ global:
   installCRDs: true
 
 configs:
+  # ArgoCD ConfigMap settings
   cm:
     admin.enabled: true
     application.instanceLabelKey: "argocd.argoproj.io/instance"
     kustomize.buildOptions: "--enable-helm"
     url: "https://${url}"
     
+    # OIDC Configuration
     oidc.config: |
       name: ${idp_argocd_name}
       issuer: https://${idp_endpoint}
@@ -20,6 +22,7 @@ configs:
         groups:
           essential: true
 
+    # Resource customizations for ArgoCD Application health
     resource.customizations: |
       argoproj.io/Application:
         health.lua: |
@@ -60,15 +63,19 @@ configs:
           end
           return hs
 
+    # Timeout settings
     timeout.hard.reconciliation: "0s"
     timeout.reconciliation: "180s"
 
+    # Application Configuration
     application.config: |
       environment: ${app_environment}
       path: ${app_path}
 
+    # GitHub App Configuration for notifications
     notificationUrl.github: ${argocd_notification_url_for_github}
 
+  # ArgoCD Command Parameters
   params:
     server.insecure: "true"
     server.log.level: ${log_level}
@@ -77,6 +84,7 @@ configs:
     notificationscontroller.log.level: ${log_level}
     reposerver.log.level: ${log_level}
 
+  # RBAC Configuration
   rbac:
     policy.default: ${default_role}
     scopes: "[groups, email]"
@@ -94,11 +102,14 @@ configs:
       g, ${group.name}, role:${group.role}
 %{ endfor ~}
 
+  # Secret configuration
   secret:
     createSecret: true
     extra:
+      # OIDC client secret
       oidc.auth0.clientSecret: ${sp_client_secret}
 
+# Server configuration
 server:
   resources:
     limits:
@@ -123,6 +134,7 @@ server:
     hostnames:
       - ${url}
 
+# Application Controller configuration
 controller:
   resources:
     limits:
@@ -135,6 +147,7 @@ controller:
     serviceMonitor:
       enabled: ${service_monitor_enabled}
 
+# Repository Server configuration
 repoServer:
   resources:
     limits:
@@ -147,6 +160,7 @@ repoServer:
     serviceMonitor:
       enabled: ${service_monitor_enabled}
 
+# ApplicationSet Controller configuration
 applicationSet:
   resources:
     limits:
@@ -159,6 +173,7 @@ applicationSet:
     serviceMonitor:
       enabled: ${service_monitor_enabled}
 
+# Redis configuration
 redis:
   resources:
     limits:
@@ -171,6 +186,7 @@ redis:
     serviceMonitor:
       enabled: ${service_monitor_enabled}
 
+# Dex configuration (OIDC)
 dex:
   resources:
     limits:
@@ -179,6 +195,7 @@ dex:
       memory: ${argocd_dex_memory}
       cpu: ${argocd_dex_cpu_request}
 
+# Notifications configuration
 notifications:
   enabled: true
 
@@ -189,12 +206,14 @@ notifications:
       memory: ${argocd_notifications_memory}
       cpu: ${argocd_notifications_cpu_request}
   
+  # Notification services configuration
   notifiers:
     service.github: |
       appID: "${github_app_id}"
       installationID: "${github_installation_id}"
       privateKey: $github-privateKey
 
+  # Trigger configuration
   triggers:
     trigger.on-deployed: |
       - description: "Application is synced and healthy. Triggered once per commit."
@@ -207,6 +226,7 @@ notifications:
         send: ["app-deploy-failed"]
         when: "app.status.operationState != nil and (app.status.operationState.phase in ['Error', 'Failed'] or app.status.health.status in ['Degraded', 'Missing', 'Unknown'])"
 
+  # Template configuration
   templates:
     template.app-deployed: |
       message: |

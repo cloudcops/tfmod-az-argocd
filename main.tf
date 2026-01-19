@@ -1,9 +1,11 @@
+# ArgoCD Namespace
 resource "kubernetes_namespace" "argocd" {
   metadata {
     name = "argocd"
   }
 }
 
+# ArgoCD Helm Release - Complete configuration with all settings
 resource "helm_release" "argocd" {
   name        = "argocd"
   repository  = "https://argoproj.github.io/argo-helm"
@@ -35,6 +37,7 @@ resource "helm_release" "argocd" {
       github_app_id                      = sensitive(var.github_access["0"].app_id)
       github_installation_id             = sensitive(var.github_access["0"].installation_id)
 
+      # ArgoCD Resource Configuration
       argocd_server_memory              = var.argocd_server_memory_limit
       argocd_server_cpu_request         = var.argocd_server_cpu_request
       argocd_controller_memory          = var.argocd_controller_memory_limit
@@ -50,9 +53,11 @@ resource "helm_release" "argocd" {
       argocd_dex_memory                 = var.argocd_dex_memory_limit
       argocd_dex_cpu_request            = var.argocd_dex_cpu_request
 
+      # Metrics configuration
       metrics_enabled         = var.metrics_enabled
       service_monitor_enabled = var.service_monitor_enabled
 
+      # ArgoCD notifications configuration
       github_pr_comment_on_success_enabled = var.github_pr_comment_on_success_enabled
       github_pr_comment_on_failure_enabled = var.github_pr_comment_on_failure_enabled
     })
@@ -61,6 +66,7 @@ resource "helm_release" "argocd" {
   depends_on = [kubernetes_namespace.argocd]
 }
 
+# ArgoCD Git Access Tokens (GitHub App credentials for repository access)
 resource "kubectl_manifest" "argocd_access_token" {
   yaml_body = yamlencode({
     apiVersion = "v1"
@@ -91,6 +97,7 @@ resource "kubectl_manifest" "argocd_access_token" {
   depends_on = [helm_release.argocd]
 }
 
+# ArgoCD Notification Secret (GitHub App credentials for notifications)
 resource "kubectl_manifest" "notification_secrets" {
   yaml_body = yamlencode({
     apiVersion = "v1"
