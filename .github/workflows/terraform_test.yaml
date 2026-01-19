@@ -8,7 +8,6 @@ on:
 
 
 env:
-  # TODO: Changing CC_TFTEST github secrets to AR_TERRAFORM_001 secrets
   ARM_CLIENT_ID: ${{ secrets.CC_TFTEST_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.CC_TFTEST_CLIENT_SECRET }}
   ARM_TENANT_ID: ${{ vars.CC_TENANT_ID }}
