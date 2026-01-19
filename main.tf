@@ -1,11 +1,9 @@
-# ArgoCD Namespace
 resource "kubernetes_namespace" "argocd" {
   metadata {
     name = "argocd"
   }
 }
 
-# ArgoCD Helm Release - Complete configuration with all settings
 resource "helm_release" "argocd" {
   name        = "argocd"
   repository  = "https://argoproj.github.io/argo-helm"
@@ -24,7 +22,6 @@ resource "helm_release" "argocd" {
       app_environment                    = split("/", var.app_path)[1]
       app_path                           = var.app_path
       argocd_notification_url_for_github = var.argocd_notification_url_for_github
-      server_insecure                    = tostring(var.use_gateway_api || !var.tls_enabled)
       log_level                          = var.log_level
       default_role                       = var.default_role
       p_role                             = var.p_role
@@ -32,17 +29,12 @@ resource "helm_release" "argocd" {
       sp_client_secret                   = sensitive(var.sp_client_secret)
       github_private_key                 = sensitive(var.github_access["0"].private_key)
       github_repositories                = sensitive(var.github_access)
-      ingress_class_name                 = var.ingress_class_name
-      ingress_enabled                    = !var.use_gateway_api
-      tls_enabled                        = var.tls_enabled
-      use_gateway_api                    = var.use_gateway_api
       gateway_name                       = var.gateway_name
       gateway_namespace                  = var.gateway_namespace
       gateway_listener_name              = var.gateway_listener_name
       github_app_id                      = sensitive(var.github_access["0"].app_id)
       github_installation_id             = sensitive(var.github_access["0"].installation_id)
 
-      # ArgoCD Resource Configuration
       argocd_server_memory              = var.argocd_server_memory_limit
       argocd_server_cpu_request         = var.argocd_server_cpu_request
       argocd_controller_memory          = var.argocd_controller_memory_limit
@@ -58,11 +50,9 @@ resource "helm_release" "argocd" {
       argocd_dex_memory                 = var.argocd_dex_memory_limit
       argocd_dex_cpu_request            = var.argocd_dex_cpu_request
 
-      # Metrics configuration
       metrics_enabled         = var.metrics_enabled
       service_monitor_enabled = var.service_monitor_enabled
 
-      # argocd notifications configuration
       github_pr_comment_on_success_enabled = var.github_pr_comment_on_success_enabled
       github_pr_comment_on_failure_enabled = var.github_pr_comment_on_failure_enabled
     })
@@ -71,7 +61,6 @@ resource "helm_release" "argocd" {
   depends_on = [kubernetes_namespace.argocd]
 }
 
-# ArgoCD Git Access Tokens (GitHub App credentials for repository access)
 resource "kubectl_manifest" "argocd_access_token" {
   yaml_body = yamlencode({
     apiVersion = "v1"
@@ -102,7 +91,6 @@ resource "kubectl_manifest" "argocd_access_token" {
   depends_on = [helm_release.argocd]
 }
 
-# ArgoCD Notification Secret (GitHub App credentials for notifications)
 resource "kubectl_manifest" "notification_secrets" {
   yaml_body = yamlencode({
     apiVersion = "v1"

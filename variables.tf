@@ -20,18 +20,6 @@ variable "url" {
   type        = string
 }
 
-variable "tls_enabled" {
-  description = "Flag to enable or disable TLS security."
-  type        = bool
-  default     = false
-}
-
-variable "ingress_class_name" {
-  description = "Specifies the name of the Ingress class used for routing traffic."
-  type        = string
-  default     = "nginx"
-}
-
 variable "app_path" {
   description = "Repo path to the application tools overlay."
   type        = string
@@ -295,26 +283,20 @@ variable "github_pr_comment_on_failure_enabled" {
   default     = true
 }
 
-variable "use_gateway_api" {
-  description = "Use Gateway API instead of Ingress for routing. When enabled, Helm Ingress is disabled and HTTPRoute is created."
-  type        = bool
-  default     = false
-}
-
 variable "gateway_name" {
-  description = "Name of the Gateway resource to attach HTTPRoute to. Required when use_gateway_api is true."
+  description = "Name of the Gateway resource to attach HTTPRoute to."
   type        = string
   default     = "eg-public"
 }
 
 variable "gateway_namespace" {
-  description = "Namespace of the Gateway resource. Required when use_gateway_api is true."
+  description = "Namespace of the Gateway resource."
   type        = string
   default     = "eg-public"
 }
 
 variable "gateway_listener_name" {
-  description = "Name of the Gateway listener (sectionName) for HTTPRoute. Required when use_gateway_api is true."
+  description = "Name of the Gateway listener (sectionName) for HTTPRoute."
   type        = string
   default     = "https-argocd"
 }
