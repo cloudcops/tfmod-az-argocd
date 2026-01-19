@@ -280,7 +280,7 @@ Default: `"readonly"`
 
 ### <a name="input_gateway_listener_name"></a> [gateway\_listener\_name](#input\_gateway\_listener\_name)
 
-Description: Name of the Gateway listener (sectionName) for HTTPRoute. Required when use\_gateway\_api is true.
+Description: Name of the Gateway listener (sectionName) for HTTPRoute.
 
 Type: `string`
 
@@ -288,7 +288,7 @@ Default: `"https-argocd"`
 
 ### <a name="input_gateway_name"></a> [gateway\_name](#input\_gateway\_name)
 
-Description: Name of the Gateway resource to attach HTTPRoute to. Required when use\_gateway\_api is true.
+Description: Name of the Gateway resource to attach HTTPRoute to.
 
 Type: `string`
 
@@ -296,7 +296,7 @@ Default: `"eg-public"`
 
 ### <a name="input_gateway_namespace"></a> [gateway\_namespace](#input\_gateway\_namespace)
 
-Description: Namespace of the Gateway resource. Required when use\_gateway\_api is true.
+Description: Namespace of the Gateway resource.
 
 Type: `string`
 
@@ -368,14 +368,6 @@ Type: `string`
 
 Default: `"Azure"`
 
-### <a name="input_ingress_class_name"></a> [ingress\_class\_name](#input\_ingress\_class\_name)
-
-Description: Specifies the name of the Ingress class used for routing traffic.
-
-Type: `string`
-
-Default: `"nginx"`
-
 ### <a name="input_log_level"></a> [log\_level](#input\_log\_level)
 
 Description: Defines the logging level for application logs (e.g., debug, info, warn).
@@ -419,22 +411,6 @@ Default: `"main"`
 ### <a name="input_service_monitor_enabled"></a> [service\_monitor\_enabled](#input\_service\_monitor\_enabled)
 
 Description: Enable ServiceMonitor resources for Prometheus scraping.
-
-Type: `bool`
-
-Default: `false`
-
-### <a name="input_tls_enabled"></a> [tls\_enabled](#input\_tls\_enabled)
-
-Description: Flag to enable or disable TLS security.
-
-Type: `bool`
-
-Default: `false`
-
-### <a name="input_use_gateway_api"></a> [use\_gateway\_api](#input\_use\_gateway\_api)
-
-Description: Use Gateway API instead of Ingress for routing. When enabled, Helm Ingress is disabled and HTTPRoute is created.
 
 Type: `bool`
 
