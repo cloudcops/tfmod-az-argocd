@@ -33,6 +33,7 @@ resource "helm_release" "argocd" {
       github_private_key                 = sensitive(var.github_access["0"].private_key)
       github_repositories                = sensitive(var.github_access)
       ingress_class_name                 = var.ingress_class_name
+      ingress_enabled                    = !var.use_gateway_api
       tls_enabled                        = var.tls_enabled
       github_app_id                      = sensitive(var.github_access["0"].app_id)
       github_installation_id             = sensitive(var.github_access["0"].installation_id)
@@ -124,7 +125,6 @@ resource "kubectl_manifest" "notification_secrets" {
   depends_on = [helm_release.argocd]
 }
 
-# App of Apps using kubectl_manifest provider (more tolerant of missing CRDs)
 resource "kubectl_manifest" "app_of_apps" {
   yaml_body = yamlencode({
     apiVersion = "argoproj.io/v1alpha1"

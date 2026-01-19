@@ -294,3 +294,9 @@ variable "github_pr_comment_on_failure_enabled" {
   type        = bool
   default     = true
 }
+
+variable "use_gateway_api" {
+  description = "Use Gateway API instead of Ingress for routing. When enabled, Helm Ingress is disabled. HTTPRoute must be managed separately (e.g., in argocd-k8s-app)."
+  type        = bool
+  default     = false
+}

@@ -40,4 +40,5 @@ module "wrapper" {
   sp_client_secret                     = try(each.value.sp_client_secret, var.defaults.sp_client_secret)
   tls_enabled                          = try(each.value.tls_enabled, var.defaults.tls_enabled, false)
   url                                  = try(each.value.url, var.defaults.url)
+  use_gateway_api                      = try(each.value.use_gateway_api, var.defaults.use_gateway_api, false)
 }

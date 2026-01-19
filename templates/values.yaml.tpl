@@ -123,7 +123,8 @@ server:
       enabled: ${service_monitor_enabled}
   
   ingress:
-    enabled: true
+    enabled: ${ingress_enabled}
+%{ if ingress_enabled ~}
     ingressClassName: ${ingress_class_name}
     hostname: ${url}
     tls: ${tls_enabled}
@@ -137,6 +138,7 @@ server:
       nginx.ingress.kubernetes.io/rewrite-target: "/"
       nginx.ingress.kubernetes.io/use-regex: "true"
       cert-manager.io/cluster-issuer: "letsencrypt-prod"
+%{ endif ~}
 %{ endif ~}
 
 # Application Controller configuration

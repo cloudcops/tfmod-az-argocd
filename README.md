@@ -95,6 +95,8 @@ The following resources are used by this module:
 - [helm_release.argocd](https://registry.terraform.io/providers/hashicorp/helm/3.0.2/docs/resources/release) (resource)
 - [kubectl_manifest.app_of_apps](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
 - [kubectl_manifest.argocd_access_token](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
+- [kubectl_manifest.argocd_backend_tls_policy](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
+- [kubectl_manifest.argocd_httproute](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
 - [kubectl_manifest.notification_secrets](https://registry.terraform.io/providers/gavinbunney/kubectl/1.19.0/docs/resources/manifest) (resource)
 - [kubernetes_namespace.argocd](https://registry.terraform.io/providers/hashicorp/kubernetes/2.37.1/docs/resources/namespace) (resource)
 - [azuread_group.rbac4groups](https://registry.terraform.io/providers/hashicorp/azuread/2.51.0/docs/data-sources/group) (data source)
@@ -278,6 +280,22 @@ Type: `string`
 
 Default: `"readonly"`
 
+### <a name="input_gateway_name"></a> [gateway\_name](#input\_gateway\_name)
+
+Description: Name of the Gateway resource to attach HTTPRoute to. Required when use\_gateway\_api is true.
+
+Type: `string`
+
+Default: `"eg-public"`
+
+### <a name="input_gateway_namespace"></a> [gateway\_namespace](#input\_gateway\_namespace)
+
+Description: Namespace of the Gateway resource. Required when use\_gateway\_api is true.
+
+Type: `string`
+
+Default: `"eg-public"`
+
 ### <a name="input_github_access"></a> [github\_access](#input\_github\_access)
 
 Description: Map of ArgoCD Github access token secret configuration.
@@ -403,6 +421,14 @@ Default: `false`
 ### <a name="input_tls_enabled"></a> [tls\_enabled](#input\_tls\_enabled)
 
 Description: Flag to enable or disable TLS security.
+
+Type: `bool`
+
+Default: `false`
+
+### <a name="input_use_gateway_api"></a> [use\_gateway\_api](#input\_use\_gateway\_api)
+
+Description: Use Gateway API (HTTPRoute) instead of Ingress for routing. When enabled, Ingress is disabled and HTTPRoute is created.
 
 Type: `bool`
 
