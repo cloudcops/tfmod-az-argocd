@@ -312,6 +312,14 @@ Type: `bool`
 
 Default: `false`
 
+### <a name="input_helm_release_max_history"></a> [helm\_release\_max\_history](#input\_helm\_release\_max\_history)
+
+Description: Maximum number of Helm release versions to retain as secrets in the namespace.
+
+Type: `number`
+
+Default: `3`
+
 ### <a name="input_idp_argocd_allowed_oauth_scopes"></a> [idp\_argocd\_allowed\_oauth\_scopes](#input\_idp\_argocd\_allowed\_oauth\_scopes)
 
 Description: List of OAuth scopes permitted for requests to the identity provider.

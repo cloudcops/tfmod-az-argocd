@@ -24,6 +24,7 @@ module "wrapper" {
   github_access                        = try(each.value.github_access, var.defaults.github_access, {})
   github_pr_comment_on_failure_enabled = try(each.value.github_pr_comment_on_failure_enabled, var.defaults.github_pr_comment_on_failure_enabled, true)
   github_pr_comment_on_success_enabled = try(each.value.github_pr_comment_on_success_enabled, var.defaults.github_pr_comment_on_success_enabled, false)
+  helm_release_max_history             = try(each.value.helm_release_max_history, var.defaults.helm_release_max_history, 3)
   idp_argocd_allowed_oauth_scopes      = try(each.value.idp_argocd_allowed_oauth_scopes, var.defaults.idp_argocd_allowed_oauth_scopes, ["email", "openid", "profile"])
   idp_argocd_name                      = try(each.value.idp_argocd_name, var.defaults.idp_argocd_name, "Azure")
   idp_endpoint                         = try(each.value.idp_endpoint, var.defaults.idp_endpoint)

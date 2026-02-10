@@ -260,6 +260,17 @@ variable "argocd_dex_cpu_request" {
   }
 }
 
+variable "helm_release_max_history" {
+  description = "Maximum number of Helm release versions to retain as secrets in the namespace."
+  type        = number
+  default     = 3
+
+  validation {
+    condition     = var.helm_release_max_history >= 0
+    error_message = "helm_release_max_history must be a non-negative number."
+  }
+}
+
 variable "metrics_enabled" {
   description = "Enable metrics endpoints for ArgoCD components."
   type        = bool

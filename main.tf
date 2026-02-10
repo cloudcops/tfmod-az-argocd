@@ -7,11 +7,12 @@ resource "kubernetes_namespace" "argocd" {
 
 # ArgoCD Helm Release - Complete configuration with all settings
 resource "helm_release" "argocd" {
-  name       = "argocd"
-  repository = "https://argoproj.github.io/argo-helm"
-  chart      = "argo-cd"
-  version    = var.argocd_chart_version
-  namespace  = kubernetes_namespace.argocd.metadata[0].name
+  name        = "argocd"
+  repository  = "https://argoproj.github.io/argo-helm"
+  chart       = "argo-cd"
+  version     = var.argocd_chart_version
+  namespace   = kubernetes_namespace.argocd.metadata[0].name
+  max_history = var.helm_release_max_history
 
   values = [
     templatefile("${path.module}/templates/values.yaml.tpl", {

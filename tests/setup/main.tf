@@ -27,6 +27,9 @@ resource "azurerm_resource_group" "this" {
 #trivy:ignore:AVD-AZU-0041
 #trivy:ignore:AVD-AZU-0042
 #trivy:ignore:AVD-AZU-0043
+#trivy:ignore:AVD-AZU-0065
+#trivy:ignore:AVD-AZU-0066
+#trivy:ignore:AVD-AZU-0067
 resource "azurerm_kubernetes_cluster" "this" {
   #checkov:skip=CKV_AZURE_170: Not needed on test setup
   #checkov:skip=CKV_AZURE_172: Not needed on test setup
