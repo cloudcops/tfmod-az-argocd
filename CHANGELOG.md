@@ -1,3 +1,10 @@
+## [2.6.2](https://github.com/cloudcops/tfmod-az-argocd/compare/2.6.1...2.6.2) (2026-02-10)
+
+
+### Bug Fixes
+
+* **MPS-1147:** limit helm release history to prevent secret accumulation ([#26](https://github.com/cloudcops/tfmod-az-argocd/issues/26)) ([5521ddb](https://github.com/cloudcops/tfmod-az-argocd/commit/5521ddb21f7bb6daa02559cf7ad5ddd7db97b812))
+
 ## [2.3.2](https://github.com/cloudcops/tfmod-az-argocd/compare/2.3.1...2.3.2) (2025-09-12)
 
 
