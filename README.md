@@ -284,7 +284,7 @@ Description: Name of the Gateway listener (sectionName) for HTTPRoute.
 
 Type: `string`
 
-Default: `"https-argocd"`
+Default: `"websecure-argocd"`
 
 ### <a name="input_gateway_name"></a> [gateway\_name](#input\_gateway\_name)
 
@@ -292,7 +292,7 @@ Description: Name of the Gateway resource to attach HTTPRoute to.
 
 Type: `string`
 
-Default: `"eg-public"`
+Default: `"traefik-gateway"`
 
 ### <a name="input_gateway_namespace"></a> [gateway\_namespace](#input\_gateway\_namespace)
 
@@ -300,7 +300,7 @@ Description: Namespace of the Gateway resource.
 
 Type: `string`
 
-Default: `"eg-public"`
+Default: `"traefik-system"`
 
 ### <a name="input_github_access"></a> [github\_access](#input\_github\_access)
 
