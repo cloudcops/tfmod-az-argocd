@@ -286,17 +286,17 @@ variable "github_pr_comment_on_failure_enabled" {
 variable "gateway_name" {
   description = "Name of the Gateway resource to attach HTTPRoute to."
   type        = string
-  default     = "eg-public"
+  default     = "traefik-gateway"
 }
 
 variable "gateway_namespace" {
   description = "Namespace of the Gateway resource."
   type        = string
-  default     = "eg-public"
+  default     = "traefik-system"
 }
 
 variable "gateway_listener_name" {
   description = "Name of the Gateway listener (sectionName) for HTTPRoute."
   type        = string
-  default     = "https-argocd"
+  default     = "websecure-argocd"
 }
