@@ -13,3 +13,9 @@ variable "github_private_key" {
   type        = string
   sensitive   = true
 }
+
+variable "gateway_api_version" {
+  description = "Version of Gateway API CRDs to install. Update when changing argocd_chart_version, as the argo-cd Helm chart uses HTTPRoute resources."
+  type        = string
+  default     = "v1.2.1"
+}
