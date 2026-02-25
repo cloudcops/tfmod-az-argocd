@@ -1,6 +1,5 @@
 global:
   domain: ${url}
-  installCRDs: true
 
 configs:
   # ArgoCD ConfigMap settings
@@ -132,7 +131,7 @@ server:
         namespace: ${gateway_namespace}
         sectionName: ${gateway_listener_name}
     hostnames:
-      - ${url}
+      - "${url}"
 
 # Application Controller configuration
 controller:

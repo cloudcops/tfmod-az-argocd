@@ -1,7 +1,7 @@
 variable "argocd_chart_version" {
   description = "Version of ArgoCD Helm Chart to install"
   type        = string
-  default     = "8.1.2"
+  default     = "9.0.0"
 }
 
 variable "repo_revision" {

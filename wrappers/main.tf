@@ -6,7 +6,7 @@ module "wrapper" {
   app_path                             = try(each.value.app_path, var.defaults.app_path)
   argocd_applicationset_cpu_request    = try(each.value.argocd_applicationset_cpu_request, var.defaults.argocd_applicationset_cpu_request, "50m")
   argocd_applicationset_memory_limit   = try(each.value.argocd_applicationset_memory_limit, var.defaults.argocd_applicationset_memory_limit, "128Mi")
-  argocd_chart_version                 = try(each.value.argocd_chart_version, var.defaults.argocd_chart_version, "8.1.2")
+  argocd_chart_version                 = try(each.value.argocd_chart_version, var.defaults.argocd_chart_version, "9.0.0")
   argocd_controller_cpu_request        = try(each.value.argocd_controller_cpu_request, var.defaults.argocd_controller_cpu_request, "250m")
   argocd_controller_memory_limit       = try(each.value.argocd_controller_memory_limit, var.defaults.argocd_controller_memory_limit, "1536Mi")
   argocd_dex_cpu_request               = try(each.value.argocd_dex_cpu_request, var.defaults.argocd_dex_cpu_request, "50m")

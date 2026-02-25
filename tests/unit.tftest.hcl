@@ -29,12 +29,10 @@ provider "kubectl" {
 }
 
 variables {
-  argocd_chart_version               = "8.1.2"
+  argocd_chart_version               = "9.0.0"
   repo_revision                      = "main"
   repo_url                           = "https://github.com/example/test-argocd-repo"
   url                                = "argocd-test.example.com"
-  tls_enabled                        = true
-  ingress_class_name                 = "nginx"
   app_path                           = "overlays/dev"
   idp_argocd_name                    = "tf_test_Azure"
   idp_endpoint                       = "login.microsoftonline.com/501655c0-c0b2-4265-bf84-aa957f7272cf/v2.0"
