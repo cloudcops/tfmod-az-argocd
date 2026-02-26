@@ -1,3 +1,35 @@
+# [3.0.0](https://github.com/cloudcops/tfmod-az-argocd/compare/2.6.2...3.0.0) (2026-02-26)
+
+
+* feat!: add Gateway API support for ArgoCD routing ([#24](https://github.com/cloudcops/tfmod-az-argocd/issues/24)) ([eaebc4e](https://github.com/cloudcops/tfmod-az-argocd/commit/eaebc4e88d6d4c8bfb4fd00aed0fc5ca5617c2ae))
+
+
+### BREAKING CHANGES
+
+* Removed variables tls_enabled, ingress_class_name, use_gateway_api.
+ArgoCD now only supports Gateway API routing via HTTPRoute.
+Server runs in insecure mode (HTTP) with TLS termination at Gateway.
+
+* MPS-1061: restore comments removed in previous commit
+
+* feat!(MPS-1061): update CI secrets
+
+* feat: add provider
+
+* MPS-1061: hard coded tenant
+
+* feat: execute CI
+
+* feat: remove resolved TODO comment
+
+* MPS-1061: update gateway variable defaults from Envoy to Traefik
+
+* feat: run precommit
+
+* feat!(MPS-1061): upgrade argo-cd chart to 9.0.0 for HTTPRoute support
+
+* fix(MPS-1061): install Gateway API CRDs in test setup for HTTPRoute
+
 ## [2.6.2](https://github.com/cloudcops/tfmod-az-argocd/compare/2.6.1...2.6.2) (2026-02-10)
 
 
