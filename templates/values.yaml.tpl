@@ -1,6 +1,5 @@
 global:
   domain: ${url}
-  installCRDs: true
 
 configs:
   # ArgoCD ConfigMap settings
@@ -67,7 +66,7 @@ configs:
     timeout.hard.reconciliation: "0s"
     timeout.reconciliation: "180s"
 
-    # Application Configuration 
+    # Application Configuration
     application.config: |
       environment: ${app_environment}
       path: ${app_path}
@@ -77,7 +76,7 @@ configs:
 
   # ArgoCD Command Parameters
   params:
-    server.insecure: "${server_insecure}"
+    server.insecure: "true"
     server.log.level: ${log_level}
     controller.log.level: ${log_level}
     applicationsetcontroller.log.level: ${log_level}
@@ -109,7 +108,7 @@ configs:
       # OIDC client secret
       oidc.auth0.clientSecret: ${sp_client_secret}
 
-# Server configuration with ingress
+# Server configuration
 server:
   resources:
     limits:
@@ -121,23 +120,18 @@ server:
     enabled: ${metrics_enabled}
     serviceMonitor:
       enabled: ${service_monitor_enabled}
-  
+
   ingress:
+    enabled: false
+
+  httproute:
     enabled: true
-    ingressClassName: ${ingress_class_name}
-    hostname: ${url}
-    tls: ${tls_enabled}
-%{ if tls_enabled ~}
-    annotations:
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-      nginx.ingress.kubernetes.io/configuration-snippet: |
-        if ($http_x_forwarded_proto = 'http') {
-          return 301 https://$host$request_uri;
-        }
-      nginx.ingress.kubernetes.io/rewrite-target: "/"
-      nginx.ingress.kubernetes.io/use-regex: "true"
-      cert-manager.io/cluster-issuer: "letsencrypt-prod"
-%{ endif ~}
+    parentRefs:
+      - name: ${gateway_name}
+        namespace: ${gateway_namespace}
+        sectionName: ${gateway_listener_name}
+    hostnames:
+      - "${url}"
 
 # Application Controller configuration
 controller:
@@ -191,7 +185,7 @@ redis:
     serviceMonitor:
       enabled: ${service_monitor_enabled}
 
-# Dex configuration (if using Dex for OIDC)
+# Dex configuration (OIDC)
 dex:
   resources:
     limits:

@@ -17,14 +17,11 @@ module "argocd" {
   source = "../modules/argocd"
 
   # Basic configuration
-  argocd_chart_version = "8.1.2"
+  argocd_chart_version = "9.0.0"
   repo_revision        = "main"
   repo_url             = "https://github.com/example/argocd-repo.git"
   url                  = "argocd.example.com"
   app_path             = "argocd-k8s-apps/overlays/dev"
-  app_environment      = "dev"
-  tls_enabled          = true
-  ingress_class_name   = "nginx"
 
   # GitHub App configuration
   argocd_notification_url_for_github = "https://dev.example.com"
@@ -41,7 +38,7 @@ module "argocd" {
   # Azure Entra ID SSO
   sp_client_id     = "your-client-id"
   sp_client_secret = "your-client-secret"
-  idp_endpoint     = "https://login.microsoftonline.com/<tenant_id>/v2.0"
+  idp_endpoint     = "login.microsoftonline.com/<tenant_id>/v2.0"
   idp_argocd_name  = "Azure"
 
   # RBAC configuration
@@ -172,7 +169,7 @@ Description: Version of ArgoCD Helm Chart to install
 
 Type: `string`
 
-Default: `"8.1.2"`
+Default: `"9.0.0"`
 
 ### <a name="input_argocd_controller_cpu_request"></a> [argocd\_controller\_cpu\_request](#input\_argocd\_controller\_cpu\_request)
 
@@ -278,6 +275,30 @@ Type: `string`
 
 Default: `"readonly"`
 
+### <a name="input_gateway_listener_name"></a> [gateway\_listener\_name](#input\_gateway\_listener\_name)
+
+Description: Name of the Gateway listener (sectionName) for HTTPRoute.
+
+Type: `string`
+
+Default: `"websecure-argocd"`
+
+### <a name="input_gateway_name"></a> [gateway\_name](#input\_gateway\_name)
+
+Description: Name of the Gateway resource to attach HTTPRoute to.
+
+Type: `string`
+
+Default: `"traefik-gateway"`
+
+### <a name="input_gateway_namespace"></a> [gateway\_namespace](#input\_gateway\_namespace)
+
+Description: Namespace of the Gateway resource.
+
+Type: `string`
+
+Default: `"traefik-system"`
+
 ### <a name="input_github_access"></a> [github\_access](#input\_github\_access)
 
 Description: Map of ArgoCD Github access token secret configuration.
@@ -344,14 +365,6 @@ Type: `string`
 
 Default: `"Azure"`
 
-### <a name="input_ingress_class_name"></a> [ingress\_class\_name](#input\_ingress\_class\_name)
-
-Description: Specifies the name of the Ingress class used for routing traffic.
-
-Type: `string`
-
-Default: `"nginx"`
-
 ### <a name="input_log_level"></a> [log\_level](#input\_log\_level)
 
 Description: Defines the logging level for application logs (e.g., debug, info, warn).
@@ -395,14 +408,6 @@ Default: `"main"`
 ### <a name="input_service_monitor_enabled"></a> [service\_monitor\_enabled](#input\_service\_monitor\_enabled)
 
 Description: Enable ServiceMonitor resources for Prometheus scraping.
-
-Type: `bool`
-
-Default: `false`
-
-### <a name="input_tls_enabled"></a> [tls\_enabled](#input\_tls\_enabled)
-
-Description: Flag to enable or disable TLS security.
 
 Type: `bool`
 

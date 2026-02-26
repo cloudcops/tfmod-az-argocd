@@ -62,3 +62,20 @@ resource "azurerm_kubernetes_cluster" "this" {
     type = "SystemAssigned"
   }
 }
+
+# Install Gateway API CRDs required for HTTPRoute support in argo-cd chart 9.x
+resource "null_resource" "gateway_api_crds" {
+  depends_on = [azurerm_kubernetes_cluster.this]
+
+  provisioner "local-exec" {
+    command = "kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/${var.gateway_api_version}/standard-install.yaml"
+    environment = {
+      KUBECONFIG = local_file.kubeconfig.filename
+    }
+  }
+}
+
+resource "local_file" "kubeconfig" {
+  content  = azurerm_kubernetes_cluster.this.kube_config_raw
+  filename = "${path.module}/kubeconfig"
+}

@@ -24,7 +24,6 @@ resource "helm_release" "argocd" {
       app_environment                    = split("/", var.app_path)[1]
       app_path                           = var.app_path
       argocd_notification_url_for_github = var.argocd_notification_url_for_github
-      server_insecure                    = tostring(!var.tls_enabled)
       log_level                          = var.log_level
       default_role                       = var.default_role
       p_role                             = var.p_role
@@ -32,8 +31,9 @@ resource "helm_release" "argocd" {
       sp_client_secret                   = sensitive(var.sp_client_secret)
       github_private_key                 = sensitive(var.github_access["0"].private_key)
       github_repositories                = sensitive(var.github_access)
-      ingress_class_name                 = var.ingress_class_name
-      tls_enabled                        = var.tls_enabled
+      gateway_name                       = var.gateway_name
+      gateway_namespace                  = var.gateway_namespace
+      gateway_listener_name              = var.gateway_listener_name
       github_app_id                      = sensitive(var.github_access["0"].app_id)
       github_installation_id             = sensitive(var.github_access["0"].installation_id)
 
@@ -57,7 +57,7 @@ resource "helm_release" "argocd" {
       metrics_enabled         = var.metrics_enabled
       service_monitor_enabled = var.service_monitor_enabled
 
-      # argocd notifications configuration
+      # ArgoCD notifications configuration
       github_pr_comment_on_success_enabled = var.github_pr_comment_on_success_enabled
       github_pr_comment_on_failure_enabled = var.github_pr_comment_on_failure_enabled
     })
@@ -124,7 +124,6 @@ resource "kubectl_manifest" "notification_secrets" {
   depends_on = [helm_release.argocd]
 }
 
-# App of Apps using kubectl_manifest provider (more tolerant of missing CRDs)
 resource "kubectl_manifest" "app_of_apps" {
   yaml_body = yamlencode({
     apiVersion = "argoproj.io/v1alpha1"
@@ -171,7 +170,6 @@ resource "kubectl_manifest" "app_of_apps" {
     }
   })
 
-  # Wait for ArgoCD secrets to be created
   depends_on = [
     kubectl_manifest.argocd_access_token,
     kubectl_manifest.notification_secrets

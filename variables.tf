@@ -1,7 +1,7 @@
 variable "argocd_chart_version" {
   description = "Version of ArgoCD Helm Chart to install"
   type        = string
-  default     = "8.1.2"
+  default     = "9.0.0"
 }
 
 variable "repo_revision" {
@@ -18,18 +18,6 @@ variable "repo_url" {
 variable "url" {
   description = "URL to be used for connections or configurations."
   type        = string
-}
-
-variable "tls_enabled" {
-  description = "Flag to enable or disable TLS security."
-  type        = bool
-  default     = false
-}
-
-variable "ingress_class_name" {
-  description = "Specifies the name of the Ingress class used for routing traffic."
-  type        = string
-  default     = "nginx"
 }
 
 variable "app_path" {
@@ -293,4 +281,22 @@ variable "github_pr_comment_on_failure_enabled" {
   description = "Enable PR comments for failed deployments."
   type        = bool
   default     = true
+}
+
+variable "gateway_name" {
+  description = "Name of the Gateway resource to attach HTTPRoute to."
+  type        = string
+  default     = "traefik-gateway"
+}
+
+variable "gateway_namespace" {
+  description = "Namespace of the Gateway resource."
+  type        = string
+  default     = "traefik-system"
+}
+
+variable "gateway_listener_name" {
+  description = "Name of the Gateway listener (sectionName) for HTTPRoute."
+  type        = string
+  default     = "websecure-argocd"
 }

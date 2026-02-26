@@ -16,14 +16,11 @@ module "argocd" {
   source = "../modules/argocd"
 
   # Basic configuration
-  argocd_chart_version = "8.1.2"
+  argocd_chart_version = "9.0.0"
   repo_revision        = "main"
   repo_url             = "https://github.com/example/argocd-repo.git"
   url                  = "argocd.example.com"
   app_path             = "argocd-k8s-apps/overlays/dev"
-  app_environment      = "dev"
-  tls_enabled          = true
-  ingress_class_name   = "nginx"
 
   # GitHub App configuration
   argocd_notification_url_for_github = "https://dev.example.com"
@@ -40,7 +37,7 @@ module "argocd" {
   # Azure Entra ID SSO
   sp_client_id     = "your-client-id"
   sp_client_secret = "your-client-secret"
-  idp_endpoint     = "https://login.microsoftonline.com/<tenant_id>/v2.0"
+  idp_endpoint     = "login.microsoftonline.com/<tenant_id>/v2.0"
   idp_argocd_name  = "Azure"
 
   # RBAC configuration

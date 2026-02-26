@@ -13,6 +13,14 @@ terraform {
       source  = "hashicorp/random"
       version = "3.6.2"
     }
+    null = {
+      source  = "hashicorp/null"
+      version = "3.2.3"
+    }
+    local = {
+      source  = "hashicorp/local"
+      version = "2.5.2"
+    }
   }
 }
 
@@ -21,4 +29,8 @@ provider "azurerm" {
   tenant_id                       = "a2727b52-014e-4273-ba69-33db2948ea02"
   resource_provider_registrations = "none"
   features {}
+}
+
+provider "azuread" {
+  tenant_id = "a2727b52-014e-4273-ba69-33db2948ea02"
 }
