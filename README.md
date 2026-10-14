@@ -341,6 +341,14 @@ Type: `number`
 
 Default: `3`
 
+### <a name="input_httproute_annotations"></a> [httproute\_annotations](#input\_httproute\_annotations)
+
+Description: Annotations for the Argo CD server HTTPRoute, e.g. `{ "external-dns.alpha.kubernetes.io/ttl" = "60" }` or `{ "external-dns.alpha.kubernetes.io/cloudflare-proxied" = "true" }`.
+
+Type: `map(string)`
+
+Default: `{}`
+
 ### <a name="input_idp_argocd_allowed_oauth_scopes"></a> [idp\_argocd\_allowed\_oauth\_scopes](#input\_idp\_argocd\_allowed\_oauth\_scopes)
 
 Description: List of OAuth scopes permitted for requests to the identity provider.

@@ -300,3 +300,9 @@ variable "gateway_listener_name" {
   type        = string
   default     = "websecure-argocd"
 }
+
+variable "httproute_annotations" {
+  description = "Annotations for the Argo CD server HTTPRoute, e.g. `{ \"external-dns.alpha.kubernetes.io/ttl\" = \"60\" }` or `{ \"external-dns.alpha.kubernetes.io/cloudflare-proxied\" = \"true\" }`."
+  type        = map(string)
+  default     = {}
+}

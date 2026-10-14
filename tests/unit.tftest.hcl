@@ -59,6 +59,14 @@ run "plan" {
         private_key     = run.setup.github_private_key
       }
     }
+    httproute_annotations = {
+      "external-dns.alpha.kubernetes.io/ttl" = "60"
+    }
+  }
+
+  assert {
+    condition     = strcontains(helm_release.argocd.values[0], "\"external-dns.alpha.kubernetes.io/ttl\":\"60\"")
+    error_message = "HTTPRoute annotations not rendered into the Helm values."
   }
 
   # Test basic resources are planned correctly
