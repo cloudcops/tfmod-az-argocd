@@ -24,6 +24,7 @@ module "wrapper" {
   gateway_listener_name                = try(each.value.gateway_listener_name, var.defaults.gateway_listener_name, "websecure-argocd")
   gateway_name                         = try(each.value.gateway_name, var.defaults.gateway_name, "traefik-gateway")
   gateway_namespace                    = try(each.value.gateway_namespace, var.defaults.gateway_namespace, "traefik-system")
+  httproute_annotations                = try(each.value.httproute_annotations, var.defaults.httproute_annotations, {})
   github_access                        = try(each.value.github_access, var.defaults.github_access, {})
   github_pr_comment_on_failure_enabled = try(each.value.github_pr_comment_on_failure_enabled, var.defaults.github_pr_comment_on_failure_enabled, true)
   github_pr_comment_on_success_enabled = try(each.value.github_pr_comment_on_success_enabled, var.defaults.github_pr_comment_on_success_enabled, false)

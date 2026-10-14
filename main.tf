@@ -34,6 +34,7 @@ resource "helm_release" "argocd" {
       gateway_name                       = var.gateway_name
       gateway_namespace                  = var.gateway_namespace
       gateway_listener_name              = var.gateway_listener_name
+      httproute_annotations              = var.httproute_annotations
       github_app_id                      = sensitive(var.github_access["0"].app_id)
       github_installation_id             = sensitive(var.github_access["0"].installation_id)
 

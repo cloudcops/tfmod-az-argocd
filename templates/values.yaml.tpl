@@ -126,6 +126,7 @@ server:
 
   httproute:
     enabled: true
+    annotations: ${jsonencode(httproute_annotations)}
     parentRefs:
       - name: ${gateway_name}
         namespace: ${gateway_namespace}
