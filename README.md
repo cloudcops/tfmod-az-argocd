@@ -203,6 +203,14 @@ Type: `string`
 
 Default: `"128Mi"`
 
+### <a name="input_argocd_image_tag"></a> [argocd\_image\_tag](#input\_argocd\_image\_tag)
+
+Description: Argo CD image tag (e.g. v3.3.18) for all Argo CD components. Empty uses the chart's appVersion. Lets you take an upstream security release before argo-helm packages it.
+
+Type: `string`
+
+Default: `""`
+
 ### <a name="input_argocd_notifications_cpu_request"></a> [argocd\_notifications\_cpu\_request](#input\_argocd\_notifications\_cpu\_request)
 
 Description: CPU requests for the ArgoCD Notifications Controller

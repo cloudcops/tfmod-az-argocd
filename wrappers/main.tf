@@ -11,6 +11,7 @@ module "wrapper" {
   argocd_controller_memory_limit       = try(each.value.argocd_controller_memory_limit, var.defaults.argocd_controller_memory_limit, "1536Mi")
   argocd_dex_cpu_request               = try(each.value.argocd_dex_cpu_request, var.defaults.argocd_dex_cpu_request, "50m")
   argocd_dex_memory_limit              = try(each.value.argocd_dex_memory_limit, var.defaults.argocd_dex_memory_limit, "128Mi")
+  argocd_image_tag                     = try(each.value.argocd_image_tag, var.defaults.argocd_image_tag, "")
   argocd_notification_url_for_github   = try(each.value.argocd_notification_url_for_github, var.defaults.argocd_notification_url_for_github)
   argocd_notifications_cpu_request     = try(each.value.argocd_notifications_cpu_request, var.defaults.argocd_notifications_cpu_request, "50m")
   argocd_notifications_memory_limit    = try(each.value.argocd_notifications_memory_limit, var.defaults.argocd_notifications_memory_limit, "256Mi")

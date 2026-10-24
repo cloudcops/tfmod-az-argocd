@@ -17,6 +17,7 @@ resource "helm_release" "argocd" {
   values = [
     templatefile("${path.module}/templates/values.yaml.tpl", {
       url                                = var.url
+      argocd_image_tag                   = var.argocd_image_tag
       idp_argocd_name                    = var.idp_argocd_name
       idp_endpoint                       = var.idp_endpoint
       sp_client_id                       = var.sp_client_id

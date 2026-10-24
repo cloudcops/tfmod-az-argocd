@@ -98,4 +98,34 @@ run "plan" {
     condition     = kubectl_manifest.app_of_apps != null
     error_message = "App of Apps manifest not planned."
   }
+
+  # Without argocd_image_tag the chart's appVersion is used
+  assert {
+    condition     = !strcontains(nonsensitive(helm_release.argocd.values[0]), "\n  image:\n    tag:")
+    error_message = "global.image.tag rendered although argocd_image_tag is empty."
+  }
+}
+
+run "plan_image_tag" {
+  command = plan
+
+  variables {
+    argocd_image_tag = "v3.3.18"
+    sp_client_id     = run.setup.client_id
+    sp_client_secret = run.setup.password
+    github_access = {
+      "0" = {
+        url             = "https://github.com/example/test-argocd-repo"
+        name            = "token"
+        app_id          = run.setup.github_app_id
+        installation_id = run.setup.github_installation_id
+        private_key     = run.setup.github_private_key
+      }
+    }
+  }
+
+  assert {
+    condition     = strcontains(nonsensitive(helm_release.argocd.values[0]), "global:\n  domain: argocd-test.example.com\n  image:\n    tag: v3.3.18\n")
+    error_message = "argocd_image_tag not rendered into global.image.tag."
+  }
 }
