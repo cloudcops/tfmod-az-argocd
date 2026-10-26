@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/cloudcops/tfmod-az-argocd/compare/3.0.0...3.1.0) (2026-10-26)
+
+
+### Features
+
+* add argocd_image_tag to override the Argo CD image tag ([#32](https://github.com/cloudcops/tfmod-az-argocd/issues/32)) ([1c4789a](https://github.com/cloudcops/tfmod-az-argocd/commit/1c4789ae9791aac7e9a8baa62b9d5def6be0b8c4))
+
 # [3.0.0](https://github.com/cloudcops/tfmod-az-argocd/compare/2.6.2...3.0.0) (2026-02-26)
 
 
