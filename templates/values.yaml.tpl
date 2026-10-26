@@ -1,5 +1,9 @@
 global:
   domain: ${url}
+%{ if argocd_image_tag != "" ~}
+  image:
+    tag: ${argocd_image_tag}
+%{ endif ~}
 
 configs:
   # ArgoCD ConfigMap settings

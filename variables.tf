@@ -4,6 +4,17 @@ variable "argocd_chart_version" {
   default     = "9.0.0"
 }
 
+variable "argocd_image_tag" {
+  description = "Argo CD image tag (e.g. v3.3.18) for all Argo CD components. Empty uses the chart's appVersion. Lets you take an upstream security release before argo-helm packages it."
+  type        = string
+  default     = ""
+
+  validation {
+    condition     = var.argocd_image_tag == "" || can(regex("^v[0-9]+\\.[0-9]+\\.[0-9]+$", var.argocd_image_tag))
+    error_message = "argocd_image_tag must be empty or a release tag like v3.3.18."
+  }
+}
+
 variable "repo_revision" {
   description = "Specifies the Git branch name for the ArgoCD Application."
   type        = string
